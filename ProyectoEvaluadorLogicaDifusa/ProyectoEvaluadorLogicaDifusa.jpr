@@ -89,6 +89,10 @@
             <value n="id" v="JTreeVisual.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="MySQL JDBC"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
@@ -106,6 +110,10 @@
       <list n="libraryReferences">
          <hash>
             <value n="id" v="JTreeVisual.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="MySQL JDBC"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
