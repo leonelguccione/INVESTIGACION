@@ -34,6 +34,10 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     Modelo modelo;
     //Modelo_ABM_arbol_perturbacion modelo_abm_ap;
     Modelo_ABM_Asignatura modelo_abm_asignatura;
+
+    /**modelo vinculado a JList_asignatura
+     * listado de asignaturas creadas
+     */
     DefaultListModel listModel_asignaturas = new DefaultListModel();
     Asignatura asignatura_en_uso = null;
 
@@ -48,7 +52,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
     private MouseAdapter mouseA;
 
-    /** Creates new form UI_Asignatura */
+    /** Creates new form UI_Asignatura 
+     * Se referencia al objeto modelo
+     * */
     public UI_Asignatura(Modelo modelo)
     {
         this.setMinimumSize(new Dimension(1100,850));
@@ -74,9 +80,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         //jPanel_arbol_visual.setSize(796, 566);
         this.asignatura_en_uso = null;
         this.limpiar_jList_asignaturas();
+        this.cargar_jList_asignaturas();
         this.limpiar_jTree();
         this.cambiar_iconos_jtree();
-        this.cargar_jList_asignaturas();
     }
 
     public void limpiar_zona_jText_asignaturas()
@@ -239,8 +245,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             Asignatura asignatura_ste = (Asignatura) iterator_asignaturas.next();
             listModel_asignaturas.addElement(asignatura_ste);
         }
-        //Asociar el modelo de lista al JList
-        //jLista_arboles.setModel(listModel);
     }
 
     //EVENTOS
@@ -270,9 +274,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
     private void jList_asignaturasMouseClicked()
     {
+        //this.limpiar_jTree();
         this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-        jtree_arbol.setModel(this.asignatura_en_uso.getArbol_dominio().getTreeModel());
-        
+        DefaultTreeModel treeModelSeleccionado = this.asignatura_en_uso.getArbol_dominio().getTreeModel();
+        if(treeModelSeleccionado!=null)
+            jtree_arbol.setModel(treeModelSeleccionado);
     }
 
     private void jButton_habilitar_modificacion_asignatura()

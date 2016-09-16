@@ -53,7 +53,7 @@ public class BaseDeDatos
         {
             // Se establece la conexión con la base de datos
             conexion =
-                DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "");
+                DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "leonel");
         }
         catch (Exception e)
         {
