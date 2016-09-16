@@ -6,7 +6,6 @@ import arbol_visual.ArbolVisual;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 
 import modelo.Arbol_Perturbacion;
 import modelo.DatoBean;
@@ -34,12 +33,10 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
         this.modelo = modelo;
         this.modelo_abm_ap = modelo.getModelo_abm_ap();
         this.jLista_arboles.setModel(listModel);
-        jtree_arbol = (ArbolVisual)jScrollPane_arbol_visual;
-        //jtree_arbol.setSize(796, 566);
-        //jPanel_arbol_visual.setSize(796, 566);
+        jtree_arbol = (ArbolVisual) jScrollPane_arbol_visual;
         this.limpiar_jList();
         this.limpiar_jTree();
-        this.cambiar_iconos_jtree();
+        this.jtree_arbol.setLineasRectas(true);
         this.cargar_jList();
     }
 
@@ -92,19 +89,13 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
 
     public void cargar_jTree()
     {
-        //jtree_arbol.setModel(this.ap_en_uso.getTreeModel()); //vincula el jtree con su DefaultTreeModel
-        jtree_arbol.setearParametrosArbolVisual(this.ap_en_uso.getTreeModel());
-        //jtree_arbol.paintAll(this.jtree_arbol.getGraphics());
-        //jtree_arbol.expandPath(jtree_arbol.getSelectionPath());
+
+        jtree_arbol.setModel(this.ap_en_uso.getTreeModel());
+
+
     }
 
-    public void cambiar_iconos_jtree()
-    {
-        jtree_arbol.setJuegoImagenesNodoVisual(new ImageIcon("amarillo.png"), new ImageIcon("azul.png"),
-                                               new ImageIcon("verde.png"), new ImageIcon("amarillo_sel.png"),
-                                               new ImageIcon("azul_sel.png"), new ImageIcon("verde_sel.png"),
-                                               new ImageIcon("mas.png"), new ImageIcon("menos.png"));
-    }
+   
 
 
     // LOS BOTONES ----------------------------------------------------------------------------------------------------
@@ -140,8 +131,7 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
         {
             this.ap_en_uso.setRaiz(id_nuevo_nodo);
             jtree_arbol.setModel(this.ap_en_uso.getTreeModel());
-        }
-        else
+        } else
         {
             Nodo_Perturbacion nodo_seleccionado_padre = (Nodo_Perturbacion) jtree_arbol.getLastSelectedPathComponent();
             String idNodo_padre = (nodo_seleccionado_padre.getDato()).getIdDato();
@@ -203,7 +193,7 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
         nodo_seleccionado = (Nodo_Perturbacion) jtree_arbol.getLastSelectedPathComponent();
         if (nodo_seleccionado != null)
         {
-            DatoBean db = ((DatoBean) nodo_seleccionado.getUserObject());        
+            DatoBean db = ((DatoBean) nodo_seleccionado.getUserObject());
             String idPadre = db.getIdDato();
             jt_nodo_padre.setText(idPadre.toString().trim());
         }

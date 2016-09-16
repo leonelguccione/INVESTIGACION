@@ -51,10 +51,11 @@ public class UI_PanelArbol extends JPanel
 
         //this.modeloarbol = new DefaultTreeModel(new DefaultMutableTreeNode(raiz));
         tree = new ArbolVisual(dtmodel);
-        tree.setJuegoImagenesNodoVisual(new ImageIcon("amarillo.png"), new ImageIcon("azul.png"),
-                                        new ImageIcon("verde.png"), new ImageIcon("amarillo_sel.png"),
-                                        new ImageIcon("azul_sel.png"), new ImageIcon("verde_sel.png"),
-                                        new ImageIcon("mas.png"), new ImageIcon("menos.png"));
+        tree.setJuegoImagenesNodoVisual(new ImageIcon("r_hoja.png"), new ImageIcon("r_rama_cont.png"),
+                                                new ImageIcon("r_rama_exp.png"), new ImageIcon("r_hoja_s.png"),
+                                                new ImageIcon("r_rama_cont_s.png"), new ImageIcon("r_rama_exp_s.png"),
+                                                new ImageIcon("mas.png"), new ImageIcon("menos.png")); 
+        
         this.rectas();
         this.add(tree);
     }
