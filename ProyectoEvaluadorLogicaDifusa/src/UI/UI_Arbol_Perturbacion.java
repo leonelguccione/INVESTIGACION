@@ -6,7 +6,6 @@ import arbol_visual.ArbolVisual;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 
 import modelo.Arbol_Perturbacion;
 import modelo.DatoBean;
@@ -35,11 +34,9 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
         this.modelo_abm_ap = modelo.getModelo_abm_ap();
         this.jLista_arboles.setModel(listModel);
         jtree_arbol = (ArbolVisual) jScrollPane_arbol_visual;
-        //jtree_arbol.setSize(796, 566);
-        //jPanel_arbol_visual.setSize(796, 566);
         this.limpiar_jList();
         this.limpiar_jTree();
-        //this.cambiar_iconos_jtree();
+        this.jtree_arbol.setLineasRectas(true);
         this.cargar_jList();
     }
 
@@ -98,14 +95,7 @@ public class UI_Arbol_Perturbacion extends javax.swing.JInternalFrame
 
     }
 
-    public void cambiar_iconos_jtree()
-    {
-        jtree_arbol.setJuegoImagenesNodoVisual(new ImageIcon("r_hoja.png"), new ImageIcon("r_rama_cont.png"),
-                                               new ImageIcon("r_rama_exp.png"), new ImageIcon("r_hoja_s.png"),
-                                               new ImageIcon("r_rama_cont_s.png"), new ImageIcon("r_rama_exp_s.png"),
-                                               new ImageIcon("mas.png"), new ImageIcon("menos.png"));
-
-    }
+   
 
 
     // LOS BOTONES ----------------------------------------------------------------------------------------------------
