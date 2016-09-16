@@ -1,14 +1,17 @@
 
 package UI;
 
+import arbol_visual.ArbolVisual;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.tree.DefaultTreeCellRenderer;
 
 import modelo.EtiquetaBean;
 import modelo.Evaluacion;
@@ -30,19 +33,26 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
     private DefaultListModel listModelexamenes = new DefaultListModel();
     private Nodo_Perturbacion nodo_seleccionado;
     private Examen examen_seleccionado;
+    private ArbolVisual jTree_Arbol_Perturbacion;
+    private MouseAdapter mouseA;
 
     /** Creates new form UI_Correccion */
     public UI_Correccion(Modelo modelo)
     {
         initComponents();
+        jTree_Arbol_Perturbacion = (ArbolVisual)this.jScrollPane_arbol;
         this.modelo = modelo;
         this.jLista_Evaluaciones.setModel(listModelEvaluaciones);
         this.jLista_Examenes.setModel(listModelexamenes);
         this.actualizar_jList();
-        DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) jTree_Arbol_Perturbacion.getCellRenderer();
-        render.setLeafIcon(new ImageIcon(""));
-        render.setOpenIcon(new ImageIcon(""));
-        render.setClosedIcon(new ImageIcon(""));
+        this.mouseA = new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent me)
+            {
+                jtree_arbolMouseClicked();
+            }
+        };
+        this.jTree_Arbol_Perturbacion.addMouseListener(mouseA);
     }
 
     private void actualizar_jList()
@@ -96,8 +106,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jLabel11 = new javax.swing.JLabel();
         jT_id_arbol_perturbacion = new javax.swing.JTextField();
         jT_descripcion_arbol_perturbacion = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTree_Arbol_Perturbacion = new javax.swing.JTree();
         jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jTextDesconocido = new javax.swing.JTextField();
@@ -111,6 +119,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jText_estado_correccion = new javax.swing.JTextPane();
+        jScrollPane_arbol = new ArbolVisual();
         jB_Salir = new javax.swing.JButton();
         jB_Guardar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -253,15 +262,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
         jT_descripcion_arbol_perturbacion.setText("<Descripción>");
 
-        jTree_Arbol_Perturbacion.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                jTree_Arbol_PerturbacionMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(jTree_Arbol_Perturbacion);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle"));
 
         jLabel13.setText("Desconocido:");
@@ -401,11 +401,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(2, 2, 2)
@@ -413,9 +408,14 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                             .addComponent(jLabel11)
                             .addComponent(jT_id_arbol_perturbacion)
                             .addComponent(jT_descripcion_arbol_perturbacion))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))))
+                        .addGap(31, 31, 31))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane_arbol, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,9 +433,9 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jT_descripcion_arbol_perturbacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane_arbol, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -554,11 +554,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         }
     }//GEN-LAST:event_jLista_EvaluacionesMouseClicked
 
-    private void jTree_Arbol_PerturbacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree_Arbol_PerturbacionMouseClicked
-        // TODO add your handling code here:
-        jtree_arbolMouseClicked();
-    }//GEN-LAST:event_jTree_Arbol_PerturbacionMouseClicked
-
   private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLista_ExamenesMouseClicked
   {//GEN-HEADEREND:event_jLista_ExamenesMouseClicked
  
@@ -569,7 +564,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
             this.jTree_Arbol_Perturbacion.setModel(null);
             this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado.getArbol().getTreeModel());
             this.jTree_Arbol_Perturbacion.paintAll(this.jTree_Arbol_Perturbacion.getGraphics());
-            this.jTree_Arbol_Perturbacion.expandPath(this.jTree_Arbol_Perturbacion.getSelectionPath());
             this.jT_Alumno.setText(this.examen_seleccionado.getAlumno().toString());
             this.nodo_seleccionado = null;
             jT_id_arbol_perturbacion.setText(this.examen_seleccionado.getArbol().getNombre());
@@ -666,8 +660,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane_arbol;
     private javax.swing.JTextField jT_Alumno;
     private javax.swing.JTextField jT_Anio;
     private javax.swing.JTextField jT_Asignatura;
@@ -682,7 +676,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
     private javax.swing.JTextField jTextDesconocido;
     private javax.swing.JTextField jTextParcialmente;
     private javax.swing.JTextPane jText_estado_correccion;
-    private javax.swing.JTree jTree_Arbol_Perturbacion;
     // End of variables declaration//GEN-END:variables
 
     private void jtree_arbolMouseClicked()

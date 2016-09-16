@@ -142,7 +142,7 @@ public class EtiquetaBean implements Cloneable, Serializable
         String stInsatisfactorio = String.format("%.2f", getParcialmenteConocido());
         String stConocido = String.format("%.2f", getConocido());
         String stAprendido = String.format("%.2f", getAprendido());
-        return ("<" + stDesconocido + "  " + stInsatisfactorio + "  " + stConocido + "  " + stAprendido + ">");
+        return ("<" + stDesconocido + "  " + stInsatisfactorio + "\n" + stConocido + "  " + stAprendido + ">");
     }
 
     public boolean isValid()

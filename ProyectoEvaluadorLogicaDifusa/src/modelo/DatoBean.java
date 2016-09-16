@@ -90,7 +90,7 @@ public class DatoBean implements Cloneable, Serializable
     {
         
         if(!getEtiquetaBean().isCero())
-            return (getIdDato()+": "+getEtiquetaBean().toString());
+            return (getIdDato()+"\n"+getEtiquetaBean().toString());
         else
             return getIdDato();
     }

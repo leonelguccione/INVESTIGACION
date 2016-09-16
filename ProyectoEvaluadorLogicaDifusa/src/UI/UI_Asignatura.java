@@ -82,7 +82,8 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         this.limpiar_jList_asignaturas();
         this.cargar_jList_asignaturas();
         this.limpiar_jTree();
-        this.cambiar_iconos_jtree();
+        this.jtree_arbol.setLineasRectas(true);
+        //this.cambiar_iconos_jtree();
     }
 
     public void limpiar_zona_jText_asignaturas()
@@ -146,7 +147,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     {
         //jtree_arbol.setModel(this.ap_en_uso.getTreeModel()); //vincula el jtree con su DefaultTreeModel
         DefaultTreeModel dtm = this.asignatura_en_uso.getArbol_dominio().getTreeModel();
-        jtree_arbol.setearParametrosArbolVisual(dtm);
+        //jtree_arbol.setearParametrosArbolVisual(dtm);
         //jtree_arbol.paintAll(this.jtree_arbol.getGraphics());
         //jtree_arbol.expandPath(jtree_arbol.getSelectionPath());
     }
@@ -208,7 +209,8 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         jtree_arbol.setModel(this.asignatura_en_uso.getArbol_dominio().getTreeModel());
 
         this.habilitar_cargar_nodos_hijos();
-
+        
+        //TODO: probar esto en el constructor
         jtree_arbol.addMouseListener(mouseA);
 
         this.jTextField_nuevo.setText("");
