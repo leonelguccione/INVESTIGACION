@@ -231,7 +231,7 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
         // TODO add your handling code here:
         Cursada actual = (Cursada) this.jList_Cursadas.getSelectedValue();
         this.jText_Asignatura2.setText(actual.getAsignatura());
-        this.jText_Anio2.setText(String.valueOf(actual.getAnio()));
+        this.jText_Anio2.setText(String.valueOf(actual.getAnio_fecha()));
         this.jText_Cuatrimestre2.setText(String.valueOf(actual.getCuatrimestre()));
         this.listModelalumnoscursada.clear();
         Iterator iterator_alumnos = actual.getAlumnos().iterator();

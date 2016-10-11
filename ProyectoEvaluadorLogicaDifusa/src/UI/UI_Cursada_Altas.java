@@ -312,7 +312,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             alumnos.add((Alumno) this.listModel_alumnos_de_cursada.get(i));
         }
         cursadaactual.setAlumnos(alumnos);
-        cursadaactual.setAnio(anio);
+        cursadaactual.setAnio_fecha(anio);
         cursadaactual.setAsignatura(asignatura);
         cursadaactual.setCuatrimestre(cuatrimestre);
         this.modelo.getModelo_abm_cursada().AgregarCursada(cursadaactual);

@@ -1,11 +1,14 @@
 package modelo;
 
+import java.util.ArrayList;
+
 
 public class Asignatura
 {
-    String nombre_asignatura;
-    String codigo;
-    Arbol_Perturbacion arbol_dominio;//serializable
+    private String nombre_asignatura;
+    private String codigo;
+    private Arbol_Perturbacion arbol_dominio;//serializable
+    private ArrayList<Cursada> cursadas = new ArrayList<Cursada>();
     
     public Asignatura()
     {

@@ -19,7 +19,7 @@ import modelo.Alumno;
 import modelo.Arbol_Perturbacion;
 import modelo.Asignatura;
 import modelo.Cursada;
-import modelo.Evaluacion;
+import modelo.Instancia_Evaluacion;
 import modelo.Examen;
 
 public class BaseDeDatos
@@ -371,7 +371,7 @@ public class BaseDeDatos
 
     // EVALUACION
 
-    public void almacenar_evaluacion(Evaluacion ev)
+    public void almacenar_evaluacion(Instancia_Evaluacion ev)
     {
         int id_cursada = ev.getCursada().getId();
         Date fecha = ev.getFecha();
@@ -454,7 +454,7 @@ public class BaseDeDatos
     public void almacenar_cursada(Cursada cur)
     {
         String asignatura = cur.getAsignatura();
-        int anio = cur.getAnio();
+        int anio = cur.getAnio_fecha();
         int cuatrimestre = cur.getCuatrimestre();
         int id_autoincrement = 0;
         //Recupero el valor del proximo id autoincremental
@@ -514,9 +514,9 @@ public class BaseDeDatos
     }
 
 
-    public void actualizar_examen(Evaluacion evaluacion, Examen examen)
+    public void actualizar_examen(Instancia_Evaluacion evaluacion, Examen examen)
     {
-        byte[] arbol_serializado = examen.getArbol().serializar();
+        byte[] arbol_serializado = examen.getArbol_podado_particular().serializar();
 
         Blob blob;
         PreparedStatement agregar;
@@ -648,10 +648,10 @@ public class BaseDeDatos
     public Iterator recuperar_evaluaciones()
     {
         Statement sentencia;
-        ArrayList<Evaluacion> listado_evaluaciones = new ArrayList<Evaluacion>();
+        ArrayList<Instancia_Evaluacion> listado_evaluaciones = new ArrayList<Instancia_Evaluacion>();
         int id_evaluacion, id_cursada;
         String descripcion;
-        Evaluacion evaluacionactual;
+        Instancia_Evaluacion evaluacionactual;
         Date fecha;
         try
         {
@@ -674,7 +674,7 @@ public class BaseDeDatos
                 //recupero examenes
                 ArrayList<Examen> examenes_tomados = this.recuperaExamenes(id_evaluacion);
                 evaluacionactual =
-                    new Evaluacion(examenes_tomados, cursadaactual, arbol, fecha, descripcion, id_evaluacion);
+                    new Instancia_Evaluacion(examenes_tomados, cursadaactual, arbol, fecha, descripcion, id_evaluacion);
                 listado_evaluaciones.add(evaluacionactual);
             }
         }

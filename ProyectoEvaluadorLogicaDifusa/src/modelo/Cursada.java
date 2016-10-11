@@ -6,22 +6,23 @@ import java.util.Iterator;
 
 public class Cursada
 {
-    private int anio;
+    private int anio_fecha;//correponde con el año fecha, por ej 2016
     private int cuatrimestre;
-    private String Asignatura;//TODO: cambiar por clase Asignatura
+
     private int id;
+    private ArrayList<Parcial> parciales = new ArrayList<Parcial>();
 
     /**
      * @aggregation shared
      */
     private ArrayList<Alumno> alumnos;
 
-    public Cursada(int id, String Asignatura, int anio, int cuatrimestre)
+    public Cursada(int id, int anio, int cuatrimestre)
     {
         this();
-        this.anio = anio;
+        this.anio_fecha = anio;
         this.cuatrimestre = cuatrimestre;
-        this.Asignatura = Asignatura;
+        
         this.id = id;
     }
     
@@ -53,14 +54,14 @@ public class Cursada
     }
 
 
-    public void setAnio(int anio)
+    public void setAnio_fecha(int anio)
     {
-        this.anio = anio;
+        this.anio_fecha = anio;
     }
 
-    public int getAnio()
+    public int getAnio_fecha()
     {
-        return anio;
+        return anio_fecha;
     }
 
     public void setCuatrimestre(int cuatrimestre)
@@ -73,22 +74,14 @@ public class Cursada
         return cuatrimestre;
     }
 
-    public void setAsignatura(String Asignatura)
-    {
-        this.Asignatura = Asignatura;
-    }
 
-    public String getAsignatura()
-    {
-        return Asignatura;
-    }
 
 
     @Override
     public String toString()
     {
         String aux =
-            this.getId() + ": " + this.getAsignatura() + "  Año: " + this.getAnio() + " Cuatrimestre: " +
+            this.getId() + ": " + "  Año: " + this.getAnio_fecha() + " Cuatrimestre: " +
             this.getCuatrimestre() + "\n";
         return aux;
     }
@@ -96,7 +89,7 @@ public class Cursada
     public String detalle()
     {
         String aux =
-            this.getId() + "  " + this.getAsignatura() + "  " + this.getAnio() + "  " + this.getCuatrimestre() + "\n";
+            this.getId() + "  " + "  " + this.getAnio_fecha() + "  " + this.getCuatrimestre() + "\n";
         Iterator<Alumno> it = this.alumnos.iterator();
         while (it.hasNext())
 
@@ -106,7 +99,7 @@ public class Cursada
     
     public String getNombreCursada()
     {
-        String nombre_cursada = this.getAsignatura()+"-"+this.getAnio()+"-"+this.getCuatrimestre();
+        String nombre_cursada = this.getAnio_fecha()+"-"+this.getCuatrimestre();
         return nombre_cursada;
     }
 
