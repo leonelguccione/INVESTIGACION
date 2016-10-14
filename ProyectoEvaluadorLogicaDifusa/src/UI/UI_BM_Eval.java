@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 
-import modelo.Evaluacion;
+import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 
 /**
@@ -33,7 +33,7 @@ public class UI_BM_Eval extends javax.swing.JInternalFrame
         //Recorrer el contenido del Iterator
         while (iterator_evaluaciones.hasNext())
         {
-            Evaluacion evaluacion = (Evaluacion) iterator_evaluaciones.next();
+            Instancia_Evaluacion evaluacion = (Instancia_Evaluacion) iterator_evaluaciones.next();
             listModelEvaluaciones.addElement(evaluacion);
         }
     }
@@ -128,7 +128,7 @@ public class UI_BM_Eval extends javax.swing.JInternalFrame
     private void jButton_borrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_borrarMouseClicked
     {//GEN-HEADEREND:event_jButton_borrarMouseClicked
         // TODO add your handling code here:
-        Evaluacion evaluacion_seleccionada = (Evaluacion)jList_evaluaciones.getSelectedValue();
+        Instancia_Evaluacion evaluacion_seleccionada = (Instancia_Evaluacion)jList_evaluaciones.getSelectedValue();
         int id_evaluacion = evaluacion_seleccionada.getId_evaluacion();
         modelo.getModelo_abm_evaluacion().borrar_evaluacion(id_evaluacion);
         this.actualizar_jList();

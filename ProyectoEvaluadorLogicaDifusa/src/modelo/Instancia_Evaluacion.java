@@ -17,17 +17,9 @@ import util.Fecha;
  * @author leonel
  *
  */
-public class Evaluacion
+public class Instancia_Evaluacion
 {
-    /**
-     * @aggregation shared
-     */
-    private Cursada cursada;
 
-    /**
-     * @aggregation shared
-     */
-    private Arbol_Perturbacion arbol_perturbacion;
     private Date fecha;
     private String descripcion;
 
@@ -43,26 +35,6 @@ public class Evaluacion
         return examenes;
     }
 
-    public void setCursada(Cursada cursada)
-    {
-        this.cursada = cursada;
-    }
-
-    public Cursada getCursada()
-    {
-        return cursada;
-    }
-
-    public void setArbol_perturbacion(Arbol_Perturbacion arbol_perturbacion)
-    {
-        this.arbol_perturbacion = arbol_perturbacion;
-    }
-
-    public Arbol_Perturbacion getArbol_perturbacion()
-    {
-        return arbol_perturbacion;
-    }
-
     public void setFecha(Date fecha)
     {
         this.fecha = fecha;
@@ -73,14 +45,14 @@ public class Evaluacion
         return fecha;
     }
 
-    public Evaluacion(Cursada cursada, Arbol_Perturbacion arbol_perturbacion, Date fecha, String descripcion,
+    public Instancia_Evaluacion(Arbol_Perturbacion arbol_perturbacion, Date fecha, String descripcion,
                       ArrayList<Alumno> alumnos_evaluados, int id_evaluacion)
     {
         super();
         this.examenes = new ArrayList<Examen>();
         Examen examen_auxiliar;
-        this.cursada = cursada;
-        this.arbol_perturbacion = arbol_perturbacion;
+        
+       
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.id_evaluacion = id_evaluacion;
@@ -93,12 +65,20 @@ public class Evaluacion
 
     }
 
-    public Evaluacion(ArrayList<Examen> examenes_tomados, Cursada cursada, Arbol_Perturbacion arbol_perturbacion,
+    /**se utiliza cuando los levanto de la base de datos
+     * @param examenes_tomados
+     * @param cursada
+     * @param arbol_perturbacion
+     * @param fecha
+     * @param descripcion
+     * @param id_evaluacion
+     */
+    public Instancia_Evaluacion(ArrayList<Examen> examenes_tomados, Arbol_Perturbacion arbol_perturbacion,
                       Date fecha, String descripcion, int id_evaluacion)
     {
         this.examenes = examenes_tomados;
-        this.cursada = cursada;
-        this.arbol_perturbacion = arbol_perturbacion;
+        
+        
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.id_evaluacion = id_evaluacion;
@@ -114,7 +94,7 @@ public class Evaluacion
         return descripcion;
     }
 
-    public void setAlumnos_evaluados(ArrayList<Alumno> alumnos_evaluados)
+    /* public void setAlumnos_evaluados(ArrayList<Alumno> alumnos_evaluados)
     {
         this.setExamenes(new ArrayList<Examen>());
         Examen examen_auxiliar;
@@ -124,7 +104,7 @@ public class Evaluacion
             this.getExamenes().add(examen_auxiliar);
         }
 
-    }
+    } */
 
     public ArrayList<Alumno> getAlumnos_evaluados()
     {
@@ -151,12 +131,12 @@ public class Evaluacion
     {
         String retorno;
         retorno =
-            this.getId_evaluacion() + " - " + this.getCursada().getAsignatura() + " - " +
+            this.getId_evaluacion() + " - " + " - " +
             this.getDescripcion() + " - " + Fecha.date2Str(this.getFecha());
         return retorno;
     }
 
-    public Evaluacion()
+    public Instancia_Evaluacion()
     {
 
     }

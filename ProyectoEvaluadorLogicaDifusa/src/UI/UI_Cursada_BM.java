@@ -39,7 +39,7 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
         this.jText_Asignatura2.setText("");
         this.jText_Cuatrimestre2.setText("");
         this.jButtonEliminar.setEnabled(false);
-        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas();
+        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas("bla");
         //Recorrer el contenido del Iterator
         while (iterator_cursadas.hasNext())
         {
@@ -230,8 +230,8 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
     private void jList_CursadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_CursadasMouseClicked
         // TODO add your handling code here:
         Cursada actual = (Cursada) this.jList_Cursadas.getSelectedValue();
-        this.jText_Asignatura2.setText(actual.getAsignatura());
-        this.jText_Anio2.setText(String.valueOf(actual.getAnio()));
+     //   this.jText_Asignatura2.setText(actual.getAsignatura());
+        this.jText_Anio2.setText(String.valueOf(actual.getAnio_fecha()));
         this.jText_Cuatrimestre2.setText(String.valueOf(actual.getCuatrimestre()));
         this.listModelalumnoscursada.clear();
         Iterator iterator_alumnos = actual.getAlumnos().iterator();

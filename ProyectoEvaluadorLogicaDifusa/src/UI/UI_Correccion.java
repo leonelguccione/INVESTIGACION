@@ -14,12 +14,10 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 
 import modelo.EtiquetaBean;
-import modelo.Evaluacion;
 import modelo.Examen;
+import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.Nodo_Perturbacion;
-
-import util.Fecha;
 
 /**
  *
@@ -64,7 +62,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         //Recorrer el contenido del Iterator
         while (iterator_evaluaciones.hasNext())
         {
-            Evaluacion evalua = (Evaluacion) iterator_evaluaciones.next();
+            Instancia_Evaluacion evalua = (Instancia_Evaluacion) iterator_evaluaciones.next();
             listModelEvaluaciones.addElement(evalua);
         }
     }
@@ -527,7 +525,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
     private void jLista_EvaluacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_EvaluacionesMouseClicked
         // TODO add your handling code here:
-        Evaluacion actual = (Evaluacion) this.jLista_Evaluaciones.getSelectedValue();
+      /*  Instancia_Evaluacion actual = (Instancia_Evaluacion) this.jLista_Evaluaciones.getSelectedValue();
         if (actual != null && this.jLista_Evaluaciones.isEnabled())
         {
             this.nodo_seleccionado = null;
@@ -551,7 +549,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 this.listModelexamenes.addElement(ex);
             }
             this.limpiar_zona_unaPrueba();
-        }
+
+        }*/
     }//GEN-LAST:event_jLista_EvaluacionesMouseClicked
 
   private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLista_ExamenesMouseClicked
@@ -562,12 +561,12 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled())
         {
             this.jTree_Arbol_Perturbacion.setModel(null);
-            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado.getArbol().getTreeModel());
+            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado.getArbol_podado_particular().getTreeModel());
             this.jTree_Arbol_Perturbacion.paintAll(this.jTree_Arbol_Perturbacion.getGraphics());
             this.jT_Alumno.setText(this.examen_seleccionado.getAlumno().toString());
             this.nodo_seleccionado = null;
-            jT_id_arbol_perturbacion.setText(this.examen_seleccionado.getArbol().getNombre());
-            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado.getArbol().getDescripcion());
+            jT_id_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getNombre());
+            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getDescripcion());
         }
 
   }//GEN-LAST:event_jLista_ExamenesMouseClicked
@@ -598,12 +597,12 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
     private void jB_GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jB_GuardarMouseClicked
         // TODO add your handling code here:
-        Evaluacion ev;
+        Instancia_Evaluacion ev;
         ArrayList<Examen> listadeexamenes;
         Examen ex;
         for (int i = 0; i < this.jLista_Evaluaciones.getModel().getSize(); i++)
         {
-            ev = (Evaluacion) this.jLista_Evaluaciones.getModel().getElementAt(i);
+            ev = (Instancia_Evaluacion) this.jLista_Evaluaciones.getModel().getElementAt(i);
             listadeexamenes = ev.getExamenes();
             for (int j = 0; j < listadeexamenes.size(); j++)
             {
@@ -612,7 +611,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 {
                     try
                     {
-                        ex.getArbol().procesar();
+                        ex.getArbol_podado_particular().procesar();
                     }
                     catch (Exception e)
                     {

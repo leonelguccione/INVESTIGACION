@@ -1,7 +1,6 @@
 
 package UI;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,11 +11,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import modelo.Alumno;
 import modelo.Arbol_Perturbacion;
 import modelo.Cursada;
-import modelo.Evaluacion;
+import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.Modelo_ABM_arbol_perturbacion;
-
-import util.Fecha;
 
 /**
  *
@@ -32,7 +29,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
     DefaultListModel lista_alumnos_en_evaluacion = new DefaultListModel();
     DefaultListModel listModel_evaluaciones = new DefaultListModel();
 
-    Evaluacion evaluacion_en_uso;
+    Instancia_Evaluacion evaluacion_en_uso;
     Arbol_Perturbacion arbol_seleccionado = null;
     Cursada cursada_seleccionada = null;
 
@@ -53,7 +50,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         this.limpia_componentes();
         this.actualizar_jList_evaluaciones_creadas();
 
-        this.evaluacion_en_uso = new Evaluacion();
+        this.evaluacion_en_uso = new Instancia_Evaluacion();
         DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) jtree_arbol.getCellRenderer();
         render.setLeafIcon(new ImageIcon(""));
         render.setOpenIcon(new ImageIcon(""));
@@ -91,7 +88,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         this.lista_cursadas.clear();
         this.lista_alumnos_en_cursada.clear();
 
-        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas();
+        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas("bla");
         //Recorrer el contenido del Iterator
         while (iterator_cursadas.hasNext())
         {
@@ -109,14 +106,14 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         //Recorrer el contenido del Iterator
         while (iterator_evaluaciones.hasNext())
         {
-            Evaluacion evaluacion = (Evaluacion) iterator_evaluaciones.next();
+            Instancia_Evaluacion evaluacion = (Instancia_Evaluacion) iterator_evaluaciones.next();
             this.listModel_evaluaciones.addElement(evaluacion);
         }
     }
 
     //EVENTOS
     public void jList_Arboles_PerturbacionMouseClicked()
-    {
+    {/*
         Arbol_Perturbacion arbol = (Arbol_Perturbacion) this.jList_Arboles_Perturbacion.getSelectedValue();
         this.evaluacion_en_uso.setArbol_perturbacion(arbol);
         this.jL_nombre_arbol.setText(arbol.getNombre());
@@ -127,11 +124,12 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         this.jtree_arbol.expandPath(jtree_arbol.getSelectionPath());
         this.jT_arbol.setText(arbol.getNombre());
         this.arbol_seleccionado = arbol;
+*/
     }
     
     public void jButton_borrar_evaluacionesMouseClicked()
     {
-        Evaluacion evaluacion_seleccionada = (Evaluacion)jList_evaluaciones_creadas.getSelectedValue();
+        Instancia_Evaluacion evaluacion_seleccionada = (Instancia_Evaluacion)jList_evaluaciones_creadas.getSelectedValue();
         int id_evaluacion = evaluacion_seleccionada.getId_evaluacion();
         modelo.getModelo_abm_evaluacion().borrar_evaluacion(id_evaluacion);
         actualizar_jList_evaluaciones_creadas();
@@ -577,7 +575,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         //GEN-HEADER    private void jList_Arboles_PerturbacionMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_Arboles_PerturbacionMouseClicked//GEN-HEADEREND:event_jButton_quitaActionPerformed
     { //GEN-HEADEREND:event_jList_Arboles_PerturbacionMouseClicked//GEN-LAST:event_jButton_quitaActionPerformed
         // TODO add your handling code here://GEN-HEADEREND:event_jList_Arboles_PerturbacionMouseClicked
-        Arbol_Perturbacion arbol = (Arbol_Perturbacion) this.jList_Arboles_Perturbacion.getSelectedValue();
+ /*       Arbol_Perturbacion arbol = (Arbol_Perturbacion) this.jList_Arboles_Perturbacion.getSelectedValue();
         this.evaluacion_en_uso.setArbol_perturbacion(arbol);
         this.jL_nombre_arbol.setText(arbol.getNombre());
         this.jL_Descripcion_Arbol.setText(arbol.getDescripcion().trim());
@@ -587,11 +585,13 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         this.jtree_arbol.expandPath(jtree_arbol.getSelectionPath());
         this.jT_arbol.setText(arbol.getNombre());
         this.arbol_seleccionado = arbol;
+*/
     } //GEN-LAST:event_jList_Arboles_PerturbacionMouseClicked
 
     private void JList_cursadasMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_JList_cursadasMouseClicked
     {//GEN-HEADEREND:event_JList_cursadasMouseClicked
         // TODO add your handling code here:
+        /*
         Cursada actual = (Cursada) this.JList_cursadas.getSelectedValue();
         this.lista_alumnos_en_cursada.clear();
         this.lista_alumnos_en_evaluacion.clear();
@@ -605,7 +605,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
         }
         this.jT_asignatura.setText(actual.getAsignatura());
         this.cursada_seleccionada = actual;
-        
+        */
     }//GEN-LAST:event_JList_cursadasMouseClicked
 
     private void jButton_agregaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_agregaMouseClicked
@@ -633,7 +633,7 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
     private void jButton_GuardarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_GuardarMouseClicked
     {//GEN-HEADEREND:event_jButton_GuardarMouseClicked
         // TODO add your handling code here:
-        this.evaluacion_en_uso.setFecha(Fecha.str2Date(jT_fecha.getText().trim()));
+   /*     this.evaluacion_en_uso.setFecha(Fecha.str2Date(jT_fecha.getText().trim()));
         this.evaluacion_en_uso.setDescripcion(this.jT_descripcion.getText());
         this.evaluacion_en_uso.setArbol_perturbacion(this.arbol_seleccionado);
         this.evaluacion_en_uso.setCursada(this.cursada_seleccionada);
@@ -650,8 +650,10 @@ public class UI_Alta_Eval extends javax.swing.JInternalFrame
             this.modelo.getModelo_abm_evaluacion().agrega_evaluacion(evaluacion_en_uso);
             this.limpia_componentes();
         }
+
         this.listModel_evaluaciones.addElement(this.evaluacion_en_uso);
         this.actualizar_jList_evaluaciones_creadas();
+*/
     }//GEN-LAST:event_jButton_GuardarMouseClicked
 
     private void jList_Arboles_PerturbacionMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_Arboles_PerturbacionMouseClicked

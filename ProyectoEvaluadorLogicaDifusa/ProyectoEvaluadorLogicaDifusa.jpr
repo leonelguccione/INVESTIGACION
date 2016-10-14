@@ -75,6 +75,7 @@
          <string v="Database"/>
          <string v="Database-Modeling"/>
          <string v="Java"/>
+         <string v="Java-Modeling"/>
          <string v="UML"/>
          <string v="XML"/>
       </list>
@@ -86,6 +87,15 @@
    <hash n="oracle.jdeveloper.model.J2eeSettings">
       <value n="j2eeWebAppName" v="Desarrollo_Nuevo-Client-webapp"/>
       <value n="j2eeWebContextRoot" v="Desarrollo_Nuevo-Client-context-root"/>
+   </hash>
+   <hash n="oracle.jdeveloper.runner.RunConfigurations">
+      <hash n="runConfigurationDefinitions">
+         <hash n="Default">
+            <value n="custom" v="false"/>
+            <value n="name" v="Default"/>
+            <url n="targetURL" path="src/UI/UI_Principal.java"/>
+         </hash>
+      </hash>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">

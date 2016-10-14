@@ -20,17 +20,18 @@ public class Modelo_ABM_Evaluacion
         return this.db.recupera_proxima_evaluacion();
     }
 
-    public void agrega_evaluacion(Evaluacion ev)
+    public void agrega_evaluacion(Instancia_Evaluacion ev)
     {
         this.db.almacenar_evaluacion(ev);
     }
 
     public Iterator recuperar_evaluaciones()
     {
-        return db.recuperar_evaluaciones();
+       // return db.recuperar_evaluaciones();
+        return null;
     }
 
-    public void actualizar_examen(Evaluacion evaluacion, Examen examen)
+    public void actualizar_examen(Instancia_Evaluacion evaluacion, Examen examen)
     {
         db.actualizar_examen(evaluacion, examen);
     }

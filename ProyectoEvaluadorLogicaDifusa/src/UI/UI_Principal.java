@@ -21,9 +21,8 @@ public class UI_Principal extends javax.swing.JFrame
     {
         initComponents();
         modelo = new Modelo();
-        //this.setMinimumSize(1100,850);
-        //this.setMaximumSize(1100,850);
-        this.setSize(1100,750);
+        
+        this.setSize(UI_Dimensiones.ANCHO,UI_Dimensiones.ALTO);
     }
 
     /** This method is called from within the constructor to
@@ -38,15 +37,15 @@ public class UI_Principal extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_ppal = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jM_arbol_de_perturbacion = new javax.swing.JMenu();
-        JM_ABM = new javax.swing.JMenuItem();
+        jMenu_Asignaturas = new javax.swing.JMenu();
+        jMenuItem_ABM_Asignatuas = new javax.swing.JMenuItem();
         JM_Cohortes = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu_Asignaturas = new javax.swing.JMenu();
-        jMenuItem_ABM_Asignatuas = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jM_Evaluaciones = new javax.swing.JMenu();
         jMenuitem_alta_evaluacion = new javax.swing.JMenuItem();
         jMenuitem_actualizacion_evaluaciones = new javax.swing.JMenuItem();
@@ -55,7 +54,6 @@ public class UI_Principal extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.SystemColor.textInactiveText);
         setMinimumSize(new java.awt.Dimension(1100, 850));
-        setPreferredSize(new java.awt.Dimension(1100, 850));
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(1100, 850));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(1100, 850));
@@ -81,19 +79,19 @@ public class UI_Principal extends javax.swing.JFrame
         jMenuBar1.setMaximumSize(new java.awt.Dimension(1100, 770));
         jMenuBar1.setMinimumSize(new java.awt.Dimension(1100, 770));
 
-        jM_arbol_de_perturbacion.setText("Arbol de Perturbacion");
+        jMenu_Asignaturas.setText("Asignaturas");
 
-        JM_ABM.setText("ABM");
-        JM_ABM.addActionListener(new java.awt.event.ActionListener()
+        jMenuItem_ABM_Asignatuas.setText("ABM");
+        jMenuItem_ABM_Asignatuas.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                JM_ABMActionPerformed(evt);
+                jMenuItem_ABM_AsignatuasActionPerformed(evt);
             }
         });
-        jM_arbol_de_perturbacion.add(JM_ABM);
+        jMenu_Asignaturas.add(jMenuItem_ABM_Asignatuas);
 
-        jMenuBar1.add(jM_arbol_de_perturbacion);
+        jMenuBar1.add(jMenu_Asignaturas);
 
         JM_Cohortes.setText("Alumnos");
 
@@ -133,19 +131,26 @@ public class UI_Principal extends javax.swing.JFrame
 
         jMenuBar1.add(jMenu3);
 
-        jMenu_Asignaturas.setText("Asignaturas");
-
-        jMenuItem_ABM_Asignatuas.setText("ABM");
-        jMenuItem_ABM_Asignatuas.addActionListener(new java.awt.event.ActionListener()
+        jMenu1.setText("Parciales");
+        jMenu1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jMenuItem_ABM_AsignatuasActionPerformed(evt);
+                jMenu1ActionPerformed(evt);
             }
         });
-        jMenu_Asignaturas.add(jMenuItem_ABM_Asignatuas);
 
-        jMenuBar1.add(jMenu_Asignaturas);
+        jMenuItem1.setText("Altas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
 
         jM_Evaluaciones.setText("Evaluaciones");
 
@@ -196,21 +201,6 @@ public class UI_Principal extends javax.swing.JFrame
 
         pack();
     }//GEN-END:initComponents
-
-    private void JM_ABMActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_JM_ABMActionPerformed
-    {//GEN-HEADEREND:event_JM_ABMActionPerformed
-        // TODO add your handling code here:
-        UI_Arbol_Perturbacion ui_ap = new UI_Arbol_Perturbacion(modelo);
-        this.jPanel_ppal.add(ui_ap);
-        ui_ap.setVisible(true);
-        try
-        {
-            ui_ap.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }
-    }//GEN-LAST:event_JM_ABMActionPerformed
 
     private void jMenuitem_alta_evaluacionActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuitem_alta_evaluacionActionPerformed
     {//GEN-HEADEREND:event_jMenuitem_alta_evaluacionActionPerformed
@@ -308,6 +298,27 @@ public class UI_Principal extends javax.swing.JFrame
         // TODO add your handling code here:
         lanzar_UI_Asignaturas();
     }//GEN-LAST:event_jMenuItem_ABM_AsignatuasActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenu1ActionPerformed
+    {//GEN-HEADEREND:event_jMenu1ActionPerformed
+       
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
+    {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
+        System.out.println("hola");
+        UI_Parcial ui_par = new UI_Parcial(modelo);
+        this.jPanel_ppal.add(ui_par);
+        ui_par.setVisible(true);
+        try
+        {
+            ui_par.setMaximum(true);
+        }
+        catch (PropertyVetoException e)
+        {
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -362,12 +373,12 @@ public class UI_Principal extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem JM_ABM;
     private javax.swing.JMenu JM_Cohortes;
     private javax.swing.JMenu jM_Evaluaciones;
-    private javax.swing.JMenu jM_arbol_de_perturbacion;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -395,8 +406,8 @@ public class UI_Principal extends javax.swing.JFrame
         catch (PropertyVetoException e)
         {
         } */
-        ui_Asignatura.setPreferredSize(new Dimension(1100,750));
-        ui_Asignatura.setSize(1100,750);
+        ui_Asignatura.setPreferredSize(new Dimension(UI_Dimensiones.ANCHO_INTERNO,UI_Dimensiones.ALTO_INTERNO));
+        ui_Asignatura.setSize(UI_Dimensiones.ANCHO_INTERNO,UI_Dimensiones.ALTO_INTERNO);
 
 
     }
