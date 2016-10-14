@@ -125,6 +125,13 @@ public class EtiquetaBean implements Cloneable, Serializable
         setConocido(conocido + e.getConocido());
         setAprendido(aprendido + e.getAprendido());
     }
+    public void resta(EtiquetaBean e)
+    {
+        setDesconocido(desconocido - e.getDesconocido());
+        setParcialmenteConocido(parcialmente_conocido - e.getParcialmenteConocido());
+        setConocido(conocido - e.getConocido());
+        setAprendido(aprendido - e.getAprendido());
+    }
 
     void dividir(double cant)
     {
@@ -134,7 +141,14 @@ public class EtiquetaBean implements Cloneable, Serializable
         setParcialmenteConocido(parcialmente_conocido / cant);
     }
 
-
+    void multiplicar(double cant)
+    {
+        setAprendido(aprendido * cant);
+        setConocido(conocido * cant);
+        setDesconocido(desconocido * cant);
+        setParcialmenteConocido(parcialmente_conocido * cant);
+    }
+    
     @Override
     public String toString()
     {

@@ -24,14 +24,14 @@ public class Modelo_ABM_Cursada
         return db.recuperar_alumnos();
     }
 
-    public void AgregarCursada(Cursada cur)
+    public void AgregarCursada(Asignatura asignatura,Cursada cur)
     {
-        this.db.almacenar_cursada(cur);
+        this.db.almacenar_cursada(asignatura,cur);
     }
 
-    public Iterator recuperar_cursadas()
+    public Iterator recuperar_cursadas(String codigo_asignatura)
     {
-        return db.recuperar_cursadas();
+        return db.recuperar_cursadas(codigo_asignatura);
     }
 
     public void eliminar_cursada(Cursada cur)

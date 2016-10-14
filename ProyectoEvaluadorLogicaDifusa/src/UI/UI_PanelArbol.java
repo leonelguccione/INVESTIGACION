@@ -23,7 +23,7 @@ public class UI_PanelArbol extends JPanel
     public UI_PanelArbol()
     {
         super();
-        //crearRaiz("raiz");
+       
         removeAll();
         setLayout(new BorderLayout());
     }

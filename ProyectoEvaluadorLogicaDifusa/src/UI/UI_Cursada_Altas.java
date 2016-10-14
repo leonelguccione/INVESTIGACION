@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 import modelo.Alumno;
+import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Modelo;
 
@@ -18,9 +19,11 @@ import modelo.Modelo;
 public class UI_Cursada_Altas extends javax.swing.JInternalFrame
 {
     Modelo modelo;
-    DefaultListModel listModel_total_alumnos = new DefaultListModel();
-    DefaultListModel listModel_alumnos_de_cursada = new DefaultListModel();
-    DefaultListModel listModel_cursadas = new DefaultListModel();
+   private DefaultListModel listModel_total_alumnos = new DefaultListModel();
+    private DefaultListModel listModel_alumnos_de_cursada = new DefaultListModel();
+    private DefaultListModel listModel_cursadas = new DefaultListModel();
+   private DefaultListModel listModel_asignaturas = new DefaultListModel();
+    private Asignatura asignatura_en_uso=null;
 
     /** Creates new form Class1 */
     public UI_Cursada_Altas(Modelo modelo)
@@ -30,33 +33,44 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         this.jList_Total_Alumnos.setModel(listModel_total_alumnos);
         this.jList_Alumnos_Cursada.setModel(listModel_alumnos_de_cursada);
         this.jList_cursadas.setModel(listModel_cursadas);
+        this.jList_asignaturas.setModel(listModel_asignaturas);
         this.actualizar_jList_total_alumnos();
         this.actualizar_jList_cursadas();
+        this.actualizar_jList_asignaturas();
     }
 
     private void actualizar_jList_total_alumnos()
     {
-        listModel_total_alumnos.clear();
-        Iterator iterator_alumnos = modelo.getModelo_abm_cursada().get_lista_alumnos();
+        this.listModel_total_alumnos.clear();
+        Iterator iterator_alumnos = modelo.getAlumnos().values().iterator();
         //Recorrer el contenido del Iterator
         while (iterator_alumnos.hasNext())
         {
-            Alumno al = (Alumno) iterator_alumnos.next();
-            listModel_total_alumnos.addElement(al);
+            Alumno alumno = (Alumno) iterator_alumnos.next();
+           this.listModel_total_alumnos.addElement(alumno);
+        }
+    }
+    private void actualizar_jList_asignaturas()
+    {
+        listModel_asignaturas.clear();
+        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
+        //Recorrer el contenido del Iterator
+        while (iterator_asignaturas.hasNext())
+        {
+            Asignatura as = (Asignatura) iterator_asignaturas.next();
+            listModel_asignaturas.addElement(as);
         }
     }
     
     private void actualizar_jList_cursadas()
     {
-        listModel_cursadas.clear();
-        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas();
-        //Recorrer el contenido del Iterator
-        while (iterator_cursadas.hasNext())
+        this.listModel_cursadas.clear();
+        if(this.asignatura_en_uso!=null)
         {
-            Cursada cur = (Cursada) iterator_cursadas.next();
-
-            listModel_cursadas.addElement(cur);
-
+            ArrayList<Cursada> cursadas_actuales=this.asignatura_en_uso.getCursadas();  
+            for(int i=0;i<cursadas_actuales.size();i++){
+                this.listModel_cursadas.addElement(cursadas_actuales.get(i));
+            }
         }
     }
 
@@ -79,16 +93,19 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList_Total_Alumnos = new javax.swing.JList();
-        jButton_Agrega = new javax.swing.JButton();
-        jButton_Quita = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList_cursadas = new javax.swing.JList();
         jButton_guardar_cursada = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList_asignaturas = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList_Alumnos_Cursada = new javax.swing.JList();
-        jLabel4 = new javax.swing.JLabel();
+        jButton_Quita = new javax.swing.JButton();
+        jButton_Agrega = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -96,6 +113,9 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         setResizable(true);
 
         jLabel1.setText("Asig.:");
+
+        jText_Asignatura.setEditable(false);
+        jText_Asignatura.setFocusable(false);
 
         jLabel2.setText("Año:");
 
@@ -144,32 +164,14 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 4, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        jButton_Agrega.setText(">");
-        jButton_Agrega.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton_AgregaActionPerformed(evt);
-            }
-        });
-
-        jButton_Quita.setText("<");
-        jButton_Quita.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton_QuitaActionPerformed(evt);
-            }
-        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Cursadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 3, 18))); // NOI18N
 
@@ -179,19 +181,20 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jList_cursadas.setFocusable(false);
         jScrollPane4.setViewportView(jList_cursadas);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
         );
 
         jButton_guardar_cursada.setText("Guardar nueva cursada");
@@ -203,6 +206,39 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel4.setText("Alta de Cursadas");
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado de Asignaturas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 3, 18))); // NOI18N
+
+        jList_asignaturas.setModel(new javax.swing.AbstractListModel()
+        {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jList_asignaturas.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jList_asignaturasMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jList_asignaturas);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+        );
+
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alumnos en cursada", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 3, 18))); // NOI18N
 
         jScrollPane1.setViewportView(jList_Alumnos_Cursada);
@@ -211,15 +247,30 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
         );
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel4.setText("Alta de Cursadas");
+        jButton_Quita.setText("<");
+        jButton_Quita.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton_QuitaActionPerformed(evt);
+            }
+        });
+
+        jButton_Agrega.setText(">");
+        jButton_Agrega.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton_AgregaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,82 +279,65 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(214, 214, 214)
+                        .addComponent(jButton_guardar_cursada))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_Agrega)
-                            .addComponent(jButton_Quita)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_guardar_cursada)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton_Agrega)
+                                    .addComponent(jButton_Quita))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(875, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(50, 50, 50)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(101, 101, 101)
                                 .addComponent(jButton_Agrega)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton_Quita)
-                                .addGap(230, 230, 230))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jButton_guardar_cursada))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 14, Short.MAX_VALUE))
+                                .addComponent(jButton_Quita))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 560, Short.MAX_VALUE)
+                .addComponent(jButton_guardar_cursada)
+                .addGap(82, 82, 82))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }//GEN-END:initComponents
 
-    private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregaActionPerformed
-        // TODO add your handling code here:
-        List<Alumno> l = this.jList_Total_Alumnos.getSelectedValuesList();
-        for (int i = 0; i < l.size(); i++)
-        {
-            this.listModel_alumnos_de_cursada.addElement(l.get(i));
-            this.listModel_total_alumnos.removeElement(l.get(i));
-        }
-        
-    }//GEN-LAST:event_jButton_AgregaActionPerformed
-
-    private void jButton_QuitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_QuitaActionPerformed
-        // TODO add your handling code here:
-        List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
-        for (int i = 0; i < l.size(); i++)
-        {
-            this.listModel_total_alumnos.addElement(l.get(i));
-            this.listModel_alumnos_de_cursada.removeElement(l.get(i));
-
-        }
-        
-        
-        
-    }//GEN-LAST:event_jButton_QuitaActionPerformed
-
     private void jButton_guardar_cursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_cursadaActionPerformed
         // TODO add your handling code here:
         Cursada cursadaactual = new Cursada();
         Alumno al;
-        String asignatura = this.jText_Asignatura.getText();
+       
         int anio = Integer.parseInt(this.jText_Anio.getText());
         int cuatrimestre = Integer.parseInt(this.jText_Cuatrimestre.getText());
         ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
@@ -313,20 +347,60 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         }
         cursadaactual.setAlumnos(alumnos);
         cursadaactual.setAnio_fecha(anio);
-        cursadaactual.setAsignatura(asignatura);
+      
         cursadaactual.setCuatrimestre(cuatrimestre);
-        this.modelo.getModelo_abm_cursada().AgregarCursada(cursadaactual);
-        for (int i = 0; i < this.listModel_alumnos_de_cursada.size(); i++)
-        {
-            al = (Alumno) this.listModel_alumnos_de_cursada.get(i);
-            this.listModel_total_alumnos.addElement(al);
-        }
+        this.modelo.getModelo_abm_cursada().AgregarCursada(this.asignatura_en_uso,cursadaactual);
+        this.modelo.recuperarCursadas(this.asignatura_en_uso);
+        this.actualizar_jList_total_alumnos();
+       
         this.listModel_alumnos_de_cursada.removeAllElements();
         this.jText_Anio.setText("");
         this.jText_Asignatura.setText("");
         this.jText_Cuatrimestre.setText("");
+        this.actualizar_jList_cursadas();
         
     }//GEN-LAST:event_jButton_guardar_cursadaActionPerformed
+
+    private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_AgregaActionPerformed
+    {//GEN-HEADEREND:event_jButton_AgregaActionPerformed
+        // TODO add your handling code here:
+        List<Alumno> l = this.jList_Total_Alumnos.getSelectedValuesList();
+        for (int i = 0; i < l.size(); i++)
+        {
+            this.listModel_alumnos_de_cursada.addElement(l.get(i));
+            this.listModel_total_alumnos.removeElement(l.get(i));
+        }
+
+    }//GEN-LAST:event_jButton_AgregaActionPerformed
+
+    private void jButton_QuitaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_QuitaActionPerformed
+    {//GEN-HEADEREND:event_jButton_QuitaActionPerformed
+        // TODO add your handling code here:
+        List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
+        for (int i = 0; i < l.size(); i++)
+        {
+            this.listModel_total_alumnos.addElement(l.get(i));
+            this.listModel_alumnos_de_cursada.removeElement(l.get(i));
+
+        }
+
+    }//GEN-LAST:event_jButton_QuitaActionPerformed
+
+    private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_asignaturasMouseClicked
+    {//GEN-HEADEREND:event_jList_asignaturasMouseClicked
+        // TODO add your handling code here:
+        if(this.jList_asignaturas.getSelectedValue() != null)
+        {
+            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+            this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
+            this.actualizar_jList_cursadas();
+           
+        } 
+        
+        
+        
+        
+    }//GEN-LAST:event_jList_asignaturasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -337,16 +411,19 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList jList_cursadas;
     private javax.swing.JList jList_Alumnos_Cursada;
     private javax.swing.JList jList_Total_Alumnos;
+    private javax.swing.JList jList_asignaturas;
+    private javax.swing.JList jList_cursadas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jText_Anio;
     private javax.swing.JTextField jText_Asignatura;
     private javax.swing.JTextField jText_Cuatrimestre;

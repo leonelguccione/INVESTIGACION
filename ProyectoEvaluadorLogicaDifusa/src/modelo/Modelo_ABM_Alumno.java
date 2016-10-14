@@ -8,9 +8,7 @@ import java.util.Observable;
 
 public class Modelo_ABM_Alumno extends Observable
 {
-    /**Por ahora la clave es el apellido, luego debe mejorarse
-     */
-    //TODO: cambiar la clave
+   
     private BaseDeDatos db;
 
     public Modelo_ABM_Alumno(BaseDeDatos dbl)
@@ -24,9 +22,9 @@ public class Modelo_ABM_Alumno extends Observable
         this.db.almacenar_alumno(al);
     }
 
-    public void borrarAlumno(long dni)
+    public void borrarAlumno(Alumno alumno)
     {
-        db.borrar_alumno(dni);
+        db.borrar_alumno(alumno);
     }
 
     public void modificarAlumno(Alumno al)

@@ -16,6 +16,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
 {
     Modelo modelo;
     DefaultListModel listModel = new DefaultListModel();
+    Alumno alumno_seleccionado = null;
 
 
     /** Creates new form UI_Alta_Alumno */
@@ -232,18 +233,18 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
 
     private void jButton_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregarActionPerformed
         // TODO add your handling code here:
-        
+
         String st_dni = this.jText_Dni.getText();
         String st_legajo = this.jText_Legajo.getText();
-        
+
         System.out.println(st_dni);
-        
+
         long dni = Long.parseLong(st_dni);
         long legajo = Long.parseLong(st_legajo);
         String apellido = this.jText_Apellido.getText().trim();
         String nombre = this.jText_Nombre.getText().trim();
         Alumno al = new Alumno(legajo, apellido, nombre, dni);
-        this.modelo.getModelo_abm_alumno().agregarAlumno(al);
+        this.modelo.agrega_alumno(al);
         this.actualizar_jList();
         this.limpia_jText();
     }//GEN-LAST:event_jButton_AgregarActionPerformed
@@ -253,18 +254,17 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         if (!this.listModel.isEmpty())
         {
 
-            this.jButton_Borrar.setEnabled(true);
-            this.jButton_Modificar.setEnabled(true);
+            if (this.jList_Alumnos.getSelectedValue() != null)
+            {
+                this.jButton_Borrar.setEnabled(true);
+                this.jButton_Modificar.setEnabled(true);
+                this.alumno_seleccionado = (Alumno) this.jList_Alumnos.getSelectedValue();
 
-            Alumno actual = (Alumno) this.jList_Alumnos.getSelectedValue();
-            this.jText_Apellido.setText(actual.getApellido());
-            this.jText_Nombre.setText(actual.getNombre());
-            this.jText_Dni.setText(String.valueOf(actual.getDni()));
-            this.jText_Legajo.setText(String.valueOf(actual.getLegajo()));
-
-
-            //modelo_abm_ap.setArbol_Perturbacion_en_uso((Arbol_Perturbacion) jLista_arboles.getSelectedValue());
-
+                this.jText_Apellido.setText(this.alumno_seleccionado.getApellido());
+                this.jText_Nombre.setText(this.alumno_seleccionado.getNombre());
+                this.jText_Dni.setText(String.valueOf(this.alumno_seleccionado.getDni()));
+                this.jText_Legajo.setText(String.valueOf(this.alumno_seleccionado.getLegajo()));
+            }
         }
         
     }//GEN-LAST:event_jList_AlumnosMouseClicked
@@ -277,9 +277,10 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
         String st_dni = this.jText_Dni.getText();
         long dni = Long.parseLong(st_dni);
-        this.modelo.getModelo_abm_alumno().borrarAlumno(dni);
+        this.modelo.getModelo_abm_alumno().borrarAlumno(this.alumno_seleccionado);
         this.actualizar_jList();
         this.limpia_jText();
+        this.alumno_seleccionado=null;
     }//GEN-LAST:event_jButton_BorrarActionPerformed
 
     private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
@@ -342,15 +343,14 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     private void actualizar_jList()
     {
         listModel.clear();
-        Iterator iterator_alumnos = modelo.getModelo_abm_alumno().get_lista_alumnos();
-        //Recorrer el contenido del Iterator
+
+        // Iterator iterator_alumnos = modelo.getModelo_abm_alumno().get_lista_alumnos();
+        Iterator iterator_alumnos = modelo.getAlumnos().values().iterator();
         while (iterator_alumnos.hasNext())
         {
             Alumno al = (Alumno) iterator_alumnos.next();
             listModel.addElement(al);
         }
-        //Asociar el modelo de lista al JList
-        //jLista_arboles.setModel(listModel);
     }
 
     private void resetEnabledDisabled()
