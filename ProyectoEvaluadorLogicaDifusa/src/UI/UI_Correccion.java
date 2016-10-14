@@ -14,12 +14,10 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 
 import modelo.EtiquetaBean;
-import modelo.Instancia_Evaluacion;
 import modelo.Examen;
+import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.Nodo_Perturbacion;
-
-import util.Fecha;
 
 /**
  *
@@ -527,7 +525,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
     private void jLista_EvaluacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_EvaluacionesMouseClicked
         // TODO add your handling code here:
-        Instancia_Evaluacion actual = (Instancia_Evaluacion) this.jLista_Evaluaciones.getSelectedValue();
+      /*  Instancia_Evaluacion actual = (Instancia_Evaluacion) this.jLista_Evaluaciones.getSelectedValue();
         if (actual != null && this.jLista_Evaluaciones.isEnabled())
         {
             this.nodo_seleccionado = null;
@@ -551,7 +549,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 this.listModelexamenes.addElement(ex);
             }
             this.limpiar_zona_unaPrueba();
-        }
+
+        }*/
     }//GEN-LAST:event_jLista_EvaluacionesMouseClicked
 
   private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLista_ExamenesMouseClicked

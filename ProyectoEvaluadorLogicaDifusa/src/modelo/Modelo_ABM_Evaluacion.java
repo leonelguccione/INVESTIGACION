@@ -27,7 +27,8 @@ public class Modelo_ABM_Evaluacion
 
     public Iterator recuperar_evaluaciones()
     {
-        return db.recuperar_evaluaciones();
+       // return db.recuperar_evaluaciones();
+        return null;
     }
 
     public void actualizar_examen(Instancia_Evaluacion evaluacion, Examen examen)

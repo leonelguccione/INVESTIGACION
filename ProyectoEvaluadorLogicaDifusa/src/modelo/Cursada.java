@@ -8,7 +8,6 @@ public class Cursada
 {
     private int anio_fecha;//correponde con el año fecha, por ej 2016
     private int cuatrimestre;
-
     private int id;
     private ArrayList<Parcial> parciales = new ArrayList<Parcial>();
 
@@ -22,8 +21,7 @@ public class Cursada
         this();
         this.anio_fecha = anio;
         this.cuatrimestre = cuatrimestre;
-        
-        this.id = id;
+       this.id = id;
     }
     
 
