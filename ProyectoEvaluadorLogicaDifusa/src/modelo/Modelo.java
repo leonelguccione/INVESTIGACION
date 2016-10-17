@@ -24,6 +24,8 @@ public class Modelo
     private Modelo_ABM_Cursada modelo_abm_cursada;
     private Modelo_ABM_Evaluacion modelo_abm_evaluacion;
     private Modelo_ABM_Asignatura modelo_abm_asignatura;
+    private Modelo_ABM_Parcial modelo_abm_parcial;
+    
     private HashMap<Long, Alumno> alumnos = new HashMap<Long, Alumno>();
     private HashMap<String, Asignatura> asignaturas = new HashMap<String, Asignatura>();
 
@@ -51,9 +53,13 @@ public class Modelo
         modelo_abm_cursada = new Modelo_ABM_Cursada(db);
         modelo_abm_evaluacion = new Modelo_ABM_Evaluacion(db);
         modelo_abm_asignatura = new Modelo_ABM_Asignatura(db);
+        modelo_abm_parcial=new Modelo_ABM_Parcial(db);
         this.recupera_sistema();
     }
 
+    public Modelo_ABM_Parcial getModelo_abm_parcial() {
+        return modelo_abm_parcial;
+    }
 
     public Modelo_ABM_Cursada getModelo_abm_cursada()
     {
