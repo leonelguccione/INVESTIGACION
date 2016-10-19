@@ -3,7 +3,6 @@ package UI;
 
 import arbol_visual.ArbolVisual;
 
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -57,9 +56,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
      * */
     public UI_Asignatura(Modelo modelo)
     {
-        this.setMinimumSize(new Dimension(1100, 750));
-        this.setMaximumSize(new Dimension(1100, 750));
-        this.setPreferredSize(new Dimension(1100, 750));
+       
         initComponents();
         this.modelo = modelo;
         this.modelo_abm_asignatura = modelo.getModelo_abm_asignatura();
@@ -76,14 +73,13 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         };
         jtree_arbol = (ArbolVisual) jScrollPane_jTreeVisual;
-        jtree_arbol.setSize(796, 566);
-        //jPanel_arbol_visual.setSize(796, 566);
+    
         this.asignatura_en_uso = null;
         this.limpiar_jList_asignaturas();
         this.cargar_jList_asignaturas();
         this.limpiar_jTree();
         this.jtree_arbol.setLineasRectas(true);
-        //this.cambiar_iconos_jtree();
+      
         this.setEnabled_zona_jText_asignaturas(false);
 
     }
@@ -160,14 +156,14 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     }
 
 
-    /**almacena nuevamente la asignatura incorporando el 谩rbol de perturbaci贸n
+    /**almacena nuevamente la asignatura incorporando el 脙隆rbol de perturbaci脙鲁n
      */
     public void bt_guardar_arbolActionPerformed()
     {
         this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
         this.jTextField_padre.setText("");
         this.jTextField_nuevo.setText("");
-        //TODO: hacer disable el 谩rbol luego de guardarlo. Luego hacerlo enable al agregar o eliminar un nodo.
+        //TODO: hacer disable el 脙隆rbol luego de guardarlo. Luego hacerlo enable al agregar o eliminar un nodo.
 
     }
 
@@ -195,12 +191,12 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         this.habilitar_cargar_raiz();
     }
 
-    private void bt_raizActionPerformed() // se crea el 谩rbol de dominio para una asignatura nueva.
+    private void bt_raizActionPerformed() // se crea el 脙隆rbol de dominio para una asignatura nueva.
     {
-        //if (this.asignatura_en_uso.getArbol_dominio() == null) se cumple esta condici贸n
+        //if (this.asignatura_en_uso.getArbol_dominio() == null) se cumple esta condici脙鲁n
         String id_nuevo_nodo = jTextField_nuevo.getText().trim();
         Arbol_Perturbacion arbol_dominio =
-            new Arbol_Perturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripci贸n >");
+            new Arbol_Perturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripci脙鲁n >");
         arbol_dominio.setRaiz(jTextField_nuevo.getText().trim());
         this.asignatura_en_uso.setArbol_dominio(arbol_dominio);
 
@@ -218,7 +214,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     private void bt_nuevo_nodoActionPerformed()
     {
         String id_nuevo_nodo = jTextField_nuevo.getText().trim();
-        //if (this.asignatura_en_uso.getArbol_dominio() != null) se cumple esta condici贸n
+        //if (this.asignatura_en_uso.getArbol_dominio() != null) se cumple esta condici脙鲁n
         Nodo_Perturbacion nodo_seleccionado_padre = (Nodo_Perturbacion) jtree_arbol.getLastSelectedPathComponent();
         String idNodo_padre = (nodo_seleccionado_padre.getDato()).getIdDato();
         jTextField_padre.setText(idNodo_padre);
@@ -259,7 +255,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
               this.limpiar_jList_asignaturas();
         this.cargar_jList_asignaturas();
         this.jList_asignaturas.setSelectedValue(this.asignatura_en_uso, true);
-        //preparar zona arbol para la creaci贸n de uno nuevo
+        //preparar zona arbol para la creaci脙鲁n de uno nuevo
         this.habilitar_cargar_raiz();
     }
 
@@ -338,26 +334,23 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         jButton_cancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane_jTreeVisual = new ArbolVisual();
+        jButton_guardar_ap = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         jLabel_padre = new javax.swing.JLabel();
-        jLabel_nuevo = new javax.swing.JLabel();
         jTextField_padre = new javax.swing.JTextField();
+        jLabel_nuevo = new javax.swing.JLabel();
         jTextField_nuevo = new javax.swing.JTextField();
         jButton_agregar_nuevo_nodo = new javax.swing.JButton();
-        jButton_guardar_ap = new javax.swing.JButton();
         jButton_eliminar_nodo = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jButton_eliminar_asignatura = new javax.swing.JButton();
         jButton_habilitar_modificacion_asignatura = new javax.swing.JButton();
         jButton_habilitar_nueva_asignatura = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Asignaturas");
-        setMaximumSize(new java.awt.Dimension(950, 650));
-        setMinimumSize(new java.awt.Dimension(950, 650));
         setName("Asignaturas"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(950, 650));
+        setNormalBounds(new java.awt.Rectangle(0, 0, 1010, 710));
         try {
             setSelected(true);
         } catch (java.beans.PropertyVetoException e1) {
@@ -366,7 +359,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         setVisible(true);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setText("Gesti髇 de Asignaturas");
+        jLabel1.setText("Gesti贸n de Asignaturas");
 
         jList_asignaturas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de Asignaturas"));
         jList_asignaturas.setModel(new javax.swing.AbstractListModel() {
@@ -385,7 +378,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
         jLabel2.setText("Nombre:");
 
-        jLabel3.setText("C骴igo:");
+        jLabel3.setText("C贸digo:");
 
         jButton_registrar.setText("Registrar");
         jButton_registrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -395,7 +388,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         });
 
         jLabel4.setText("Dominio: ");
-        jLabel4.setToolTipText("Nombre del 醨bol de dominio");
+        jLabel4.setToolTipText("Nombre del 谩rbol de dominio");
 
         jButton_cancelar.setText("Cancelar");
         jButton_cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -454,9 +447,16 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addGap(10, 10, 10))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Alta de 羠bol de Dominio"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Alta de 脕rbol de Dominio"));
 
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("羠bol de Dominio"));
+        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("脕rbol de Dominio"));
+
+        jButton_guardar_ap.setText("Guardar 脕rbol");
+        jButton_guardar_ap.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_guardar_apMouseClicked(evt);
+            }
+        });
 
         jLabel_padre.setText("Padre:");
 
@@ -469,13 +469,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
-        jButton_guardar_ap.setText("Guardar 羠bol");
-        jButton_guardar_ap.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton_guardar_apMouseClicked(evt);
-            }
-        });
-
         jButton_eliminar_nodo.setText("Eliminar Nodo");
         jButton_eliminar_nodo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -483,48 +476,70 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_padre)
+                    .addComponent(jLabel_nuevo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                    .addComponent(jTextField_padre))
+                .addGap(265, 265, 265)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_eliminar_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_agregar_nuevo_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_padre)
+                    .addComponent(jTextField_padre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_agregar_nuevo_nodo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_eliminar_nodo)
+                    .addComponent(jLabel_nuevo)
+                    .addComponent(jTextField_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_guardar_ap)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton_eliminar_nodo)
-                .addGap(26, 26, 26))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel_padre)
-                        .addGap(3, 3, 3)
-                        .addComponent(jTextField_padre, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_nuevo)
-                        .addGap(1, 1, 1)
-                        .addComponent(jTextField_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_agregar_nuevo_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 4, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_guardar_ap)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_padre)
-                    .addComponent(jTextField_padre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_nuevo)
-                    .addComponent(jTextField_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_agregar_nuevo_nodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_guardar_ap)
-                    .addComponent(jButton_eliminar_nodo)))
+                .addComponent(jButton_guardar_ap)
+                .addGap(122, 122, 122))
         );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jButton_eliminar_asignatura.setText("Eliminar");
         jButton_eliminar_asignatura.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -534,7 +549,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         });
 
         jButton_habilitar_modificacion_asignatura.setBackground(new java.awt.Color(255, 255, 153));
-        jButton_habilitar_modificacion_asignatura.setText("Habilitar Modificaci髇");
+        jButton_habilitar_modificacion_asignatura.setText("Habilitar Modificaci贸n");
         jButton_habilitar_modificacion_asignatura.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton_habilitar_modificacion_asignaturaMouseClicked(evt);
@@ -549,48 +564,64 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton_habilitar_nueva_asignatura)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton_eliminar_asignatura)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_habilitar_modificacion_asignatura)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_eliminar_asignatura)
+                    .addComponent(jButton_habilitar_modificacion_asignatura))
+                .addGap(18, 18, 18)
+                .addComponent(jButton_habilitar_nueva_asignatura)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton_habilitar_nueva_asignatura)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jButton_eliminar_asignatura)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_habilitar_modificacion_asignatura))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(116, 116, 116))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_eliminar_asignatura)
-                            .addComponent(jButton_habilitar_modificacion_asignatura))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_habilitar_nueva_asignatura)
-                        .addGap(38, 38, 38)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(5, 5, 5))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -600,11 +631,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_jButton_registrarMouseClicked
         jButton_registrar_asignaturaMouseClicked();
     }//GEN-LAST:event_jButton_registrarMouseClicked
-
-    private void jButton_guardar_apMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_guardar_apMouseClicked
-    {//GEN-HEADEREND:event_jButton_guardar_apMouseClicked
-        bt_guardar_arbolActionPerformed();
-    }//GEN-LAST:event_jButton_guardar_apMouseClicked
 
     private void jButton_habilitar_nueva_asignaturaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_habilitar_nueva_asignaturaMouseClicked
     {//GEN-HEADEREND:event_jButton_habilitar_nueva_asignaturaMouseClicked
@@ -619,23 +645,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_jButton_habilitar_modificacion_asignaturaMouseClicked
         jButton_habilitar_modificacion_asignatura();
     }//GEN-LAST:event_jButton_habilitar_modificacion_asignaturaMouseClicked
-
-    private void jButton_agregar_nuevo_nodoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_agregar_nuevo_nodoMouseClicked
-    {//GEN-HEADEREND:event_jButton_agregar_nuevo_nodoMouseClicked
-        
-        if (this.asignatura_en_uso.getArbol_dominio() == null)
-        {
-            this.bt_raizActionPerformed();
-        } else
-        {
-            this.bt_nuevo_nodoActionPerformed();
-        }
-    }//GEN-LAST:event_jButton_agregar_nuevo_nodoMouseClicked
-
-    private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked
-    {//GEN-HEADEREND:event_jButton_eliminar_nodoMouseClicked
-        jButton_eliminar_nodo();
-    }//GEN-LAST:event_jButton_eliminar_nodoMouseClicked
 
     private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_asignaturasMouseClicked
     {//GEN-HEADEREND:event_jList_asignaturasMouseClicked
@@ -657,6 +666,25 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         this.jButton_cancelarKeyPressed();
     }//GEN-LAST:event_jButton_cancelarMouseClicked
 
+    private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked
+        jButton_eliminar_nodo();
+    }//GEN-LAST:event_jButton_eliminar_nodoMouseClicked
+
+    private void jButton_guardar_apMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_guardar_apMouseClicked
+        bt_guardar_arbolActionPerformed();
+    }//GEN-LAST:event_jButton_guardar_apMouseClicked
+
+    private void jButton_agregar_nuevo_nodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_agregar_nuevo_nodoMouseClicked
+
+        if (this.asignatura_en_uso.getArbol_dominio() == null)
+        {
+            this.bt_raizActionPerformed();
+        } else
+        {
+            this.bt_nuevo_nodoActionPerformed();
+        }
+    }//GEN-LAST:event_jButton_agregar_nuevo_nodoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_agregar_nuevo_nodo;
@@ -675,7 +703,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     private javax.swing.JLabel jLabel_padre;
     private javax.swing.JList jList_asignaturas;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane_jTreeVisual;
     private javax.swing.JTextField jTextField_codigo_asignatura;

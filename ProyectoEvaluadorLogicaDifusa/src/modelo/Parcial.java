@@ -66,4 +66,10 @@ public class Parcial
         return instancias_evaluaciones;
     }
 
+    @Override
+    public String toString() {
+        // TODO Implement this method
+        return this.getNombre();
+    }
+
 }

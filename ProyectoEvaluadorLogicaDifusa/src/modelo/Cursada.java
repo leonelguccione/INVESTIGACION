@@ -16,6 +16,15 @@ public class Cursada
      */
     private ArrayList<Alumno> alumnos;
 
+
+    public void setParciales(ArrayList<Parcial> parciales) {
+        this.parciales = parciales;
+    }
+
+    public ArrayList<Parcial> getParciales() {
+        return parciales;
+    }
+
     public Cursada(int id, int anio, int cuatrimestre)
     {
         this();
@@ -79,7 +88,7 @@ public class Cursada
     public String toString()
     {
         String aux =
-            this.getId() + ": " + "  Año: " + this.getAnio_fecha() + " Cuatrimestre: " +
+            this.getId() + ": " + "  Año: " + this.getAnio_fecha() + " Cuat: " +
             this.getCuatrimestre() + "\n";
         return aux;
     }
