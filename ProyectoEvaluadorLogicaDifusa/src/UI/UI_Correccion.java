@@ -58,7 +58,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         listModelEvaluaciones.clear();
         listModelexamenes.clear();
         this.jTree_Arbol_Perturbacion.setModel(null);
-        Iterator iterator_evaluaciones = modelo.getModelo_abm_evaluacion().recuperar_evaluaciones();
+        Iterator iterator_evaluaciones = modelo.getModelo_abm_evaluacion().recuperarInstanciasevaluaciones();
         //Recorrer el contenido del Iterator
         while (iterator_evaluaciones.hasNext())
         {
@@ -616,7 +616,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                     catch (Exception e)
                     {
                     }
-                    modelo.getModelo_abm_evaluacion().actualizar_examen(ev, ex);
+                    //OJO, MIRAR QUE VA ACA
+                   // modelo.getModelo_abm_evaluacion().actualizar_examen(ev, ex);
                     ex.setModificado(false);
                 }
             }

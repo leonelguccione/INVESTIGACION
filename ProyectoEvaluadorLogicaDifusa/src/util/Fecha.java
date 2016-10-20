@@ -7,25 +7,17 @@ import java.text.SimpleDateFormat;
 public class Fecha
 {
     private static DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     public Fecha()
     {
         super();
     }
 
-    public static java.sql.Date str2Date(String txt_date)
+    public static java.sql.Date str2Date(String txt_date) throws ParseException
     {
         java.util.Date utilDate;
         java.sql.Date sqlDate;
-        try
-        {
-            utilDate = sourceFormat.parse(txt_date);
-        }
-        catch (ParseException e)
-        {
-            System.out.println("no se pudo entender la fecha");
-            utilDate = new java.util.Date();
-        }
+        utilDate = sourceFormat.parse(txt_date);
         return sqlDate = new java.sql.Date(utilDate.getTime());
     }
 

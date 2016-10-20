@@ -188,7 +188,7 @@ public class BaseDeDatos
             this.borrar_asignatura(asignatura_en_uso);
             Blob blob_arbol_dominio_serializado = new javax.sql.rowset.serial.SerialBlob(arbol_dominio_serializado);
             PreparedStatement agregar =
-                conexion.prepareStatement("insert into asignaturas(codigo, nombre, arbol_dominio)values(?,?,?)");
+                conexion.prepareStatement("INSERT INTO asignaturas(codigo, nombre, arbol_dominio)VALUES(?,?,?)");
             agregar.setString(1, codigo_asignatura);
             agregar.setString(2, nombre_asignatura);
             agregar.setBlob(3, blob_arbol_dominio_serializado);
@@ -205,7 +205,7 @@ public class BaseDeDatos
         PreparedStatement borrar;
         try
         {
-            borrar = conexion.prepareStatement("delete from asignaturas where codigo = ?");
+            borrar = conexion.prepareStatement("DELETE FROM asignaturas WHERE codigo = ?");
             borrar.setString(1, asignatura.getCodigo());
             borrar.executeUpdate();
         } catch (SQLException e)
@@ -221,7 +221,7 @@ public class BaseDeDatos
         try
         {
             sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery("select * from asignaturas");
+            ResultSet resultado = sentencia.executeQuery("SELECT * FROM asignaturas");
             /*
              * cada asignatura está compuesta por:
              * codigo: String
@@ -269,7 +269,7 @@ public class BaseDeDatos
         try
         {
             PreparedStatement agregar =
-                conexion.prepareStatement("INSERT INTO Alumnos (dni,legajo,apellido,nombre) VALUES (?,?,?,?)");
+                conexion.prepareStatement("INSERT INTO alumnos (dni,legajo,apellido,nombre) VALUES (?,?,?,?)");
             agregar.setLong(1, dni);
             agregar.setLong(2, legajo);
             agregar.setString(3, apellido);
@@ -288,7 +288,7 @@ public class BaseDeDatos
     {
         try
         {
-            PreparedStatement borrar = conexion.prepareStatement("DELETE FROM Alumnos WHERE dni = ?");
+            PreparedStatement borrar = conexion.prepareStatement("DELETE FROM alumnos WHERE dni = ?");
             borrar.setLong(1, alumno.getDni());
             borrar.executeUpdate();
         } catch (SQLException e)
@@ -309,7 +309,7 @@ public class BaseDeDatos
         try
         {
             PreparedStatement modificar =
-                conexion.prepareStatement("UPDATE Alumnos SET legajo=? , apellido=? , nombre = ?  WHERE dni = ?");
+                conexion.prepareStatement("UPDATE alumnos SET legajo=? , apellido=? , nombre = ?  WHERE dni = ?");
             modificar.setLong(1, legajo);
             modificar.setString(2, apellido);
             modificar.setString(3, nombre);
@@ -335,7 +335,7 @@ public class BaseDeDatos
         {
 
             sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery("SELECT * FROM Alumnos ORDER BY apellido");
+            ResultSet resultado = sentencia.executeQuery("SELECT * FROM alumnos ORDER BY apellido");
             while (resultado.next())
             {
                 dni = resultado.getLong("dni");
@@ -346,7 +346,7 @@ public class BaseDeDatos
             }
         } catch (SQLException e)
         {
-            System.out.println("Problemas en la recuperacion de los Alumnos"+e.getMessage());
+            System.out.println("Problemas en la recuperacion de los alumnos"+e.getMessage());
         }
         return listado_alumnos.iterator();
     }
@@ -553,8 +553,8 @@ public class BaseDeDatos
         ArrayList<Alumno> listado_alumnos = new ArrayList<Alumno>();
         long dni, legajo;
         String apellido, nombre, sentenciasql =
-            "SELECT * FROM Alumnos, aux_cursada_alumno WHERE id_cursada =" + id +
-            " AND Alumnos.dni = aux_cursada_alumno.dni_alumno ORDER BY Alumnos.apellido";
+            "SELECT * FROM alumnos, aux_cursada_alumno WHERE id_cursada =" + id +
+            " AND alumnos.dni = aux_cursada_alumno.dni_alumno ORDER BY alumnos.apellido";
 
         try
         {
@@ -695,8 +695,8 @@ public class BaseDeDatos
         long dni, legajo;
         Blob unBlob;
         String apellido, nombre, sentenciasql =
-            "SELECT * FROM Alumnos, examenes WHERE id_evaluacion =" + id +
-            " AND Alumnos.dni = examenes.dni_alumno ORDER BY Alumnos.apellido";
+            "SELECT * FROM alumnos, examenes WHERE id_evaluacion =" + id +
+            " AND alumnos.dni = examenes.dni_alumno ORDER BY alumnos.apellido";
 
         try
         {
