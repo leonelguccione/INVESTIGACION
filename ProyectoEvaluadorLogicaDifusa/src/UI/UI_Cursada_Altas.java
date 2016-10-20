@@ -366,6 +366,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
             this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
             this.actualizar_jList_cursadas();
+            
            
         } 
         

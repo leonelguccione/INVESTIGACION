@@ -1,6 +1,8 @@
 
 package UI;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -15,9 +17,10 @@ import modelo.Parcial;
  *
  * @author Raquel
  */
-public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
+public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
+{
     /** Creates new form UI_Instancia_Evaluacion */
-  private Modelo modelo;
+    private Modelo modelo;
     private DefaultListModel listModel_cursadas = new DefaultListModel();
     private DefaultListModel listModel_asignaturas = new DefaultListModel();
     private DefaultListModel listModel_parciales = new DefaultListModel();
@@ -26,18 +29,19 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
     private Asignatura asignatura_en_uso = null;
     private Cursada cursada_en_uso = null;
     private Parcial parcial_en_uso;
-    
-  
-    public UI_Instancia_Evaluacion(Modelo m) {
-        this.modelo=m;
+
+
+    public UI_Instancia_Evaluacion(Modelo m)
+    {
+        this.modelo = m;
         initComponents();
         this.jList_asignaturas.setModel(listModel_asignaturas);
         this.jList_cursadas.setModel(listModel_cursadas);
         this.jList_parciales.setModel(listModel_parciales);
         this.jList_Alumnos_Cursada.setModel(listModel_alumnos_en_cursada);
         this.jList_al_evaluados.setModel(listModel_alumnos_evaluados);
-        //SEGUI DESDE ACA, COPIAR ACTUALIZAR ASIGNTURA DE UI_PARCIAL
-    
+
+
         this.actualizar_jList_asignaturas();
     }
 
@@ -259,12 +263,12 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (this.jList_asignaturas.getSelectedValue() != null)
         {
-
             this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-        
+            this.cursada_en_uso = null;
             this.actualizar_jList_cursadas();
-            
-            
+            this.parcial_en_uso = null;
+            this.actualizar_jList_parciales();
+            this.jText_Parcial.setText("");
         }
         this.verificaEnabled();
     }//GEN-LAST:event_jList_asignaturasMouseClicked
@@ -274,38 +278,43 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
         if (this.jList_cursadas.getSelectedValue() != null)
         {
             this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
-         
+            this.parcial_en_uso = null;
             this.actualizar_jList_parciales();
+            this.jText_Parcial.setText("");
         }
         this.verificaEnabled();
     }//GEN-LAST:event_jList_cursadasMouseClicked
 
     private void jList_parcialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_parcialesMouseClicked
-        //jList_asignaturasMouseClicked();
+        if (this.jList_parciales.getSelectedValue() != null)
+        {
+            this.parcial_en_uso = (Parcial) this.jList_parciales.getSelectedValue();
+            this.jText_Parcial.setText(this.parcial_en_uso.toString());
+        }
+        this.verificaEnabled(); //jList_asignaturasMouseClicked();
 
     }//GEN-LAST:event_jList_parcialesMouseClicked
 
     private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregaActionPerformed
         // TODO add your handling code here:
-        List<Alumno> l = this.jList_al_evaluados.getSelectedValuesList();
+        List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
         for (int i = 0; i < l.size(); i++)
         {
-          //  this.listModel_alumnos_de_cursada.addElement(l.get(i));
-           //this.listModel_total_alumnos.removeElement(l.get(i));
+            this.listModel_alumnos_evaluados.addElement(l.get(i));
+            this.listModel_alumnos_en_cursada.removeElement(l.get(i));
         }
     }//GEN-LAST:event_jButton_AgregaActionPerformed
 
     private void jButton_QuitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_QuitaActionPerformed
         // TODO add your handling code here:
-        List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
+        List<Alumno> l = this.jList_al_evaluados.getSelectedValuesList();
         for (int i = 0; i < l.size(); i++)
         {
-         //   this.listModel_total_alumnos.addElement(l.get(i));
-           // this.listModel_alumnos_de_cursada.removeElement(l.get(i));
-
+            this.listModel_alumnos_en_cursada.addElement(l.get(i));
+            this.listModel_alumnos_evaluados.removeElement(l.get(i));
         }
     }//GEN-LAST:event_jButton_QuitaActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Guardar;
@@ -330,8 +339,45 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jText_Nombre;
     private javax.swing.JTextField jText_Parcial;
     // End of variables declaration//GEN-END:variables
-    private void actualizar_jList_cursadas(){}
-    private void verificaEnabled(){}
-    private void actualizar_jList_parciales(){}
-    private void actualizar_jList_asignaturas(){}
+    private void actualizar_jList_cursadas()
+    {
+        this.listModel_cursadas.clear();
+        if (this.asignatura_en_uso != null)
+        {
+            ArrayList<Cursada> cursadas_actuales = this.asignatura_en_uso.getCursadas();
+            for (int i = 0; i < cursadas_actuales.size(); i++)
+            {
+                this.listModel_cursadas.addElement(cursadas_actuales.get(i));
+            }
+        }
+    }
+
+    private void verificaEnabled()
+    {
+    }
+
+    private void actualizar_jList_parciales()
+    {
+        this.listModel_parciales.clear();
+        if (this.cursada_en_uso != null)
+        {
+            ArrayList<Parcial> parciales_actuales = this.cursada_en_uso.getParciales();
+            for (int i = 0; i < parciales_actuales.size(); i++)
+            {
+                this.listModel_parciales.addElement(parciales_actuales.get(i));
+            }
+        }
+    }
+
+    private void actualizar_jList_asignaturas()
+    {
+        listModel_asignaturas.clear();
+        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
+        //Recorrer el contenido del Iterator
+        while (iterator_asignaturas.hasNext())
+        {
+            Asignatura as = (Asignatura) iterator_asignaturas.next();
+            listModel_asignaturas.addElement(as);
+        }
+    }
 }

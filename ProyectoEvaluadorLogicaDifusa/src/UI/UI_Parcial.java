@@ -286,12 +286,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (this.jList_asignaturas.getSelectedValue() != null)
         {
-
             this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
             this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
+            this.cursada_en_uso=null;
             this.actualizar_jList_cursadas();
             this.arbolPodado = Arbol_Perturbacion.deserializar(this.asignatura_en_uso.getArbol_dominio().serializar());
-
             jtree_arbol.setModel(this.arbolPodado.getTreeModel());
         }
         this.verificaEnabled();
