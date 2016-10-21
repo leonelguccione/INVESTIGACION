@@ -5,11 +5,11 @@ import base_de_datos.BaseDeDatos;
 import java.util.Iterator;
 
 
-public class Modelo_ABM_Evaluacion
+public class Modelo_ABM_InstanciaEvaluacion
 {
     private BaseDeDatos db;
 
-    public Modelo_ABM_Evaluacion(BaseDeDatos db)
+    public Modelo_ABM_InstanciaEvaluacion(BaseDeDatos db)
     {
         super();
         this.db = db;
@@ -20,23 +20,18 @@ public class Modelo_ABM_Evaluacion
         return this.db.recupera_proxima_evaluacion();
     }
 
-    public void agrega_evaluacion(Instancia_Evaluacion ev)
+    public void agregaInstanciaEvaluacion(Instancia_Evaluacion ev)
     {
         this.db.almacenar_evaluacion(ev);
     }
 
-    public Iterator recuperar_evaluaciones()
+    public Iterator recuperarInstanciasevaluaciones()
     {
        // return db.recuperar_evaluaciones();
         return null;
     }
-
-    public void actualizar_examen(Instancia_Evaluacion evaluacion, Examen examen)
-    {
-        db.actualizar_examen(evaluacion, examen);
-    }
-    
-    public void borrar_evaluacion(int id_evaluacion)
+     
+    public void borrarInstanciaEvaluacion(int id_evaluacion)
     {
         db.borrar_evaluacion(id_evaluacion);
     }

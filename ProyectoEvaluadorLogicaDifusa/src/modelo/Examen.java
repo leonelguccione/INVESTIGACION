@@ -30,7 +30,7 @@ public class Examen
     {
         super();
         this.alumno = alumno;
-        this.arbol_podado_particular = arbol;
+        this.arbol_podado_particular =Arbol_Perturbacion.deserializar(arbol.serializar()) ;
         modificado = false;
     }
 

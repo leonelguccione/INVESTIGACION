@@ -3,10 +3,9 @@ package modelo;
 import base_de_datos.BaseDeDatos;
 
 import java.util.Iterator;
-import java.util.Observable;
 
 
-public class Modelo_ABM_Alumno extends Observable
+public class Modelo_ABM_Alumno 
 {
    
     private BaseDeDatos db;
@@ -38,16 +37,8 @@ public class Modelo_ABM_Alumno extends Observable
         return db.recuperar_alumnos();
     }
 
-    public void generar_lista_alumnos()
-    {
-        setChanged();
-        notifyObservers("cargar_alumnos");
-    }
+   
 
-    public Iterator getIterator_listado_alumnos()
-    {
-        return db.recuperar_alumnos();
-    }
-
+    
 
 }

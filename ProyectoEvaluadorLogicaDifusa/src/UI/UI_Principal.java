@@ -1,8 +1,6 @@
 
 package UI;
 
-import java.awt.Dimension;
-
 import java.beans.PropertyVetoException;
 
 import modelo.Modelo;
@@ -22,7 +20,7 @@ public class UI_Principal extends javax.swing.JFrame
         initComponents();
         modelo = new Modelo();
         
-        this.setSize(UI_Dimensiones.ANCHO,UI_Dimensiones.ALTO);
+       
     }
 
     /** This method is called from within the constructor to
@@ -34,7 +32,6 @@ public class UI_Principal extends javax.swing.JFrame
     private void initComponents()//GEN-BEGIN:initComponents
     {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_ppal = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_Asignaturas = new javax.swing.JMenu();
@@ -46,6 +43,8 @@ public class UI_Principal extends javax.swing.JFrame
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jM_Evaluaciones = new javax.swing.JMenu();
         jMenuitem_alta_evaluacion = new javax.swing.JMenuItem();
         jMenuitem_actualizacion_evaluaciones = new javax.swing.JMenuItem();
@@ -53,28 +52,26 @@ public class UI_Principal extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.SystemColor.textInactiveText);
-        setMinimumSize(new java.awt.Dimension(1100, 850));
+        setMinimumSize(new java.awt.Dimension(1024, 600));
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(1100, 850));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(1100, 850));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(1100, 850));
-
-        jPanel_ppal.setMaximumSize(new java.awt.Dimension(1100, 850));
-        jPanel_ppal.setMinimumSize(new java.awt.Dimension(1100, 850));
-        jPanel_ppal.setPreferredSize(new java.awt.Dimension(1100, 850));
+        jPanel_ppal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_ppal.setAutoscrolls(true);
+        jPanel_ppal.setPreferredSize(new java.awt.Dimension(1000, 800));
 
         javax.swing.GroupLayout jPanel_ppalLayout = new javax.swing.GroupLayout(jPanel_ppal);
         jPanel_ppal.setLayout(jPanel_ppalLayout);
         jPanel_ppalLayout.setHorizontalGroup(
             jPanel_ppalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1100, Short.MAX_VALUE)
+            .addGap(0, 1106, Short.MAX_VALUE)
         );
         jPanel_ppalLayout.setVerticalGroup(
             jPanel_ppalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addGap(0, 424, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(jPanel_ppal);
+        getContentPane().add(jPanel_ppal);
 
         jMenuBar1.setMaximumSize(new java.awt.Dimension(1100, 770));
         jMenuBar1.setMinimumSize(new java.awt.Dimension(1100, 770));
@@ -152,6 +149,20 @@ public class UI_Principal extends javax.swing.JFrame
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Instancias de Evaluación");
+
+        jMenuItem5.setText("Altas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu2);
+
         jM_Evaluaciones.setText("Evaluaciones");
 
         jMenuitem_alta_evaluacion.setText("Alta Evaluación");
@@ -188,33 +199,12 @@ public class UI_Principal extends javax.swing.JFrame
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
         pack();
     }//GEN-END:initComponents
 
     private void jMenuitem_alta_evaluacionActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuitem_alta_evaluacionActionPerformed
     {//GEN-HEADEREND:event_jMenuitem_alta_evaluacionActionPerformed
-        // TODO add your handling code here:
-        UI_Alta_Eval ui_Alta_Evaluacion = new UI_Alta_Eval(modelo);
-        this.jPanel_ppal.add(ui_Alta_Evaluacion);
-        ui_Alta_Evaluacion.setVisible(true);
-        try
-        {
-            ui_Alta_Evaluacion.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }
+      
     }//GEN-LAST:event_jMenuitem_alta_evaluacionActionPerformed
 
     private void jMenuitem_actualizacion_evaluacionesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuitem_actualizacion_evaluacionesActionPerformed
@@ -307,18 +297,36 @@ public class UI_Principal extends javax.swing.JFrame
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
     {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
-        System.out.println("hola");
         UI_Parcial ui_par = new UI_Parcial(modelo);
-        this.jPanel_ppal.add(ui_par);
+         this.jPanel_ppal.add(ui_par);
         ui_par.setVisible(true);
-        try
+       try
         {
             ui_par.setMaximum(true);
         }
         catch (PropertyVetoException e)
         {
         }// TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem5ActionPerformed
+    {//GEN-HEADEREND:event_jMenuItem5ActionPerformed
+      UI_Instancia_Evaluacion ui_ie = new UI_Instancia_Evaluacion(modelo);
+   
+     this.jPanel_ppal.add(ui_ie);
+    ui_ie.setVisible(true);
+    try
+    {
+        ui_ie.setMaximum(true);
+    }
+    catch (PropertyVetoException e)
+    {
+    }// TODO add your handling code here:
+
+       
+       
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -376,19 +384,20 @@ public class UI_Principal extends javax.swing.JFrame
     private javax.swing.JMenu JM_Cohortes;
     private javax.swing.JMenu jM_Evaluaciones;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem_ABM_Asignatuas;
     private javax.swing.JMenuItem jMenuItem_borrar_evaluacion;
     private javax.swing.JMenu jMenu_Asignaturas;
     private javax.swing.JMenuItem jMenuitem_actualizacion_evaluaciones;
     private javax.swing.JMenuItem jMenuitem_alta_evaluacion;
     private javax.swing.JPanel jPanel_ppal;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
 
@@ -397,17 +406,12 @@ public class UI_Principal extends javax.swing.JFrame
         UI_Asignatura ui_Asignatura = new UI_Asignatura(modelo);
         this.jPanel_ppal.add(ui_Asignatura);
         ui_Asignatura.setVisible(true);
-
-
-        /* try
+        try
         {
             ui_Asignatura.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
+        } catch (PropertyVetoException e)
         {
-        } */
-        ui_Asignatura.setPreferredSize(new Dimension(UI_Dimensiones.ANCHO_INTERNO,UI_Dimensiones.ALTO_INTERNO));
-        ui_Asignatura.setSize(UI_Dimensiones.ANCHO_INTERNO,UI_Dimensiones.ALTO_INTERNO);
+        }
 
 
     }
