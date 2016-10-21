@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.EtiquetaBean;
 import modelo.Examen;
@@ -614,7 +615,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                         ex.getArbol_podado_particular().procesar();
                     }
                     catch (Exception e)
-                    {
+                    {JOptionPane.showMessageDialog(this, e.getMessage());
                     }
                     //OJO, MIRAR QUE VA ACA
                    // modelo.getModelo_abm_evaluacion().actualizar_examen(ev, ex);

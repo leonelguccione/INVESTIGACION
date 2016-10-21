@@ -3,10 +3,13 @@ package UI;
 
 import arbol_visual.ArbolVisual;
 
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -247,12 +250,19 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
 
     private void jButton_guardar_apMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_guardar_apMouseClicked
     {//GEN-HEADEREND:event_jButton_guardar_apMouseClicked
-        this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
-                                                           new Parcial(0, this.jText_Nombre.getText(),
-                                                                       this.arbolPodado));
+        try
+        {
+            this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
+                                                               new Parcial(0, this.jText_Nombre.getText(),
+                                                                           this.arbolPodado));
+        
         this.modelo.recuperarParciales(this.cursada_en_uso);
         limpiar();
-      
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    
     }//GEN-LAST:event_jButton_guardar_apMouseClicked
 
     private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked

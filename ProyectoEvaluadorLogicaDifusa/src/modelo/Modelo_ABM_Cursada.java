@@ -2,6 +2,8 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
 
 public class Modelo_ABM_Cursada
@@ -16,17 +18,17 @@ public class Modelo_ABM_Cursada
     }
 
    
-    public void AgregarCursada(Asignatura asignatura,Cursada cur)
+    public void AgregarCursada(Asignatura asignatura,Cursada cur) throws SQLException
     {
         this.db.almacenar_cursada(asignatura,cur);
     }
 
-    public Iterator recuperar_cursadas(String codigo_asignatura)
+    public Iterator recuperar_cursadas(String codigo_asignatura) throws SQLException
     {
         return db.recuperar_cursadas(codigo_asignatura);
     }
 
-    public void eliminar_cursada(Cursada cur)
+    public void eliminar_cursada(Cursada cur) throws SQLException
     {
         db.borrar_cursada(cur);
     }

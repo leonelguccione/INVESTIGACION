@@ -1,9 +1,12 @@
 
 package UI;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
@@ -130,7 +133,12 @@ public class UI_BM_Eval extends javax.swing.JInternalFrame
         // TODO add your handling code here:
         Instancia_Evaluacion evaluacion_seleccionada = (Instancia_Evaluacion)jList_evaluaciones.getSelectedValue();
         int id_evaluacion = evaluacion_seleccionada.getId_evaluacion();
-        modelo.getModelo_abm_evaluacion().borrarInstanciaEvaluacion(id_evaluacion);
+        try
+        {
+            modelo.getModelo_abm_evaluacion().borrarInstanciaEvaluacion(id_evaluacion);
+        } catch (SQLException e)
+        {JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.actualizar_jList();
     }//GEN-LAST:event_jButton_borrarMouseClicked
 
