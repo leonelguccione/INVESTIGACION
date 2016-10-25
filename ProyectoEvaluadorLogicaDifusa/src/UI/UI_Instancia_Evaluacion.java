@@ -2,6 +2,7 @@
 package UI;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 import java.text.ParseException;
 
@@ -85,6 +86,8 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jText_Fecha = new javax.swing.JTextField();
+
+        setClosable(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Seleccione Asignatura, Cursada y Parcial", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
@@ -204,7 +207,6 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         });
 
         jText_Parcial.setEditable(false);
-        jText_Parcial.setText("jTextField1");
         jText_Parcial.setFocusable(false);
 
         jText_Descripcion.setEnabled(false);
@@ -337,6 +339,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         {
             this.parcial_en_uso = (Parcial) this.jList_parciales.getSelectedValue();
             this.jText_Parcial.setText(this.parcial_en_uso.toString());
+            this.actualizar_jList_alumnos_cursadas();
         }
         this.verificaEnabled(); //jList_asignaturasMouseClicked();
 
@@ -373,8 +376,11 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
                 alumnos.add((Alumno) this.listModel_alumnos_evaluados.get(i));
             }  
             Instancia_Evaluacion instancia_evaluacion=new Instancia_Evaluacion(this.parcial_en_uso.getArbol_podado(),fecha,this.jText_Descripcion.getText(),alumnos);
-        
+            this.modelo.getModelo_abm_instanciaEvaluacion().agregaInstanciaEvaluacion(this.parcial_en_uso,instancia_evaluacion);
         } catch (ParseException e)
+        {
+            JOptionPane.showMessageDialog(this, "Fecha erronea");
+        } catch (SQLException e)
         {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -429,6 +435,10 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         this.jText_Descripcion.setEnabled(habilitar);
         this.jText_Fecha.setEnabled(habilitar);
         this.jButtonGuardar.setEnabled(habilitar);
+        this.jList_al_evaluados.setEnabled(habilitar);
+        this.jList_Alumnos_Cursada.setEnabled(habilitar);
+        this.jButton_Agrega.setEnabled(habilitar);
+        this.jButton_Quita.setEnabled(habilitar); 
 
     }
 
@@ -468,6 +478,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
                 this.listModel_alumnos_en_cursada.addElement(alumnos_cursada.get(i));
             }
         }
+        this.listModel_alumnos_evaluados.clear();
     }
     private void limpiaTextos()
     {

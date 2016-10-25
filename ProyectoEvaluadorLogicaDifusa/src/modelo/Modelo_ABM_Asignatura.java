@@ -2,7 +2,11 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
+
+import javax.sql.rowset.serial.SerialException;
 
 public class Modelo_ABM_Asignatura
 {
@@ -14,22 +18,22 @@ public class Modelo_ABM_Asignatura
         this.db = db;
     }
 
-    public void almacenar_asignatura(Asignatura asignatura)
+    public void almacenar_asignatura(Asignatura asignatura) throws SQLException
     {
         db.almacenar_asignatura_nueva(asignatura);
     }
 
-    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso)
+    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
     {
         db.actualizar_arbol_perturbacion(asignatura_en_uso);
     }
 
-    public Iterator getIterator_listado_asignaturas()
+    public Iterator getIterator_listado_asignaturas() throws SQLException
     {
         return db.recuperar_asignaturas();
     }
 
-    public void borrar_asignatura(Asignatura asignatura)
+    public void borrar_asignatura(Asignatura asignatura) throws SQLException
     {
         db.borrar_asignatura(asignatura);
     }

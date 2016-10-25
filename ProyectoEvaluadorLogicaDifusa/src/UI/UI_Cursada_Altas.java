@@ -1,11 +1,14 @@
 
 package UI;
 
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.Alumno;
 import modelo.Asignatura;
@@ -321,6 +324,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         cursadaactual.setAnio_fecha(anio);
       
         cursadaactual.setCuatrimestre(cuatrimestre);
+        try{
         this.modelo.getModelo_abm_cursada().AgregarCursada(this.asignatura_en_uso,cursadaactual);
         this.modelo.recuperarCursadas(this.asignatura_en_uso);
         this.actualizar_jList_total_alumnos();
@@ -330,6 +334,10 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         this.jText_Asignatura.setText("");
         this.jText_Cuatrimestre.setText("");
         this.actualizar_jList_cursadas();
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         
     }//GEN-LAST:event_jButton_guardar_cursadaActionPerformed
 

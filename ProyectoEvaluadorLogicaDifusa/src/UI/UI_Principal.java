@@ -3,6 +3,10 @@ package UI;
 
 import java.beans.PropertyVetoException;
 
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
 import modelo.Modelo;
 
 
@@ -18,9 +22,15 @@ public class UI_Principal extends javax.swing.JFrame
     public UI_Principal()
     {
         initComponents();
-        modelo = new Modelo();
-        
-       
+        try
+        {
+            modelo = new Modelo();
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+
     }
 
     /** This method is called from within the constructor to

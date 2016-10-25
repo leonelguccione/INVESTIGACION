@@ -1,9 +1,12 @@
 
 package UI;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.Alumno;
 import modelo.Cursada;
@@ -39,7 +42,11 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
         this.jText_Asignatura2.setText("");
         this.jText_Cuatrimestre2.setText("");
         this.jButtonEliminar.setEnabled(false);
-        Iterator iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas("bla");
+        Iterator iterator_cursadas;
+        try
+        {
+            iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas("bla");
+        
         //Recorrer el contenido del Iterator
         while (iterator_cursadas.hasNext())
         {
@@ -47,6 +54,9 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
 
             listModelcursada.addElement(cur);
 
+        }
+        } catch (SQLException e)
+        {JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -248,7 +258,12 @@ public class UI_Cursada_BM extends javax.swing.JInternalFrame
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
         Cursada actual = (Cursada) this.jList_Cursadas.getSelectedValue();
-        this.modelo.getModelo_abm_cursada().eliminar_cursada(actual);
+        try
+        {
+            this.modelo.getModelo_abm_cursada().eliminar_cursada(actual);
+        } catch (SQLException e)
+        {JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.actualizar_jList();
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 

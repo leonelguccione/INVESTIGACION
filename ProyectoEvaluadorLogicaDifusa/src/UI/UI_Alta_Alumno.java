@@ -1,9 +1,12 @@
 
 package UI;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.Alumno;
 import modelo.Modelo;
@@ -233,7 +236,13 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         String apellido = this.jText_Apellido.getText().trim();
         String nombre = this.jText_Nombre.getText().trim();
         Alumno al = new Alumno(legajo, apellido, nombre, dni);
-        this.modelo.agrega_alumno(al);
+        try
+        {
+            this.modelo.agrega_alumno(al);
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.actualizar_jList();
         this.limpia_jText();
     }//GEN-LAST:event_jButton_AgregarActionPerformed
@@ -266,7 +275,13 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
         String st_dni = this.jText_Dni.getText();
         long dni = Long.parseLong(st_dni);
-        this.modelo.getModelo_abm_alumno().borrarAlumno(this.alumno_seleccionado);
+        try
+        {
+            this.modelo.getModelo_abm_alumno().borrarAlumno(this.alumno_seleccionado);
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.actualizar_jList();
         this.limpia_jText();
         this.alumno_seleccionado=null;
@@ -278,7 +293,12 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         String apellido = this.jText_Apellido.getText();
         String nombre = this.jText_Nombre.getText();
         Alumno al = new Alumno(legajo, apellido, nombre, dni);
-        this.modelo.getModelo_abm_alumno().modificarAlumno(al);
+        try
+        {
+            this.modelo.getModelo_abm_alumno().modificarAlumno(al);
+        } catch (SQLException e)
+        {JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.habilita_jtext();
         this.jText_Dni.setEnabled(false);
     }//GEN-LAST:event_jButton_ModificarActionPerformed

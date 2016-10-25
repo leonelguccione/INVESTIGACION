@@ -2,6 +2,8 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
 
 
@@ -15,14 +17,14 @@ public class Modelo_ABM_InstanciaEvaluacion
         this.db = db;
     }
 
-    public int recupera_proxima_evaluacion()
+    public int recupera_proxima_evaluacion() throws SQLException
     {
         return this.db.recupera_proxima_evaluacion();
     }
 
-    public void agregaInstanciaEvaluacion(Instancia_Evaluacion ev)
+    public void agregaInstanciaEvaluacion(Parcial parcial,Instancia_Evaluacion ev) throws SQLException
     {
-        this.db.almacenar_evaluacion(ev);
+        this.db.almacenar_evaluacion(parcial,ev);
     }
 
     public Iterator recuperarInstanciasevaluaciones()
@@ -31,7 +33,7 @@ public class Modelo_ABM_InstanciaEvaluacion
         return null;
     }
      
-    public void borrarInstanciaEvaluacion(int id_evaluacion)
+    public void borrarInstanciaEvaluacion(int id_evaluacion) throws SQLException
     {
         db.borrar_evaluacion(id_evaluacion);
     }
