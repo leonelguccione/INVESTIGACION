@@ -109,6 +109,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         jButton_Quita = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("Alta de Cursadas");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 

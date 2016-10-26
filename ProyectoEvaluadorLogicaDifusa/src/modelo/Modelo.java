@@ -130,7 +130,7 @@ public class Modelo {
 
     public void recuperarCursadas(Asignatura asignatura) throws SQLException
     {
-        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura.getCodigo());
+        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura);
         //Recorrer el contenido del Iterator
         ArrayList<Cursada> cursadas_recuperadas = new ArrayList<Cursada>();
         while (iterator_cursadas.hasNext())
@@ -144,7 +144,7 @@ public class Modelo {
 
     public void recuperarParciales(Cursada cursada) throws SQLException
     {
-        Iterator iterator_parciales = this.getModelo_abm_parcial().recuperar_parciales(cursada.getId());
+        Iterator iterator_parciales = this.getModelo_abm_parcial().recuperar_parciales(cursada);
         //Recorrer el contenido del Iterator
         ArrayList<Parcial> parciales_recuperados = new ArrayList<Parcial>();
         while (iterator_parciales.hasNext())
