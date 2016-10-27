@@ -355,31 +355,12 @@ public class BaseDeDatos {
         return listado_cursadas.iterator();
     }
 
-    private ArrayList<Alumno> recupera_Alumnos_Cursada(int id) throws SQLException {
-        ArrayList<Alumno> listado_alumnos = new ArrayList<Alumno>();
-        long dni, legajo;
-        String apellido, nombre, sentenciasql =
-            "SELECT * FROM alumnos, aux_cursada_alumno WHERE id_cursada =" + id +
-            " AND alumnos.dni = aux_cursada_alumno.dni_alumno ORDER BY alumnos.apellido";
-
-        sentencia = conexion.createStatement();
-        ResultSet resultado = sentencia.executeQuery(sentenciasql);
-        while (resultado.next())
-        {
-            dni = resultado.getLong("dni");
-            legajo = resultado.getLong("legajo");
-            apellido = resultado.getString("apellido");
-            nombre = resultado.getString("nombre");
-            listado_alumnos.add(new Alumno(legajo, apellido, nombre, dni));
-
-        }
-
-        return listado_alumnos;
-    }
+   
     
     
-    private ArrayList<Long> recupera_DNI_Alumnos_Cursada(int id) throws SQLException {
+    public ArrayList<Long> recupera_DNI_Alumnos_Cursada(Cursada cursada) throws SQLException {
         ArrayList<Long> listado_dni = new ArrayList<Long> ();
+        int id=cursada.getId();
         long dni, legajo;
         String apellido, nombre, sentenciasql =
             "SELECT * FROM aux_cursada_alumno WHERE id_cursada =" + id;

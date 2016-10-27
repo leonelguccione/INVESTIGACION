@@ -27,11 +27,16 @@ public class Cursada
 
     public Cursada(int id, int anio, int cuatrimestre)
     {
-        this();
+       
         this.anio_fecha = anio;
         this.cuatrimestre = cuatrimestre;
        this.id = id;
     }
+    public Cursada(int anio, int cuatrimestre)
+    {
+        this.anio_fecha = anio;
+        this.cuatrimestre = cuatrimestre;
+      }
     
 
     public void setAlumnos(ArrayList<Alumno> alumnos)
@@ -54,11 +59,6 @@ public class Cursada
         return id;
     }
 
-    public Cursada()
-    {
-        super();
-        alumnos = new ArrayList<Alumno>();
-    }
 
 
     public void setAnio_fecha(int anio)

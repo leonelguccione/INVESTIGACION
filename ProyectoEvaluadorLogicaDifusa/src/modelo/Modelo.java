@@ -137,6 +137,11 @@ public class Modelo {
         {
             Cursada cur = (Cursada) iterator_cursadas.next();
             cursadas_recuperadas.add(cur);
+            ArrayList<Long>listaDNI=db.recupera_DNI_Alumnos_Cursada(cur);
+            ArrayList<Alumno>arayList_alumnos=new ArrayList<Alumno>();
+            for(int i=0; i<listaDNI.size();i++)
+                arayList_alumnos.add(this.alumnos.get(listaDNI.get(i)));
+            cur.setAlumnos(arayList_alumnos);
             this.recuperarParciales(cur);
         }
         asignatura.setCursadas(cursadas_recuperadas);
