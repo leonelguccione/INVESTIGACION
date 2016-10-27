@@ -27,10 +27,9 @@ public class Modelo_ABM_InstanciaEvaluacion
         this.db.almacenar_evaluacion(parcial,ev);
     }
 
-    public Iterator recuperarInstanciasevaluaciones()
-    {
-       // return db.recuperar_evaluaciones();
-        return null;
+    public Iterator recuperarInstanciasevaluaciones(Parcial parcial) throws SQLException {
+       return db.recuperar_evaluaciones(parcial); 
+        
     }
      
     public void borrarInstanciaEvaluacion(int id_evaluacion) throws SQLException

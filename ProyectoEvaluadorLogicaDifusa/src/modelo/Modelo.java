@@ -130,13 +130,18 @@ public class Modelo {
 
     public void recuperarCursadas(Asignatura asignatura) throws SQLException
     {
-        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura.getCodigo());
+        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura);
         //Recorrer el contenido del Iterator
         ArrayList<Cursada> cursadas_recuperadas = new ArrayList<Cursada>();
         while (iterator_cursadas.hasNext())
         {
             Cursada cur = (Cursada) iterator_cursadas.next();
             cursadas_recuperadas.add(cur);
+            ArrayList<Long>listaDNI=db.recupera_DNI_Alumnos_Cursada(cur);
+            ArrayList<Alumno>arayList_alumnos=new ArrayList<Alumno>();
+            for(int i=0; i<listaDNI.size();i++)
+                arayList_alumnos.add(this.alumnos.get(listaDNI.get(i)));
+            cur.setAlumnos(arayList_alumnos);
             this.recuperarParciales(cur);
         }
         asignatura.setCursadas(cursadas_recuperadas);
@@ -144,7 +149,7 @@ public class Modelo {
 
     public void recuperarParciales(Cursada cursada) throws SQLException
     {
-        Iterator iterator_parciales = this.getModelo_abm_parcial().recuperar_parciales(cursada.getId());
+        Iterator iterator_parciales = this.getModelo_abm_parcial().recuperar_parciales(cursada);
         //Recorrer el contenido del Iterator
         ArrayList<Parcial> parciales_recuperados = new ArrayList<Parcial>();
         while (iterator_parciales.hasNext())

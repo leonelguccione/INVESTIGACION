@@ -109,6 +109,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         jButton_Quita = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("Alta de Cursadas");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 
@@ -310,12 +311,13 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
 
     private void jButton_guardar_cursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_cursadaActionPerformed
         // TODO add your handling code here:
-        Cursada cursadaactual = new Cursada();
+       
         Alumno al;
        
         int anio = Integer.parseInt(this.jText_Anio.getText());
         int cuatrimestre = Integer.parseInt(this.jText_Cuatrimestre.getText());
         ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+        Cursada cursadaactual = new Cursada(anio,cuatrimestre);
         for (int i = 0; i < this.listModel_alumnos_de_cursada.size(); i++)
         {
             alumnos.add((Alumno) this.listModel_alumnos_de_cursada.get(i));

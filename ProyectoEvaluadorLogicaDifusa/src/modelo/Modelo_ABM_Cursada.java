@@ -23,9 +23,9 @@ public class Modelo_ABM_Cursada
         this.db.almacenar_cursada(asignatura,cur);
     }
 
-    public Iterator recuperar_cursadas(String codigo_asignatura) throws SQLException
+    public Iterator recuperar_cursadas(Asignatura asignatura) throws SQLException
     {
-        return db.recuperar_cursadas(codigo_asignatura);
+        return db.recuperar_cursadas(asignatura);
     }
 
     public void eliminar_cursada(Cursada cur) throws SQLException

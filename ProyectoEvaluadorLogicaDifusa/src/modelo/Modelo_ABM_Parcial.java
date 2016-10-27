@@ -24,9 +24,9 @@ public class Modelo_ABM_Parcial
         this.db.almacenar_Parcial(cur,parcial);
     }
 
-    public Iterator recuperar_parciales(int id_cursada) throws SQLException
+    public Iterator recuperar_parciales(Cursada cursada) throws SQLException
     {
-        return db.recuperar_parciales(id_cursada);
+        return db.recuperar_parciales(cursada);
         
     }
 

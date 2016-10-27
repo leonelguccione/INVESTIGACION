@@ -58,9 +58,9 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         jButton_Modificar = new javax.swing.JButton();
         jButton_Borrar = new javax.swing.JButton();
         jButton_Cancelar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
+        setTitle("Gestión de Alumnos");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 
@@ -189,31 +189,21 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
                 .addGap(10, 10, 10))
         );
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel5.setText("Administración de Alumnos");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 447, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -313,7 +303,6 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JList jList_Alumnos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
