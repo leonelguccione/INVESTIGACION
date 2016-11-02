@@ -6,15 +6,12 @@ import arbol_visual.ArbolVisual;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 import modelo.Asignatura;
 import modelo.Cursada;
@@ -82,18 +79,16 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private void actualizar_combo_cursadas() {
         this.comboBoxModelCursada.removeAllElements();
         Iterator iterator_cursadas;
-        try
+        if(this.asignatura_seleccionada!=null)
+        
         {
-            iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas(this.asignatura_seleccionada);
+            iterator_cursadas =this.asignatura_seleccionada.getCursadas().iterator();
             while (iterator_cursadas.hasNext())
             {
                 Cursada cursada = (Cursada) iterator_cursadas.next();
                 this.comboBoxModelCursada.addElement(cursada);
             }
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        } 
     }
     
     
@@ -101,22 +96,35 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private void actualizar_combo_parciales() {
         this.comboBoxModelParciales.removeAllElements();
         Iterator iterator_parciales;
-        try
+        if(this.cursada_seleccionada!=null)
         {
-            iterator_parciales = modelo.getModelo_abm_parcial().recuperar_parciales(this.cursada_seleccionada);
+            iterator_parciales = this.cursada_seleccionada.getParciales().iterator();
             while (iterator_parciales.hasNext())
             {
                 Parcial parcial= (Parcial) iterator_parciales.next();
                 this.comboBoxModelParciales.addElement(parcial);
             }
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        } 
+    }
+
+
+    private void actualizar_combo_instancias() {
+        this.comboBoxModelInstEvaluacion.removeAllElements();
+        Iterator iterator_instancias;
+        if(this.parcial_seleccionado!=null){
+            iterator_instancias = this.parcial_seleccionado.getInstancias_evaluaciones().iterator();
+                
+            while (iterator_instancias.hasNext())
+            {
+                Instancia_Evaluacion instancia= (Instancia_Evaluacion) iterator_instancias.next();
+                this.comboBoxModelInstEvaluacion.addElement(instancia);
+            }
+        } 
     }
 
     @SuppressWarnings("unchecked")
-    private void initComponents() {//GEN-BEGIN:initComponents
+    private void initComponents()//GEN-BEGIN:initComponents
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -197,13 +205,16 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Listado de Alumnos:");
 
-        jLista_Examenes.setModel(new javax.swing.AbstractListModel() {
+        jLista_Examenes.setModel(new javax.swing.AbstractListModel()
+        {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jLista_ExamenesMouseClicked(evt);
             }
         });
@@ -303,15 +314,19 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel13.setText("Desconocido:");
 
         jTextDesconocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextDesconocidoKeyReleased(evt);
             }
         });
 
         jTextParcialmente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextParcialmenteKeyReleased(evt);
             }
         });
@@ -319,8 +334,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel14.setText("Parcialmente Conocido:");
 
         jTextConocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextConocidoKeyReleased(evt);
             }
         });
@@ -328,8 +345,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel15.setText("Conocido:");
 
         jTextAprendido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextAprendidoKeyReleased(evt);
             }
         });
@@ -338,13 +357,17 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
         jBAceptar.setText("Aceptar");
         jBAceptar.setEnabled(false);
-        jBAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jBAceptar.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jBAceptarMouseClicked(evt);
             }
         });
-        jBAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jBAceptar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jBAceptarActionPerformed(evt);
             }
         });
@@ -432,7 +455,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
                             .addComponent(jLabel11)
                             .addComponent(jT_id_arbol_perturbacion)
                             .addComponent(jT_descripcion_arbol_perturbacion))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -467,8 +490,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jB_Salir.setText("Salir");
 
         jB_Guardar.setText("Guardar");
-        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jB_GuardarMouseClicked(evt);
             }
         });
@@ -476,8 +501,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de Evaluaciones"));
 
         jComboBox_Asignatura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_Asignatura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Asignatura.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_AsignaturaActionPerformed(evt);
             }
         });
@@ -487,19 +514,35 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel8.setText("Cursada:");
 
         jComboBox_Cursada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_Cursada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Cursada.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_CursadaActionPerformed(evt);
             }
         });
 
         jComboBox_Inst_Evaluacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Inst_Evaluacion.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jComboBox_Inst_EvaluacionActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Inst. Evaluación:");
 
         jLabel12.setText("Parcial:");
 
         jComboBox_Parcial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Parcial.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jComboBox_ParcialActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -697,6 +740,30 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_CursadaActionPerformed
+
+    private void jComboBox_ParcialActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox_ParcialActionPerformed
+    {//GEN-HEADEREND:event_jComboBox_ParcialActionPerformed
+       
+       this.parcial_seleccionado = (Parcial) this.jComboBox_Parcial.getSelectedItem();
+        this.instancia_seleccionada = null;
+        this.examen_seleccionado = null;
+        this.actualizar_combo_instancias();
+    }//GEN-LAST:event_jComboBox_ParcialActionPerformed
+
+    private void jComboBox_Inst_EvaluacionActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox_Inst_EvaluacionActionPerformed
+    {//GEN-HEADEREND:event_jComboBox_Inst_EvaluacionActionPerformed
+
+    this.instancia_seleccionada = (Instancia_Evaluacion) this.jComboBox_Inst_Evaluacion.getSelectedItem();
+    this.examen_seleccionado = null;
+    // actualiza la lista de examenes que no exsite this.actualizar_combo_instancias();
+//despues borra esto
+    if(this.instancia_seleccionada!=null){
+    System.out.println(this.instancia_seleccionada);
+    for(int i=0;i<this.instancia_seleccionada.getAlumnos_evaluados().size();i++)
+    System.out.println(this.instancia_seleccionada.getAlumnos_evaluados().get(i));
+    }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Inst_EvaluacionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
