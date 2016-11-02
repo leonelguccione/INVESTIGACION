@@ -85,7 +85,7 @@ public class Examen
     @Override
     public String toString()
     {
-        String aux = this.getAlumno().getNombre();
+        String aux = this.getAlumno().getApellido()+" "+ this.getAlumno().getNombre();
         return aux;
 
     }
