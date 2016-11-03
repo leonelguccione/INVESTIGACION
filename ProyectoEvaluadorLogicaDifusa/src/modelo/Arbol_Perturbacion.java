@@ -214,5 +214,16 @@ public class Arbol_Perturbacion implements Serializable
         return arbol_recuperado;
     }
 
+    /**Determina si el árbol tiene la misma estructura que otroArbol.
+     * Compara las estructuras (el mismo formato de árbol), que cada nodo ubicado en
+     * el lugar semejante tenga el mismo identificador del dato.
+     * @param otroArbol
+     * @return
+     */
+    public boolean isSemejante(Arbol_Perturbacion otroArbol)
+    {
+        return this.getRaiz().isSemejante(otroArbol.getRaiz());
+    }
+
 
 }

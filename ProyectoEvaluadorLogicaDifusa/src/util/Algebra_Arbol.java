@@ -5,24 +5,29 @@ import java.util.Enumeration;
 import modelo.Arbol_Perturbacion;
 import modelo.Nodo_Perturbacion;
 
-public class Algebra_Arbol {
-    public Algebra_Arbol() {
+public class Algebra_Arbol
+{
+    public Algebra_Arbol()
+    {
         super();
     }
 
-    public static boolean isSemejante(Arbol_Perturbacion a, Arbol_Perturbacion b) {
+    public static boolean isSemejante(Arbol_Perturbacion a, Arbol_Perturbacion b)
+    {
         boolean resultado = true;
 
         return compara_nodos(a.getRaiz(), b.getRaiz());
     }
 
-    private static boolean compara_nodos(Nodo_Perturbacion n, Nodo_Perturbacion m) {
+    private static boolean compara_nodos(Nodo_Perturbacion n, Nodo_Perturbacion m)
+    {
         boolean resultado;
 
         //Si los dos nodos referencian al mismo objeto, o ambos son null, entonces son semejantes.
         if (n == m)
             resultado = true;
         //si no referencian al mismo objeto
+
         else
         {
             //si ambos sean diferentes de null

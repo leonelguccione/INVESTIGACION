@@ -1,0 +1,19 @@
+1) Agregar una funcionalidad que permita hacer comparaciones entre pruebas de un mismo alumno con el mismo árbol de prueba (parcial, recuperatorio, totalizador correspondiente a esa parte)
+
+2) Agregar funcionalidad que permita hacer comparaciones entre todos los alumnos que rindieron la misma prueba (máximo, mínimo, porcentajes de aprobación, subtema mejor, subtema peor, dispersión de notas, etc)
+
+3) Para un mismo alumno, ver las evaluaciones de todas las materias. Con los árboles de perturbacion.
+
+4) Agregar otro algoritmo de activación del árbol que contemple Promedio Ponderado. Ver los impactos que causa en la informacion requerida
+
+5) Armar el esquema de la prueba, vinculando el ejercicio con la hoja
+
+6) Estilos de aprendizaje.
+Cada estilo, determina la forma de la prueba
+
+7) Sistema recomendadores de construccion de pruebas
+
+Se deben modificar las clases:
+
+1.- arboles semejantes (hecho)
+2.- suma, resta, multiplicacion y división.

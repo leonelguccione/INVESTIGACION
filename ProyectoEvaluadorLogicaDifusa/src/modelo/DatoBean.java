@@ -15,21 +15,24 @@ import java.io.Serializable;
  * Contiene un identificador y una etiqueta
  * Se utilizará como información de cada nodo del arbol evaluador
  */
-public class DatoBean implements Cloneable, Serializable {
+public class DatoBean implements Cloneable, Serializable
+{
     @SuppressWarnings("compatibility:4653495925617027892")
     private static final long serialVersionUID = -5905493094872796833L;
 
     private String idDato;
     private EtiquetaBean etiquetaBean;
 
-    public Object clone() {
+    public Object clone()
+    {
         DatoBean aux = null;
         try
         {
             aux = (DatoBean) super.clone();
             aux.idDato = this.idDato;
             aux.setEtiquetaBean((EtiquetaBean) this.etiquetaBean.clone());
-        } catch (CloneNotSupportedException e)
+        }
+        catch (CloneNotSupportedException e)
         {
         }
         return aux;
@@ -40,7 +43,8 @@ public class DatoBean implements Cloneable, Serializable {
      *
      * @return the value of etiquetaBeanProperty
      */
-    public EtiquetaBean getEtiquetaBean() {
+    public EtiquetaBean getEtiquetaBean()
+    {
         return etiquetaBean;
     }
 
@@ -49,7 +53,8 @@ public class DatoBean implements Cloneable, Serializable {
      *
      * @param etiquetaBeanProperty new value of etiquetaBeanProperty
      */
-    public void setEtiquetaBean(EtiquetaBean value) {
+    public void setEtiquetaBean(EtiquetaBean value)
+    {
 
         etiquetaBean = value;
 
@@ -57,34 +62,40 @@ public class DatoBean implements Cloneable, Serializable {
 
     private PropertyChangeSupport propertySupport;
 
-    public DatoBean() {
+    public DatoBean()
+    {
         propertySupport = new PropertyChangeSupport(this);
     }
 
     /**
      * @param id dato. Es el identificador/descriptor del nodo del árbol.
      */
-    public DatoBean(String id) {
+    public DatoBean(String id)
+    {
         etiquetaBean = new EtiquetaBean();
         idDato = id;
     }
 
-    public DatoBean(String id, EtiquetaBean e) {
+    public DatoBean(String id, EtiquetaBean e)
+    {
         super();
         this.idDato = id;
         this.etiquetaBean = e;
     }
 
-    public String getIdDato() {
+    public String getIdDato()
+    {
         return idDato;
     }
 
-    public void setIdDato(String value) {
+    public void setIdDato(String value)
+    {
         idDato = value;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
 
         if (!getEtiquetaBean().isCero())
             return (getIdDato() + "\n" + getEtiquetaBean().toString());

@@ -119,6 +119,62 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         return aux;
     }
 
+    public boolean isSemejante(Nodo_Perturbacion otraRaiz)
+    {
+        boolean resultado;
 
+        //Si los dos nodos referencian al mismo objeto, o ambos son null, entonces son semejantes.
+        if (this == otraRaiz)
+            resultado = true;
+        //si no referencian al mismo objeto
+        else
+        {
+            //si ambos sean diferentes de null
+            if (otraRaiz != null)
+            {
+                //si sus id de dato contienen el mismo texto
+                if (this.getDato().getIdDato().equals(otraRaiz.getDato().getIdDato()))
+                { //si no tienen la misma cantidad de hijos NO son semejantes
+                    if (this.getChildCount() != otraRaiz.getChildCount())
+                    {
+                        resultado = false;
+                    }
+                    //si es rama entonces
+                    else
+                    { //si tienen la misma cantidad de hijos  entonces si, ambos son hojas son semejantes
+                        if (this.esHoja())
+                            resultado = true;
+                        else
+                        //si ambos son ramas con igual cantidad de hijos, entonces debo verificar la semenjanza de cada hijo
+                        {
+                            Enumeration hijos_propios = this.children();
+                            Enumeration hijos_otraRaiz = otraRaiz.children();
+                            Nodo_Perturbacion proximo_otraRaiz;
+                            Nodo_Perturbacion proximo_propios;
+                            boolean semejanzaparcial = true;
+                            while (hijos_propios.hasMoreElements() && hijos_otraRaiz.hasMoreElements() &&
+                                   semejanzaparcial)
+                            {
+                                proximo_otraRaiz = (Nodo_Perturbacion) hijos_otraRaiz.nextElement();
+                                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                                semejanzaparcial = proximo_propios.isSemejante(proximo_otraRaiz);
+
+                            }
+                            resultado = semejanzaparcial;
+                        }
+                    }
+                }
+                //si sus id de dato contienen textos diferentes NO son semejantes
+                else
+                {
+                    resultado = false;
+                }
+            }
+            //Si SOLO un nodo es null entonces NO son semejantes
+            else
+                resultado = false;
+        }
+        return resultado;
+    }
 }
 
