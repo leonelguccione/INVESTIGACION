@@ -12,13 +12,7 @@ public class Parcial
     private Arbol_Perturbacion arbol_podado = null;
     private ArrayList<Instancia_Evaluacion> instancias_evaluaciones = new ArrayList<Instancia_Evaluacion>();
 
-    public Parcial()
-    {
-        super();
-    }
-
-
-    public Parcial(int id, String nombre, Arbol_Perturbacion arbol_podado)
+     public Parcial(int id, String nombre, Arbol_Perturbacion arbol_podado)
     {
         this.id = id;
         this.nombre = nombre;
@@ -64,6 +58,12 @@ public class Parcial
     public ArrayList<Instancia_Evaluacion> getInstancias_evaluaciones()
     {
         return instancias_evaluaciones;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Implement this method
+        return this.getNombre();
     }
 
 }

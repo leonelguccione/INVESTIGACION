@@ -2,15 +2,13 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class Modelo_ABM_Cursada
 {
-    private SortedMap<String, Alumno> alumnos_en_bd = new TreeMap<String, Alumno>();
-    private SortedMap<String, Alumno> alumnos_en_cursada = new TreeMap<String, Alumno>();
-
+   
     private BaseDeDatos db;
 
     public Modelo_ABM_Cursada(BaseDeDatos db)
@@ -19,22 +17,18 @@ public class Modelo_ABM_Cursada
         this.db = db;
     }
 
-    public Iterator get_lista_alumnos()
-    {
-        return db.recuperar_alumnos();
-    }
-
-    public void AgregarCursada(Asignatura asignatura,Cursada cur)
+   
+    public void AgregarCursada(Asignatura asignatura,Cursada cur) throws SQLException
     {
         this.db.almacenar_cursada(asignatura,cur);
     }
 
-    public Iterator recuperar_cursadas(String codigo_asignatura)
+    public Iterator recuperar_cursadas(Asignatura asignatura) throws SQLException
     {
-        return db.recuperar_cursadas(codigo_asignatura);
+        return db.recuperar_cursadas(asignatura);
     }
 
-    public void eliminar_cursada(Cursada cur)
+    public void eliminar_cursada(Cursada cur) throws SQLException
     {
         db.borrar_cursada(cur);
     }

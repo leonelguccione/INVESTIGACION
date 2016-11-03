@@ -7,6 +7,8 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,95 +18,95 @@ import java.util.Iterator;
  *
  * @author leonel
  */
-public class Modelo
-{
+public class Modelo {
     private BaseDeDatos db;
-    private Modelo_ABM_arbol_perturbacion modelo_abm_ap;
+    
     private Modelo_ABM_Alumno modelo_abm_alumno;
     private Modelo_ABM_Cursada modelo_abm_cursada;
-    private Modelo_ABM_Evaluacion modelo_abm_evaluacion;
     private Modelo_ABM_Asignatura modelo_abm_asignatura;
+    private Modelo_ABM_Parcial modelo_abm_parcial;
+    private Modelo_ABM_InstanciaEvaluacion modelo_abm_instanciaEvaluacion;
+
     private HashMap<Long, Alumno> alumnos = new HashMap<Long, Alumno>();
     private HashMap<String, Asignatura> asignaturas = new HashMap<String, Asignatura>();
 
 
-    public HashMap<Long, Alumno> getAlumnos()
+    public Modelo_ABM_InstanciaEvaluacion getModelo_abm_instanciaEvaluacion()
     {
+        return modelo_abm_instanciaEvaluacion;
+    }
+
+    public HashMap<Long, Alumno> getAlumnos() {
         return alumnos;
     }
 
-    public HashMap<String, Asignatura> getAsignaturas()
-    {
+    public HashMap<String, Asignatura> getAsignaturas() {
         return asignaturas;
     }
 
-    public Modelo_ABM_Evaluacion getModelo_abm_evaluacion()
-    {
-        return modelo_abm_evaluacion;
+    public Modelo_ABM_InstanciaEvaluacion getModelo_abm_evaluacion() {
+        return this.modelo_abm_instanciaEvaluacion;
     }
 
-    public Modelo()
+    public Modelo() throws SQLException
     {
         db = new BaseDeDatos();
-        modelo_abm_ap = new Modelo_ABM_arbol_perturbacion(db);
+      
         modelo_abm_alumno = new Modelo_ABM_Alumno(db);
         modelo_abm_cursada = new Modelo_ABM_Cursada(db);
-        modelo_abm_evaluacion = new Modelo_ABM_Evaluacion(db);
+        modelo_abm_instanciaEvaluacion = new Modelo_ABM_InstanciaEvaluacion(db);
         modelo_abm_asignatura = new Modelo_ABM_Asignatura(db);
+        modelo_abm_parcial = new Modelo_ABM_Parcial(db);
+
         this.recupera_sistema();
     }
 
+    public Modelo_ABM_Parcial getModelo_abm_parcial() {
+        return modelo_abm_parcial;
+    }
 
-    public Modelo_ABM_Cursada getModelo_abm_cursada()
-    {
+    public Modelo_ABM_Cursada getModelo_abm_cursada() {
         return modelo_abm_cursada;
     }
 
-    public Modelo_ABM_arbol_perturbacion getModelo_abm_ap()
-    {
-        return modelo_abm_ap;
-    }
+   
 
-    public Modelo_ABM_Alumno getModelo_abm_alumno()
-    {
+    public Modelo_ABM_Alumno getModelo_abm_alumno() {
         return modelo_abm_alumno;
     }
 
-    public Modelo_ABM_Asignatura getModelo_abm_asignatura()
-    {
+    public Modelo_ABM_Asignatura getModelo_abm_asignatura() {
         return modelo_abm_asignatura;
     }
 
-    public void agrega_asignatura(Asignatura asignatura)
+    public void agrega_asignatura(Asignatura asignatura) throws SQLException
     {
         this.asignaturas.put(asignatura.getCodigo(), asignatura);
         this.modelo_abm_asignatura.almacenar_asignatura(asignatura);
     }
 
-    public void agrega_alumno(Alumno alumno)
+    public void agrega_alumno(Alumno alumno) throws SQLException
     {
         this.alumnos.put(alumno.getDni(), alumno);
         this.modelo_abm_alumno.agregarAlumno(alumno);
     }
-    
-    public void borra_asignatura(Asignatura asignatura)
+
+    public void borra_asignatura(Asignatura asignatura) throws SQLException
     {
         this.asignaturas.remove(asignatura);
         this.modelo_abm_asignatura.borrar_asignatura(asignatura);
     }
 
-    public void borra_alumno(Alumno alumno)
+    public void borra_alumno(Alumno alumno) throws SQLException
     {
         this.alumnos.remove(alumno);
         this.modelo_abm_alumno.borrarAlumno(alumno);
     }
-    
-    
-    
-    
+
+
     //Metodos de recuperacion de sistema a partir de las BD
     //Ver mapeadores
-    public void recupera_sistema()
+    public void recupera_sistema() throws SQLException
     {
         //Recupera los alumnos
         Iterator iterator_alumnos = this.getModelo_abm_alumno().get_lista_alumnos();
@@ -126,21 +128,36 @@ public class Modelo
 
     }
 
-    public void recuperarCursadas(Asignatura asignatura)
+    public void recuperarCursadas(Asignatura asignatura) throws SQLException
     {
-        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura.getCodigo());
+        Iterator iterator_cursadas = this.getModelo_abm_cursada().recuperar_cursadas(asignatura);
         //Recorrer el contenido del Iterator
         ArrayList<Cursada> cursadas_recuperadas = new ArrayList<Cursada>();
         while (iterator_cursadas.hasNext())
         {
             Cursada cur = (Cursada) iterator_cursadas.next();
             cursadas_recuperadas.add(cur);
+            ArrayList<Long>listaDNI=db.recupera_DNI_Alumnos_Cursada(cur);
+            ArrayList<Alumno>arayList_alumnos=new ArrayList<Alumno>();
+            for(int i=0; i<listaDNI.size();i++)
+                arayList_alumnos.add(this.alumnos.get(listaDNI.get(i)));
+            cur.setAlumnos(arayList_alumnos);
+            this.recuperarParciales(cur);
         }
         asignatura.setCursadas(cursadas_recuperadas);
     }
 
-    private void recuperarParciales(Cursada cursada)
+    public void recuperarParciales(Cursada cursada) throws SQLException
     {
+        Iterator iterator_parciales = this.getModelo_abm_parcial().recuperar_parciales(cursada);
+        //Recorrer el contenido del Iterator
+        ArrayList<Parcial> parciales_recuperados = new ArrayList<Parcial>();
+        while (iterator_parciales.hasNext())
+        {
+            Parcial parcial = (Parcial) iterator_parciales.next();
+            parciales_recuperados.add(parcial);
+        }
+        cursada.setParciales(parciales_recuperados);
     }
 
 

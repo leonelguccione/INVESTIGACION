@@ -46,17 +46,14 @@ public class Instancia_Evaluacion
     }
 
     public Instancia_Evaluacion(Arbol_Perturbacion arbol_perturbacion, Date fecha, String descripcion,
-                      ArrayList<Alumno> alumnos_evaluados, int id_evaluacion)
+                      ArrayList<Alumno> alumnos_evaluados)
     {
         super();
         this.examenes = new ArrayList<Examen>();
         Examen examen_auxiliar;
-        
-       
         this.fecha = fecha;
         this.descripcion = descripcion;
-        this.id_evaluacion = id_evaluacion;
-
+       
         for (int i = 0; i < alumnos_evaluados.size(); i++)
         {
             examen_auxiliar = new Examen(alumnos_evaluados.get(i), arbol_perturbacion);
@@ -73,12 +70,10 @@ public class Instancia_Evaluacion
      * @param descripcion
      * @param id_evaluacion
      */
-    public Instancia_Evaluacion(ArrayList<Examen> examenes_tomados, Arbol_Perturbacion arbol_perturbacion,
+    public Instancia_Evaluacion(ArrayList<Examen> examenes_tomados, 
                       Date fecha, String descripcion, int id_evaluacion)
     {
         this.examenes = examenes_tomados;
-        
-        
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.id_evaluacion = id_evaluacion;
@@ -94,17 +89,7 @@ public class Instancia_Evaluacion
         return descripcion;
     }
 
-    /* public void setAlumnos_evaluados(ArrayList<Alumno> alumnos_evaluados)
-    {
-        this.setExamenes(new ArrayList<Examen>());
-        Examen examen_auxiliar;
-        for (int i = 0; i < alumnos_evaluados.size(); i++)
-        {
-            examen_auxiliar = new Examen(alumnos_evaluados.get(i), arbol_perturbacion);
-            this.getExamenes().add(examen_auxiliar);
-        }
-
-    } */
+    
 
     public ArrayList<Alumno> getAlumnos_evaluados()
     {
@@ -134,11 +119,6 @@ public class Instancia_Evaluacion
             this.getId_evaluacion() + " - " + " - " +
             this.getDescripcion() + " - " + Fecha.date2Str(this.getFecha());
         return retorno;
-    }
-
-    public Instancia_Evaluacion()
-    {
-
     }
 
     public void setExamenes(ArrayList<Examen> examenes)

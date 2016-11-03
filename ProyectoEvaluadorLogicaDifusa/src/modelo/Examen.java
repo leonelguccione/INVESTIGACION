@@ -7,6 +7,7 @@ public class Examen
     /**
      * @aggregation shared
      */
+    private int id;
     private Alumno alumno;
 
     /**es un clone del arbol de dominio podado que corresponde al Parcial
@@ -15,6 +16,23 @@ public class Examen
      */
     private Arbol_Perturbacion arbol_podado_particular;
     private boolean modificado;
+  
+
+    public Examen(Alumno alumno, Arbol_Perturbacion arbol)
+    {
+        super();
+        this.alumno = alumno;
+        this.arbol_podado_particular =Arbol_Perturbacion.deserializar(arbol.serializar()) ;
+        modificado = false;
+    }
+
+    public Examen(int id, Alumno alumno, Arbol_Perturbacion arbol_podado_particular, boolean modificado)
+    {
+        this.id = id;
+        this.alumno = alumno;
+        this.arbol_podado_particular = arbol_podado_particular;
+        this.modificado = modificado;
+    }
 
     public void setModificado(boolean modificado)
     {
@@ -26,13 +44,17 @@ public class Examen
         return modificado;
     }
 
-    public Examen(Alumno alumno, Arbol_Perturbacion arbol)
+    public void setId(int id)
     {
-        super();
-        this.alumno = alumno;
-        this.arbol_podado_particular = arbol;
-        modificado = false;
+        this.id = id;
     }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    
 
 
     public void setAlumno(Alumno alumno)

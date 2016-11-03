@@ -2,11 +2,12 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.sql.SQLException;
+
 import java.util.Iterator;
-import java.util.Observable;
 
 
-public class Modelo_ABM_Alumno extends Observable
+public class Modelo_ABM_Alumno 
 {
    
     private BaseDeDatos db;
@@ -17,37 +18,29 @@ public class Modelo_ABM_Alumno extends Observable
         this.db = dbl;
     }
 
-    public void agregarAlumno(Alumno al)
+    public void agregarAlumno(Alumno al) throws SQLException
     {
         this.db.almacenar_alumno(al);
     }
 
-    public void borrarAlumno(Alumno alumno)
+    public void borrarAlumno(Alumno alumno) throws SQLException
     {
         db.borrar_alumno(alumno);
     }
 
-    public void modificarAlumno(Alumno al)
+    public void modificarAlumno(Alumno al) throws SQLException
     {
         db.modificar_alumno(al);
     }
 
 
-    public Iterator get_lista_alumnos()
+    public Iterator get_lista_alumnos() throws SQLException
     {
         return db.recuperar_alumnos();
     }
 
-    public void generar_lista_alumnos()
-    {
-        setChanged();
-        notifyObservers("cargar_alumnos");
-    }
+   
 
-    public Iterator getIterator_listado_alumnos()
-    {
-        return db.recuperar_alumnos();
-    }
-
+    
 
 }

@@ -6,80 +6,117 @@ import arbol_visual.ArbolVisual;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
+import modelo.Asignatura;
+import modelo.Cursada;
 import modelo.EtiquetaBean;
 import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.Nodo_Perturbacion;
+import modelo.Parcial;
 
 /**
  *
  * @author leonel
  */
-public class UI_Correccion extends javax.swing.JInternalFrame implements Observer
-{
+public class UI_Correccion extends javax.swing.JInternalFrame {
     private Modelo modelo;
     private DefaultListModel listModelEvaluaciones = new DefaultListModel();
-
+    private DefaultComboBoxModel<Asignatura> comboBoxModelAsignatura = new DefaultComboBoxModel<Asignatura>();
+    private DefaultComboBoxModel<Cursada> comboBoxModelCursada = new DefaultComboBoxModel<Cursada>();
+    private DefaultComboBoxModel<Parcial> comboBoxModelParciales = new DefaultComboBoxModel<Parcial>();
+    private DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstEvaluacion =
+        new DefaultComboBoxModel<Instancia_Evaluacion>();
     private DefaultListModel listModelexamenes = new DefaultListModel();
-    private Nodo_Perturbacion nodo_seleccionado;
-    private Examen examen_seleccionado;
-    private ArbolVisual jTree_Arbol_Perturbacion;
+    private Nodo_Perturbacion nodo_seleccionado = null;
+    private Asignatura asignatura_seleccionada = null;
+    private Cursada cursada_seleccionada = null;
+    private Parcial parcial_seleccionado = null;
+    private Instancia_Evaluacion instancia_seleccionada = null;
+    private Examen examen_seleccionado = null;
+    private ArbolVisual jTree_Arbol_Perturbacion = null;
     private MouseAdapter mouseA;
 
     /** Creates new form UI_Correccion */
-    public UI_Correccion(Modelo modelo)
-    {
+    public UI_Correccion(Modelo modelo) {
         initComponents();
-        jTree_Arbol_Perturbacion = (ArbolVisual)this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion = (ArbolVisual) this.jScrollPane_arbol;
         this.modelo = modelo;
-        this.jLista_Evaluaciones.setModel(listModelEvaluaciones);
+
+        this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
+        this.jComboBox_Cursada.setModel((ComboBoxModel) this.comboBoxModelCursada);
+        this.jComboBox_Parcial.setModel((ComboBoxModel) this.comboBoxModelParciales);
+        this.jComboBox_Inst_Evaluacion.setModel((ComboBoxModel) this.comboBoxModelInstEvaluacion);
         this.jLista_Examenes.setModel(listModelexamenes);
-        this.actualizar_jList();
+        this.actualizar_combo_asignatura();
         this.mouseA = new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent me)
-            {
+            public void mouseClicked(MouseEvent me) {
                 jtree_arbolMouseClicked();
             }
         };
         this.jTree_Arbol_Perturbacion.addMouseListener(mouseA);
     }
 
-    private void actualizar_jList()
-    {
-        listModelEvaluaciones.clear();
-        listModelexamenes.clear();
-        this.jTree_Arbol_Perturbacion.setModel(null);
-        Iterator iterator_evaluaciones = modelo.getModelo_abm_evaluacion().recuperar_evaluaciones();
+    private void actualizar_combo_asignatura() {
+        this.comboBoxModelAsignatura.removeAllElements();
+        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
         //Recorrer el contenido del Iterator
-        while (iterator_evaluaciones.hasNext())
+        while (iterator_asignaturas.hasNext())
         {
-            Instancia_Evaluacion evalua = (Instancia_Evaluacion) iterator_evaluaciones.next();
-            listModelEvaluaciones.addElement(evalua);
+            Asignatura asignatura = (Asignatura) iterator_asignaturas.next();
+            this.comboBoxModelAsignatura.addElement(asignatura);
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg)
-    {
+    private void actualizar_combo_cursadas() {
+        this.comboBoxModelCursada.removeAllElements();
+        Iterator iterator_cursadas;
+        try
+        {
+            iterator_cursadas = modelo.getModelo_abm_cursada().recuperar_cursadas(this.asignatura_seleccionada);
+            while (iterator_cursadas.hasNext())
+            {
+                Cursada cursada = (Cursada) iterator_cursadas.next();
+                this.comboBoxModelCursada.addElement(cursada);
+            }
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    
+    
+    private void actualizar_combo_parciales() {
+        this.comboBoxModelParciales.removeAllElements();
+        Iterator iterator_parciales;
+        try
+        {
+            iterator_parciales = modelo.getModelo_abm_parcial().recuperar_parciales(this.cursada_seleccionada);
+            while (iterator_parciales.hasNext())
+            {
+                Parcial parcial= (Parcial) iterator_parciales.next();
+                this.comboBoxModelParciales.addElement(parcial);
+            }
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
-    private void initComponents()//GEN-BEGIN:initComponents
-    {
+    private void initComponents() {//GEN-BEGIN:initComponents
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -121,12 +158,16 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jB_Salir = new javax.swing.JButton();
         jB_Guardar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jLista_Evaluaciones = new javax.swing.JList();
+        jComboBox_Asignatura = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox_Cursada = new javax.swing.JComboBox<>();
+        jComboBox_Inst_Evaluacion = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBox_Parcial = new javax.swing.JComboBox<>();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setPreferredSize(new java.awt.Dimension(930, 630));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -156,16 +197,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
         jLabel7.setText("Listado de Alumnos:");
 
-        jLista_Examenes.setModel(new javax.swing.AbstractListModel()
-        {
+        jLista_Examenes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLista_ExamenesMouseClicked(evt);
             }
         });
@@ -243,7 +281,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 .addGap(28, 28, 28)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -265,19 +303,15 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jLabel13.setText("Desconocido:");
 
         jTextDesconocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextDesconocidoKeyReleased(evt);
             }
         });
 
         jTextParcialmente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextParcialmenteKeyReleased(evt);
             }
         });
@@ -285,10 +319,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jLabel14.setText("Parcialmente Conocido:");
 
         jTextConocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextConocidoKeyReleased(evt);
             }
         });
@@ -296,10 +328,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jLabel15.setText("Conocido:");
 
         jTextAprendido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextAprendidoKeyReleased(evt);
             }
         });
@@ -308,17 +338,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
         jBAceptar.setText("Aceptar");
         jBAceptar.setEnabled(false);
-        jBAceptar.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jBAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBAceptarMouseClicked(evt);
             }
         });
-        jBAceptar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jBAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAceptarActionPerformed(evt);
             }
         });
@@ -379,7 +405,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -406,7 +432,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                             .addComponent(jLabel11)
                             .addComponent(jT_id_arbol_perturbacion)
                             .addComponent(jT_descripcion_arbol_perturbacion))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -441,43 +467,85 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         jB_Salir.setText("Salir");
 
         jB_Guardar.setText("Guardar");
-        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jB_GuardarMouseClicked(evt);
             }
         });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de Evaluaciones"));
 
-        jLista_Evaluaciones.setModel(new javax.swing.AbstractListModel()
-        {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jLista_Evaluaciones.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                jLista_EvaluacionesMouseClicked(evt);
+        jComboBox_Asignatura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Asignatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_AsignaturaActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(jLista_Evaluaciones);
+
+        jLabel2.setText("Asignatura:");
+
+        jLabel8.setText("Cursada:");
+
+        jComboBox_Cursada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Cursada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_CursadaActionPerformed(evt);
+            }
+        });
+
+        jComboBox_Inst_Evaluacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel9.setText("Inst. Evaluación:");
+
+        jLabel12.setText("Parcial:");
+
+        jComboBox_Parcial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox_Asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox_Cursada, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox_Parcial, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_Inst_Evaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addGap(0, 0, 0))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox_Asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox_Cursada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox_Parcial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox_Inst_Evaluacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -523,54 +591,6 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         pack();
     }//GEN-END:initComponents
 
-    private void jLista_EvaluacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_EvaluacionesMouseClicked
-        // TODO add your handling code here:
-      /*  Instancia_Evaluacion actual = (Instancia_Evaluacion) this.jLista_Evaluaciones.getSelectedValue();
-        if (actual != null && this.jLista_Evaluaciones.isEnabled())
-        {
-            this.nodo_seleccionado = null;
-            this.examen_seleccionado = null;
-            this.jT_Asignatura.setText(actual.getCursada().getAsignatura());
-            this.jT_Anio.setText(String.valueOf(actual.getCursada().getAnio()));
-            this.jT_Cuatrimestre.setText(String.valueOf(actual.getCursada().getCuatrimestre()));
-            this.jT_Descripcion.setText(actual.getDescripcion());
-            this.jT_Fecha.setText(Fecha.date2Str(actual.getFecha()));
-            this.jT_Identificador.setText(String.valueOf(actual.getId_evaluacion()));
-            this.listModelexamenes.clear();
-            Iterator iterator_examenes = actual.getExamenes().iterator();
-            this.jTree_Arbol_Perturbacion.setModel(null);
-            this.jT_id_arbol_perturbacion.setText(actual.getArbol_perturbacion().getNombre());
-            this.jT_descripcion_arbol_perturbacion.setText(actual.getArbol_perturbacion().getDescripcion());
-
-            //Recorrer el contenido del Iterator
-            while (iterator_examenes.hasNext())
-            {
-                Examen ex = (Examen) iterator_examenes.next();
-                this.listModelexamenes.addElement(ex);
-            }
-            this.limpiar_zona_unaPrueba();
-
-        }*/
-    }//GEN-LAST:event_jLista_EvaluacionesMouseClicked
-
-  private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLista_ExamenesMouseClicked
-  {//GEN-HEADEREND:event_jLista_ExamenesMouseClicked
- 
-        // TODO add your handling code here:
-        this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
-        if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled())
-        {
-            this.jTree_Arbol_Perturbacion.setModel(null);
-            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado.getArbol_podado_particular().getTreeModel());
-            this.jTree_Arbol_Perturbacion.paintAll(this.jTree_Arbol_Perturbacion.getGraphics());
-            this.jT_Alumno.setText(this.examen_seleccionado.getAlumno().toString());
-            this.nodo_seleccionado = null;
-            jT_id_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getNombre());
-            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getDescripcion());
-        }
-
-  }//GEN-LAST:event_jLista_ExamenesMouseClicked
-
     private void jTextDesconocidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextDesconocidoKeyReleased
         // TODO add your handling code here:
         this.jBAceptar.setEnabled(this.nodo_seleccionado != null && this.construyeEtiqueta().isValid());
@@ -600,7 +620,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         Instancia_Evaluacion ev;
         ArrayList<Examen> listadeexamenes;
         Examen ex;
-        for (int i = 0; i < this.jLista_Evaluaciones.getModel().getSize(); i++)
+        /*    for (int i = 0; i < this.jLista_Evaluaciones.getModel().getSize(); i++)
         {
             ev = (Instancia_Evaluacion) this.jLista_Evaluaciones.getModel().getElementAt(i);
             listadeexamenes = ev.getExamenes();
@@ -614,13 +634,14 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                         ex.getArbol_podado_particular().procesar();
                     }
                     catch (Exception e)
-                    {
+                    {JOptionPane.showMessageDialog(this, e.getMessage());
                     }
-                    modelo.getModelo_abm_evaluacion().actualizar_examen(ev, ex);
+                    //OJO, MIRAR QUE VA ACA
+                   // modelo.getModelo_abm_evaluacion().actualizar_examen(ev, ex);
                     ex.setModificado(false);
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_jB_GuardarMouseClicked
 
     private void jBAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAceptarActionPerformed
@@ -631,33 +652,85 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         this.actualizaEtiqueta();
     }//GEN-LAST:event_jBAceptarMouseClicked
 
+    private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_ExamenesMouseClicked
+
+        // TODO add your handling code here:
+        this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
+        if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled())
+        {
+            this.jTree_Arbol_Perturbacion.setModel(null);
+            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado.getArbol_podado_particular().getTreeModel());
+            this.jTree_Arbol_Perturbacion.paintAll(this.jTree_Arbol_Perturbacion.getGraphics());
+            this.jT_Alumno.setText(this.examen_seleccionado.getAlumno().toString());
+            this.nodo_seleccionado = null;
+            jT_id_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getNombre());
+            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado.getArbol_podado_particular().getDescripcion());
+        }
+    }//GEN-LAST:event_jLista_ExamenesMouseClicked
+
+    private void jComboBox_AsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_AsignaturaActionPerformed
+        
+        if (this.jComboBox_Asignatura.getSelectedItem() != null)
+        {
+            this.asignatura_seleccionada = (Asignatura) this.jComboBox_Asignatura.getSelectedItem();
+            this.cursada_seleccionada = null;
+            this.parcial_seleccionado = null;
+            this.instancia_seleccionada = null;
+            this.examen_seleccionado = null;
+            this.actualizar_combo_cursadas();
+
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_AsignaturaActionPerformed
+
+    private void jComboBox_CursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_CursadaActionPerformed
+
+    if (this.jComboBox_Cursada.getSelectedItem() != null)
+    {
+        this.cursada_seleccionada = (Cursada) this.jComboBox_Cursada.getSelectedItem();
+        this.parcial_seleccionado = null;
+        this.instancia_seleccionada = null;
+        this.examen_seleccionado = null;
+        this.actualizar_combo_parciales();
+
+    }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_CursadaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAceptar;
     private javax.swing.JButton jB_Guardar;
     private javax.swing.JButton jB_Salir;
+    private javax.swing.JComboBox<String> jComboBox_Asignatura;
+    private javax.swing.JComboBox<String> jComboBox_Cursada;
+    private javax.swing.JComboBox<String> jComboBox_Inst_Evaluacion;
+    private javax.swing.JComboBox<String> jComboBox_Parcial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jLista_Evaluaciones;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jLista_Examenes;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane_arbol;
@@ -677,8 +750,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
     private javax.swing.JTextPane jText_estado_correccion;
     // End of variables declaration//GEN-END:variables
 
-    private void jtree_arbolMouseClicked()
-    {
+    private void jtree_arbolMouseClicked() {
         nodo_seleccionado = (Nodo_Perturbacion) jTree_Arbol_Perturbacion.getLastSelectedPathComponent();
         if (nodo_seleccionado != null && this.jTree_Arbol_Perturbacion.isEnabled())
         {
@@ -692,8 +764,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                 jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
                 jTextConocido.setText(String.valueOf(etiqueta.getConocido()));
                 jTextAprendido.setText(String.valueOf(etiqueta.getAprendido()));
-            }
-            else
+            } else
             {
                 this.setModoEdicion(false);
                 if (etiqueta.isCero())
@@ -702,8 +773,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
                     jTextParcialmente.setText("");
                     jTextConocido.setText("");
                     jTextAprendido.setText("");
-                }
-                else
+                } else
                 {
                     jTextDesconocido.setText(String.valueOf(etiqueta.getDesconocido()));
                     jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
@@ -717,8 +787,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
 
     }
 
-    private void setModoEdicion(boolean param)
-    {
+    private void setModoEdicion(boolean param) {
         jTextDesconocido.setEditable(param);
         jTextParcialmente.setEditable(param);
         jTextConocido.setEditable(param);
@@ -726,14 +795,12 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
     }
 
 
-    private void actualizaEtiqueta()
-    {
+    private void actualizaEtiqueta() {
         this.nodo_seleccionado.getDato().setEtiquetaBean(this.construyeEtiqueta());
         this.examen_seleccionado.setModificado(true);
     }
 
-    private EtiquetaBean construyeEtiqueta()
-    {
+    private EtiquetaBean construyeEtiqueta() {
         double aprendido = 0, conocido = 0, parcialmente = 0, desconocido = 0;
         EtiquetaBean etiqueta = new EtiquetaBean();
         try
@@ -747,8 +814,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
             etiqueta.setConocido(conocido);
             etiqueta.setDesconocido(desconocido);
             etiqueta.setParcialmenteConocido(parcialmente);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             etiqueta.inicializar();
 
@@ -759,9 +825,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame implements Observe
         return etiqueta;
 
     }
-    
-    public void limpiar_zona_unaPrueba()
-    {
+
+    public void limpiar_zona_unaPrueba() {
         jT_Alumno.setText("");
         jT_id_arbol_perturbacion.setText("");
         jT_descripcion_arbol_perturbacion.setText("");
