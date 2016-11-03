@@ -437,7 +437,7 @@ public class BaseDeDatos
         Date fecha;
 
         sentencia = conexion.createStatement();
-        String consulta = "SELECT * FROM evaluaciones WHERE id_parcial = " + id_parcial;
+        String consulta = "SELECT * FROM instancias_evaluaciones WHERE id_parcial = " + id_parcial;
         ResultSet resultado = sentencia.executeQuery(consulta);
 
         while (resultado.next())
@@ -459,11 +459,10 @@ public class BaseDeDatos
     private ArrayList<Examen> recuperaExamenes(int id) throws SQLException
     {
         ArrayList<Examen> listado_examenes = new ArrayList<Examen>();
-        long dni, legajo;
+        long dni;
+        int id_examen;
         Blob unBlob;
-        String apellido, nombre, sentenciasql =
-            "SELECT * FROM alumnos, examenes WHERE id_evaluacion =" + id +
-            " AND alumnos.dni = examenes.dni_alumno ORDER BY alumnos.apellido";
+        String sentenciasql ="SELECT * FROM examenes WHERE id_instancia_ev=" + id ;
 
 
         sentencia = conexion.createStatement();
@@ -471,12 +470,11 @@ public class BaseDeDatos
 
         while (resultado.next())
         {
-            dni = resultado.getLong("dni");
-            legajo = resultado.getLong("legajo");
-            apellido = resultado.getString("apellido");
-            nombre = resultado.getString("nombre");
-            unBlob = resultado.getBlob("arbol");
-            listado_examenes.add(new Examen(new Alumno(legajo, apellido, nombre, dni), this.blobToArbol(unBlob)));
+            dni = resultado.getLong("dni_alumno");
+            id_examen=resultado.getInt("id_examen");
+            
+            unBlob = resultado.getBlob("arbol_particular");
+            listado_examenes.add(new Examen(0,new Alumno(0, "", "", dni), this.blobToArbol(unBlob),false));
 
         }
 
