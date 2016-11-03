@@ -102,7 +102,7 @@ public class Arbol_Perturbacion implements Serializable
     public void procesar() throws Exception
     {
         if (getRaiz().contarHojasInvalidas() != 0)
-            throw new Exception("Hay hojas no validas");
+            throw new Exception("Hay hojas no validas o vacías");
         else
             getRaiz().procesar_Nodo();
     }

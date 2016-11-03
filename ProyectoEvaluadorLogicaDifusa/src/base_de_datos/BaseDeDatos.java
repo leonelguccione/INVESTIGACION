@@ -342,18 +342,15 @@ public class BaseDeDatos
     }
 
 
-    public void actualizar_examen(Instancia_Evaluacion evaluacion, Examen examen) throws SQLException
+    public void actualizar_examen(Examen examen) throws SQLException
     {
         byte[] arbol_serializado = examen.getArbol_podado_particular().serializar();
-
         Blob blob;
         PreparedStatement agregar;
-
         blob = new javax.sql.rowset.serial.SerialBlob(arbol_serializado);
-        agregar = conexion.prepareStatement("UPDATE examenes SET arbol=? WHERE dni_alumno=? AND id_evaluacion=?");
+        agregar = conexion.prepareStatement("UPDATE examenes SET arbol_particular=? WHERE id_examen=? ");
         agregar.setBlob(1, blob);
-        agregar.setLong(2, examen.getAlumno().getDni());
-        agregar.setInt(3, evaluacion.getId_evaluacion());
+        agregar.setInt(2, examen.getId());
         agregar.executeUpdate();
     }
 
@@ -474,7 +471,7 @@ public class BaseDeDatos
             id_examen=resultado.getInt("id_examen");
             
             unBlob = resultado.getBlob("arbol_particular");
-            listado_examenes.add(new Examen(0,new Alumno(0, "", "", dni), this.blobToArbol(unBlob),false));
+            listado_examenes.add(new Examen(id_examen,new Alumno(0, "", "", dni), this.blobToArbol(unBlob),false));
 
         }
 
