@@ -115,9 +115,7 @@ public class Instancia_Evaluacion
     public String toString()
     {
         String retorno;
-        retorno =
-            this.getId_evaluacion() + " - " + " - " +
-            this.getDescripcion() + " - " + Fecha.date2Str(this.getFecha());
+        retorno = this.getDescripcion() + " - " + Fecha.date2Str(this.getFecha());
         return retorno;
     }
 

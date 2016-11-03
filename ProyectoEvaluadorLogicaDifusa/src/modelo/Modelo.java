@@ -18,9 +18,10 @@ import java.util.Iterator;
  *
  * @author leonel
  */
-public class Modelo {
+public class Modelo
+{
     private BaseDeDatos db;
-    
+
     private Modelo_ABM_Alumno modelo_abm_alumno;
     private Modelo_ABM_Cursada modelo_abm_cursada;
     private Modelo_ABM_Asignatura modelo_abm_asignatura;
@@ -36,22 +37,25 @@ public class Modelo {
         return modelo_abm_instanciaEvaluacion;
     }
 
-    public HashMap<Long, Alumno> getAlumnos() {
+    public HashMap<Long, Alumno> getAlumnos()
+    {
         return alumnos;
     }
 
-    public HashMap<String, Asignatura> getAsignaturas() {
+    public HashMap<String, Asignatura> getAsignaturas()
+    {
         return asignaturas;
     }
 
-    public Modelo_ABM_InstanciaEvaluacion getModelo_abm_evaluacion() {
+    public Modelo_ABM_InstanciaEvaluacion getModelo_abm_evaluacion()
+    {
         return this.modelo_abm_instanciaEvaluacion;
     }
 
     public Modelo() throws SQLException
     {
         db = new BaseDeDatos();
-      
+
         modelo_abm_alumno = new Modelo_ABM_Alumno(db);
         modelo_abm_cursada = new Modelo_ABM_Cursada(db);
         modelo_abm_instanciaEvaluacion = new Modelo_ABM_InstanciaEvaluacion(db);
@@ -61,21 +65,24 @@ public class Modelo {
         this.recupera_sistema();
     }
 
-    public Modelo_ABM_Parcial getModelo_abm_parcial() {
+    public Modelo_ABM_Parcial getModelo_abm_parcial()
+    {
         return modelo_abm_parcial;
     }
 
-    public Modelo_ABM_Cursada getModelo_abm_cursada() {
+    public Modelo_ABM_Cursada getModelo_abm_cursada()
+    {
         return modelo_abm_cursada;
     }
 
-   
 
-    public Modelo_ABM_Alumno getModelo_abm_alumno() {
+    public Modelo_ABM_Alumno getModelo_abm_alumno()
+    {
         return modelo_abm_alumno;
     }
 
-    public Modelo_ABM_Asignatura getModelo_abm_asignatura() {
+    public Modelo_ABM_Asignatura getModelo_abm_asignatura()
+    {
         return modelo_abm_asignatura;
     }
 
@@ -137,9 +144,9 @@ public class Modelo {
         {
             Cursada cur = (Cursada) iterator_cursadas.next();
             cursadas_recuperadas.add(cur);
-            ArrayList<Long>listaDNI=db.recupera_DNI_Alumnos_Cursada(cur);
-            ArrayList<Alumno>arayList_alumnos=new ArrayList<Alumno>();
-            for(int i=0; i<listaDNI.size();i++)
+            ArrayList<Long> listaDNI = db.recupera_DNI_Alumnos_Cursada(cur);
+            ArrayList<Alumno> arayList_alumnos = new ArrayList<Alumno>();
+            for (int i = 0; i < listaDNI.size(); i++)
                 arayList_alumnos.add(this.alumnos.get(listaDNI.get(i)));
             cur.setAlumnos(arayList_alumnos);
             this.recuperarParciales(cur);
@@ -156,9 +163,37 @@ public class Modelo {
         {
             Parcial parcial = (Parcial) iterator_parciales.next();
             parciales_recuperados.add(parcial);
+            this.recuperarInstanciasEvaluaciones(parcial);
         }
         cursada.setParciales(parciales_recuperados);
     }
 
+    public void recuperarInstanciasEvaluaciones(Parcial parcial) throws SQLException
+    {
+        Iterator iterator_instanciasEvaluaciones =
+            this.getModelo_abm_instanciaEvaluacion().recuperarInstanciasevaluaciones(parcial);
+        //Recorrer el contenido del Iterator
+        ArrayList<Instancia_Evaluacion> evaluaciones_recuperadas = new ArrayList<Instancia_Evaluacion>();
+        while (iterator_instanciasEvaluaciones.hasNext())
+        {
+            Instancia_Evaluacion instancia = (Instancia_Evaluacion) iterator_instanciasEvaluaciones.next();
+            evaluaciones_recuperadas.add(instancia);
+            this.revinculaExamenes(instancia);
 
+        }
+        parcial.setInstancias_evaluaciones(evaluaciones_recuperadas);
+    }
+
+    private void revinculaExamenes(Instancia_Evaluacion instancia) throws SQLException
+    {
+        ArrayList<Examen> lista_examenes = instancia.getExamenes();
+        for (int i = 0; i < lista_examenes.size(); i++)
+        {
+            Examen examenactual = lista_examenes.get(i);
+            Alumno alumno_actual = this.alumnos.get(examenactual.getAlumno().getDni());
+            examenactual.setAlumno(alumno_actual);
+        }
+
+
+    }
 }
