@@ -36,4 +36,8 @@ public class Modelo_ABM_InstanciaEvaluacion
     {
         db.borrar_evaluacion(id_evaluacion);
     }
+
+    public void actualizar_examen(Examen examen) throws SQLException {
+        db.actualizar_examen(examen);
+    }
 }

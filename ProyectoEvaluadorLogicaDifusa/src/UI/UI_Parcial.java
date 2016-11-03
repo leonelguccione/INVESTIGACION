@@ -31,19 +31,19 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
     private DefaultListModel listModel_cursadas = new DefaultListModel();
     private DefaultListModel listModel_asignaturas = new DefaultListModel();
     private DefaultListModel listModel_parciales = new DefaultListModel();
-    
+
     private Asignatura asignatura_en_uso = null;
     private Cursada cursada_en_uso = null;
 
     /** Creates new form UI_Parcial */
     public UI_Parcial(Modelo m) {
-      
+
         this.modelo = m;
         initComponents();
         this.jList_asignaturas.setModel(listModel_asignaturas);
         this.jList_cursadas.setModel(listModel_cursadas);
-            
-            
+
+
         this.jList_parciales.setModel(listModel_parciales);
         this.actualizar_jList_asignaturas();
         this.jtree_arbol = (ArbolVisual) this.jScrollPane_jTreeVisual;
@@ -255,9 +255,9 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
             this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
                                                                new Parcial(0, this.jText_Nombre.getText(),
                                                                            this.arbolPodado));
-        
-        this.modelo.recuperarParciales(this.cursada_en_uso);
-        limpiar();
+
+            this.modelo.recuperarParciales(this.cursada_en_uso);
+            limpiar();
         } catch (SQLException e)
         {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -298,10 +298,14 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
         {
             this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
             this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
-            this.cursada_en_uso=null;
+            this.cursada_en_uso = null;
             this.actualizar_jList_cursadas();
-            this.arbolPodado = Arbol_Perturbacion.deserializar(this.asignatura_en_uso.getArbol_dominio().serializar());
-            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+            if (this.asignatura_en_uso.getArbol_dominio() != null)
+            {
+                this.arbolPodado =
+                    Arbol_Perturbacion.deserializar(this.asignatura_en_uso.getArbol_dominio().serializar());
+                jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+            }
         }
         this.verificaEnabled();
     }//GEN-LAST:event_jList_asignaturasMouseClicked
@@ -367,7 +371,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     private void actualizar_jList_parciales() {
         this.listModel_parciales.clear();
         if (this.cursada_en_uso != null)
@@ -379,8 +383,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    
+
 
     private void verificaEnabled() {
         boolean valida =
@@ -404,9 +407,8 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
         this.jText_Nombre_Cursada.setText("");
         this.actualizar_jList_cursadas();
         this.actualizar_jList_parciales();
-        
+
         this.verificaEnabled();
-        
 
 
     }
