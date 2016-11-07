@@ -107,7 +107,7 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
         else
             getRaiz().procesar_Nodo();
     }
-
+    
     public boolean isCompleto()
     {
         return (getRaiz().contarHojasInvalidas() == 0);
@@ -219,10 +219,14 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
      */
     public boolean isSemejante(Arbol_Perturbacion otroArbol)
     {
-        return this.getRaiz().isSemejante(otroArbol.getRaiz());
+        boolean nombreIgual= this.getNombre().equals(otroArbol.getNombre());
+        boolean descripcionIgual = this.getDescripcion().equals(otroArbol.getDescripcion());
+        boolean rtaParcial = nombreIgual && descripcionIgual;
+        if (rtaParcial == true)
+        {
+            rtaParcial = this.getRaiz().isSemejante(otroArbol.getRaiz());
     }
-
-
+        return rtaParcial;
     /**
      * Devuelve un clon del Arbol de Pertubación
      * @return
@@ -232,7 +236,7 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
     {
         // TODO Implement this method
         return Arbol_Perturbacion.deserializar(this.serializar());
-    }
+}
 
     public void suma(Arbol_Perturbacion sumando) throws Exception
     {
