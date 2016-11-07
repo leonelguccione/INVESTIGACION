@@ -222,8 +222,13 @@ public class Arbol_Perturbacion implements Serializable
      */
     public boolean isSemejante(Arbol_Perturbacion otroArbol)
     {
-        return this.getRaiz().isSemejante(otroArbol.getRaiz());
+        boolean nombreIgual= this.getNombre().equals(otroArbol.getNombre());
+        boolean descripcionIgual = this.getDescripcion().equals(otroArbol.getDescripcion());
+        boolean rtaParcial = nombreIgual && descripcionIgual;
+        if (rtaParcial == true)
+        {
+            rtaParcial = this.getRaiz().isSemejante(otroArbol.getRaiz());
+        }
+        return rtaParcial;
     }
-
-
 }

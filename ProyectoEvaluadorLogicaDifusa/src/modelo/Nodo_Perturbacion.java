@@ -119,18 +119,26 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         return aux;
     }
 
+    /**Determina si un árbol es semejante a otro.
+     * La semejanza está determinada por las siguientes condiciones:
+     * - ambos null
+     * - la igualdad entre los campos dato->idDato de cada nodo correspondiente
+     * - la misma estructura de árbol.
+     * @param otraRaiz
+     * @return
+     * precondición: otraRaiz != null
+     */
     public boolean isSemejante(Nodo_Perturbacion otraRaiz)
     {
-        boolean resultado;
-
-        //Si los dos nodos referencian al mismo objeto, o ambos son null, entonces son semejantes.
-        if (this == otraRaiz)
-            resultado = true;
-        //si no referencian al mismo objeto
-        else
+        boolean resultado = false;
+        if (otraRaiz != null) //otraRaiz (principal) distinto de null
         {
-            //si ambos sean diferentes de null
-            if (otraRaiz != null)
+            //Si los dos nodos referencian al mismo objeto, entonces son semejantes. Semejante a sí mismo.
+            if (this == otraRaiz)
+                resultado = true;
+            //si no referencian al mismo objeto
+
+            else
             {
                 //si sus id de dato contienen el mismo texto
                 if (this.getDato().getIdDato().equals(otraRaiz.getDato().getIdDato()))
@@ -141,8 +149,8 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
                     }
                     //si es rama entonces
                     else
-                    { //si tienen la misma cantidad de hijos  entonces si, ambos son hojas son semejantes
-                        if (this.esHoja())
+                    { //si tienen la misma cantidad de hijos
+                        if (this.esHoja()) //si ambos nodos son hojas
                             resultado = true;
                         else
                         //si ambos son ramas con igual cantidad de hijos, entonces debo verificar la semenjanza de cada hijo
@@ -158,23 +166,15 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
                                 proximo_otraRaiz = (Nodo_Perturbacion) hijos_otraRaiz.nextElement();
                                 proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                                 semejanzaparcial = proximo_propios.isSemejante(proximo_otraRaiz);
-
                             }
                             resultado = semejanzaparcial;
                         }
                     }
                 }
-                //si sus id de dato contienen textos diferentes NO son semejantes
-                else
-                {
-                    resultado = false;
-                }
             }
-            //Si SOLO un nodo es null entonces NO son semejantes
-            else
-                resultado = false;
         }
         return resultado;
     }
 }
+
 
