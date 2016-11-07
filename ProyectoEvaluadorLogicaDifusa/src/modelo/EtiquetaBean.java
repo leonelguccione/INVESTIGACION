@@ -141,7 +141,7 @@ public class EtiquetaBean implements Cloneable, Serializable
         setParcialmenteConocido(parcialmente_conocido / cant);
     }
 
-    void multiplicar(double cant)
+    void multiplica(double cant)
     {
         setAprendido(aprendido * cant);
         setConocido(conocido * cant);
