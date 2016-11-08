@@ -21,8 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
  * El arbol de perturbacion se utiliza para evaluar.
  *
  **/
-public class Arbol_Perturbacion implements Serializable, Cloneable
-{
+public class Arbol_Perturbacion implements Serializable, Cloneable {
     @SuppressWarnings("compatibility:-4146374243641147900")
     private static final long serialVersionUID = 6425751349863975298L;
 
@@ -43,8 +42,7 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
     DefaultTreeModel treeModel = null;
 
 
-    public Arbol_Perturbacion(String idArbol, String descripcion)
-    {
+    public Arbol_Perturbacion(String idArbol, String descripcion) {
         this.setNombre(idArbol);
         this.setDescripcion(descripcion);
     }
@@ -56,66 +54,55 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
      * @param padre nodo sobre el cual se agregará el nuevo nodo
      * @param nuevoHijo nodo que se agregará al arbol
      */
-    public void agregarNodo(Nodo_Perturbacion padre, Nodo_Perturbacion nuevoHijo)
-    {
-        if (isVacio())
-        {
+    public void agregarNodo(Nodo_Perturbacion padre, Nodo_Perturbacion nuevoHijo) {
+        if (isVacio()) {
             this.raiz = padre;
             treeModel = new DefaultTreeModel(getRaiz());
-        } else
-        {
+        } else {
             //TODO: revisar esto !!
             treeModel.insertNodeInto(nuevoHijo, padre, padre.getChildCount());
             //padre.add(nuevoHijo);
         }
     }
 
-    public void agregarNodo(Nodo_Perturbacion nodo_seleccionado_padre, String id_nuevo_nodo)
-    {
+    public void agregarNodo(Nodo_Perturbacion nodo_seleccionado_padre, String id_nuevo_nodo) {
         Nodo_Perturbacion nuevo_nodo = new Nodo_Perturbacion(id_nuevo_nodo);
         agregarNodo(nodo_seleccionado_padre, nuevo_nodo);
 
     }
 
-    public Nodo_Perturbacion buscarNodo(Nodo_Perturbacion nodo)
-    {
+    public Nodo_Perturbacion buscarNodo(Nodo_Perturbacion nodo) {
         // TODO Implement this method
         return null;
     }
 
-    public Nodo_Perturbacion buscarNodo(String idDato)
-    {
+    public Nodo_Perturbacion buscarNodo(String idDato) {
         // TODO Implement this method
         return null;
     }
 
-    public Nodo_Perturbacion extraerNodo(Nodo_Perturbacion nodo)
-    {
+    public Nodo_Perturbacion extraerNodo(Nodo_Perturbacion nodo) {
         // TODO Implement this method
         return null;
     }
 
-    public boolean isVacio()
-    {
+    public boolean isVacio() {
         return (getRaiz() == null);
     }
 
-    public void procesar() throws Exception
-    {
+    public void procesar() throws Exception {
         if (getRaiz().contarHojasInvalidas() != 0)
             throw new Exception("Hay hojas no validas o vacías");
         else
             getRaiz().procesar_Nodo();
     }
 
-    public boolean isCompleto()
-    {
+    public boolean isCompleto() {
         return (getRaiz().contarHojasInvalidas() == 0);
     }
 
 
-    public Nodo_Perturbacion getRaiz()
-    {
+    public Nodo_Perturbacion getRaiz() {
         return raiz;
     }
 
@@ -124,8 +111,7 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
      * Establece el Model con dicha raíz
      * @param raiz
      */
-    public void setRaiz(Nodo_Perturbacion raiz)
-    {
+    public void setRaiz(Nodo_Perturbacion raiz) {
         this.raiz = raiz;
         treeModel = new DefaultTreeModel(getRaiz());
     }
@@ -133,40 +119,33 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
     /**establece la raíz de un nuevo árbol de perturbación
      * @param idNodo identificador del nodo, es el idDato del DatoBean
      */
-    public void setRaiz(String idNodo)
-    {
+    public void setRaiz(String idNodo) {
         Nodo_Perturbacion np = new Nodo_Perturbacion(idNodo);
         this.setRaiz(np);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getNombre();
     }
 
-    public String getNombre()
-    {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String idArbol)
-    {
+    public void setNombre(String idArbol) {
         this.nombre = idArbol;
     }
 
-    public String getDescripcion()
-    {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion)
-    {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public DefaultTreeModel getTreeModel()
-    {
+    public DefaultTreeModel getTreeModel() {
         return treeModel;
     }
 
@@ -174,39 +153,31 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
     /**
      * @return
      */
-    public byte[] serializar()
-    {
+    public byte[] serializar() {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os;
-        try
-        {
+        try {
             os = new ObjectOutputStream(bs);
             os.writeObject(this);
             os.close();
-        } catch (IOException e)
-        {
-        } finally
-        {
+        } catch (IOException e) {
+        } finally {
             byte[] bytes = bs.toByteArray(); // devuelve byte[]
             return bytes;
         }
     }
 
-    public static Arbol_Perturbacion deserializar(byte[] bytes)
-    {
+    public static Arbol_Perturbacion deserializar(byte[] bytes) {
         ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
         Arbol_Perturbacion arbol_recuperado = null;
         ObjectInputStream is;
-        try
-        {
+        try {
             is = new ObjectInputStream(bs);
             arbol_recuperado = (Arbol_Perturbacion) is.readObject();
             //is.readObject();
             is.close();
-        } catch (IOException e)
-        {
-        } catch (ClassNotFoundException e)
-        {
+        } catch (IOException e) {
+        } catch (ClassNotFoundException e) {
         }
         return arbol_recuperado;
     }
@@ -217,13 +188,11 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
      * @param otroArbol
      * @return true en caso de ser semejante, false en caso contrario
      */
-    public boolean isSemejante(Arbol_Perturbacion otroArbol)
-    {
+    public boolean isSemejante(Arbol_Perturbacion otroArbol) {
         boolean nombreIgual = this.getNombre().equals(otroArbol.getNombre());
         boolean descripcionIgual = this.getDescripcion().equals(otroArbol.getDescripcion());
         boolean rtaParcial = nombreIgual && descripcionIgual;
-        if (rtaParcial == true)
-        {
+        if (rtaParcial == true) {
             rtaParcial = this.getRaiz().isSemejante(otroArbol.getRaiz());
         }
         return rtaParcial;
@@ -234,57 +203,54 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
      * @return
      */
     @Override
-    public Arbol_Perturbacion clone()
-    {
+    public Arbol_Perturbacion clone() {
         // TODO Implement this method
         return Arbol_Perturbacion.deserializar(this.serializar());
     }
 
-    public void suma(Arbol_Perturbacion sumando) throws Exception
-    {
+    public void suma(Arbol_Perturbacion sumando) throws Exception {
         if (!this.isSemejante(sumando))
             throw new Exception("Imposible sumar, los arboles no son semejantes");
-        else
-        {
+        else {
             this.getRaiz().suma(sumando.getRaiz());
         }
     }
 
-    public void resta(Arbol_Perturbacion sustraendo) throws Exception
-    {
+    public void resta(Arbol_Perturbacion sustraendo) throws Exception {
         if (!this.isSemejante(sustraendo))
             throw new Exception("Imposible restar, los arboles no son semejantes");
-        else
-        {
+        else {
             this.getRaiz().resta(sustraendo.getRaiz());
         }
     }
 
-    public void multiplica(double factor)
-    {
+    public void multiplica(double factor) {
         this.getRaiz().multiplica(factor);
     }
 
-    public void dividir(double divisor) throws Exception
-    {
+    public void dividir(double divisor) throws Exception {
         if (divisor == 0)
             throw new Exception("No se puede dividir por cero");
-        else
-        {
+        else {
             this.getRaiz().dividir(divisor);
         }
     }
 
-    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws Exception
-    {
+    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws Exception {
         Arbol_Perturbacion resultado = null;
-        if (lista != null && lista.size() != 0)
-        {
+        if (lista != null && lista.size() != 0) {
             resultado = lista.get(0).clone();
             for (int i = 1; i < lista.size(); i++)
                 resultado.suma(lista.get(i));
             resultado.dividir(lista.size());
         }
         return resultado;
+    }
+
+    public boolean isCorregido() {
+        return (!this.getRaiz()
+                     .getEtiqueta()
+                     .isCero());
+
     }
 }

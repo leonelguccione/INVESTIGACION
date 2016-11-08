@@ -27,4 +27,35 @@
    <list n="listOfChildren">
       <hash><url n="URL" path="ProyectoEvaluadorLogicaDifusa/ProyectoEvaluadorLogicaDifusa.jpr"/></hash>
    </list>
+   <hash n="oracle.jdeveloper.model.ApplicationLibraries">
+      <hash n="internalDefinitions">
+         <list n="libraryDefinitions">
+            <hash>
+               <list n="classPath">
+                  <url path="ProyectoEvaluadorLogicaDifusa/JTreeVisual.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="JTreeVisual.jar"/>
+               <value n="id" v="JTreeVisual.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+         </list>
+      </hash>
+      <list n="libraryReferences">
+         <hash>
+            <value n="id" v="JTreeVisual.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+      </list>
+   </hash>
+   <hash n="oracle.jdeveloper.model.PathsConfiguration">
+      <hash n="ApplicationSrcContentSet">
+         <list n="pattern-filters">
+            <string v="+**"/>
+         </list>
+         <list n="url-path">
+            <url path="src/"/>
+         </list>
+      </hash>
+   </hash>
 </jws:workspace>
