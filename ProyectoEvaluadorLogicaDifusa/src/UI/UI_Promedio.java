@@ -412,7 +412,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton_PromedioActionPerformed
 
     private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_ExamenesMouseClicked
-        this.verificar_enabled();
+        this.verificar_enabled();     
     }//GEN-LAST:event_jLista_ExamenesMouseClicked
 
 
