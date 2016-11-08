@@ -302,8 +302,8 @@ public class UI_Parcial extends javax.swing.JInternalFrame {
             this.actualizar_jList_cursadas();
             if (this.asignatura_en_uso.getArbol_dominio() != null)
             {
-                this.arbolPodado =
-                    Arbol_Perturbacion.deserializar(this.asignatura_en_uso.getArbol_dominio().serializar());
+                this.arbolPodado =this.asignatura_en_uso.getArbol_dominio().clone();
+                   
                 jtree_arbol.setModel(this.arbolPodado.getTreeModel());
             }
         }

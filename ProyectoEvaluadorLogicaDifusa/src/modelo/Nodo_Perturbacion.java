@@ -113,8 +113,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
                 Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
                 aux += nodo_hijo.contarHojasInvalidas();
             }
-        }
-        else if (!this.getEtiqueta().isValid())
+        } else if (!this.getEtiqueta().isValid())
             aux++;
         return aux;
     }
@@ -175,6 +174,75 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         }
         return resultado;
     }
+
+    public void suma(Nodo_Perturbacion sumando)
+    {
+        this.getEtiqueta().suma(sumando.getEtiqueta());
+        if (!this.esHoja())
+        {
+            Enumeration hijos_propios = this.children();
+            Enumeration hijos_sumando = sumando.children();
+            Nodo_Perturbacion proximo_sumando;
+            Nodo_Perturbacion proximo_propios;
+            while (hijos_propios.hasMoreElements() && hijos_sumando.hasMoreElements())
+            {
+                proximo_sumando = (Nodo_Perturbacion) hijos_sumando.nextElement();
+                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                proximo_propios.suma(proximo_sumando);
+            }
+        }
+    }
+
+
+    public void resta(Nodo_Perturbacion sustraendo)
+    {
+        this.getEtiqueta().resta(sustraendo.getEtiqueta());
+        if (!this.esHoja())
+        {
+            Enumeration hijos_propios = this.children();
+            Enumeration hijos_sustraendo = sustraendo.children();
+            Nodo_Perturbacion proximo_sustraendo;
+            Nodo_Perturbacion proximo_propios;
+            while (hijos_propios.hasMoreElements() && hijos_sustraendo.hasMoreElements())
+            {
+                proximo_sustraendo = (Nodo_Perturbacion) hijos_sustraendo.nextElement();
+                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                proximo_propios.resta(proximo_sustraendo);
+            }
+        }
+    }
+
+    public void multiplica(double factor)
+    {
+        this.getEtiqueta().multiplica(factor);
+        if (!this.esHoja())
+        {
+            Enumeration hijos_propios = this.children();
+            Nodo_Perturbacion proximo_propios;
+            while (hijos_propios.hasMoreElements())
+            {
+                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                proximo_propios.multiplica(factor);
+            }
+        }
+    }
+
+    public void dividir(double divisor)
+    {
+        this.getEtiqueta().dividir(divisor);
+        if (!this.esHoja())
+        {
+            Enumeration hijos_propios = this.children();
+            Nodo_Perturbacion proximo_propios;
+            while (hijos_propios.hasMoreElements())
+            {
+                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                proximo_propios.dividir(divisor);
+            }
+        }
+    }
+    
+    
 }
 
 

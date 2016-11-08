@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -19,7 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
  * El arbol de perturbacion se utiliza para evaluar.
  *
  **/
-public class Arbol_Perturbacion implements Serializable
+public class Arbol_Perturbacion implements Serializable, Cloneable
 {
     @SuppressWarnings("compatibility:-4146374243641147900")
     private static final long serialVersionUID = 6425751349863975298L;
@@ -60,8 +62,7 @@ public class Arbol_Perturbacion implements Serializable
         {
             this.raiz = padre;
             treeModel = new DefaultTreeModel(getRaiz());
-        }
-        else
+        } else
         {
             //TODO: revisar esto !!
             treeModel.insertNodeInto(nuevoHijo, padre, padre.getChildCount());
@@ -106,7 +107,7 @@ public class Arbol_Perturbacion implements Serializable
         else
             getRaiz().procesar_Nodo();
     }
-    
+
     public boolean isCompleto()
     {
         return (getRaiz().contarHojasInvalidas() == 0);
@@ -182,11 +183,9 @@ public class Arbol_Perturbacion implements Serializable
             os = new ObjectOutputStream(bs);
             os.writeObject(this);
             os.close();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
-        }
-        finally
+        } finally
         {
             byte[] bytes = bs.toByteArray(); // devuelve byte[]
             return bytes;
@@ -204,11 +203,9 @@ public class Arbol_Perturbacion implements Serializable
             arbol_recuperado = (Arbol_Perturbacion) is.readObject();
             //is.readObject();
             is.close();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
-        }
-        catch (ClassNotFoundException e)
+        } catch (ClassNotFoundException e)
         {
         }
         return arbol_recuperado;
@@ -218,11 +215,11 @@ public class Arbol_Perturbacion implements Serializable
      * Compara las estructuras (el mismo formato de árbol), que cada nodo ubicado en
      * el lugar semejante tenga el mismo identificador del dato.
      * @param otroArbol
-     * @return
+     * @return true en caso de ser semejante, false en caso contrario
      */
     public boolean isSemejante(Arbol_Perturbacion otroArbol)
     {
-        boolean nombreIgual= this.getNombre().equals(otroArbol.getNombre());
+        boolean nombreIgual = this.getNombre().equals(otroArbol.getNombre());
         boolean descripcionIgual = this.getDescripcion().equals(otroArbol.getDescripcion());
         boolean rtaParcial = nombreIgual && descripcionIgual;
         if (rtaParcial == true)
@@ -230,5 +227,64 @@ public class Arbol_Perturbacion implements Serializable
             rtaParcial = this.getRaiz().isSemejante(otroArbol.getRaiz());
         }
         return rtaParcial;
+    }
+
+    /**
+     * Devuelve un clon del Arbol de Pertubación
+     * @return
+     */
+    @Override
+    public Arbol_Perturbacion clone()
+    {
+        // TODO Implement this method
+        return Arbol_Perturbacion.deserializar(this.serializar());
+    }
+
+    public void suma(Arbol_Perturbacion sumando) throws Exception
+    {
+        if (!this.isSemejante(sumando))
+            throw new Exception("Imposible sumar, los arboles no son semejantes");
+        else
+        {
+            this.getRaiz().suma(sumando.getRaiz());
+        }
+    }
+
+    public void resta(Arbol_Perturbacion sustraendo) throws Exception
+    {
+        if (!this.isSemejante(sustraendo))
+            throw new Exception("Imposible restar, los arboles no son semejantes");
+        else
+        {
+            this.getRaiz().resta(sustraendo.getRaiz());
+        }
+    }
+
+    public void multiplica(double factor)
+    {
+        this.getRaiz().multiplica(factor);
+    }
+
+    public void dividir(double divisor) throws Exception
+    {
+        if (divisor == 0)
+            throw new Exception("No se puede dividir por cero");
+        else
+        {
+            this.getRaiz().dividir(divisor);
+        }
+    }
+
+    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws Exception
+    {
+        Arbol_Perturbacion resultado = null;
+        if (lista != null && lista.size() != 0)
+        {
+            resultado = lista.get(0).clone();
+            for (int i = 1; i < lista.size(); i++)
+                resultado.suma(lista.get(i));
+            resultado.dividir(lista.size());
+        }
+        return resultado;
     }
 }
