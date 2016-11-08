@@ -54,6 +54,8 @@ public class UI_Principal extends javax.swing.JFrame
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.SystemColor.textInactiveText);
@@ -154,6 +156,18 @@ public class UI_Principal extends javax.swing.JFrame
 
         jMenuBar1.add(jMenu2);
 
+        jMenu4.setText("Op_arboles");
+
+        jMenuItem6.setText("Promedio");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu4);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -249,6 +263,23 @@ UI_Correccion ui_correccion=new UI_Correccion(modelo);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    UI_Promedio ui_comparaciones=new UI_Promedio(modelo);
+            this.jPanel_ppal.add(ui_comparaciones);
+           ui_comparaciones.setVisible(true);
+            try
+            {
+              ui_comparaciones.setMaximum(true);
+            }
+            catch (PropertyVetoException e)
+            {
+            }// TODO add your
+
+        
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -307,12 +338,14 @@ UI_Correccion ui_correccion=new UI_Correccion(modelo);
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem_ABM_Asignatuas;
     private javax.swing.JMenu jMenu_Asignaturas;
     private javax.swing.JPanel jPanel_ppal;
