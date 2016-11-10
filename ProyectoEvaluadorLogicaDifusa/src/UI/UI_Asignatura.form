@@ -116,18 +116,11 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextField_nombre_arbol_dominio" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jTextField_nombre_arbol_dominio" alignment="1" pref="186" max="32767" attributes="0"/>
                       <Component id="jTextField_codigo_asignatura" alignment="1" max="32767" attributes="0"/>
                       <Component id="jTextField_nombre_asignatura" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="86" max="32767" attributes="0"/>
-                  <Component id="jButton_cancelar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton_registrar" min="-2" pref="97" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -149,12 +142,7 @@
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextField_nombre_arbol_dominio" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton_cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton_registrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -174,14 +162,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField_codigo_asignatura">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton_registrar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Registrar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_registrarMouseClicked"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Dominio: "/>
@@ -189,15 +169,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField_nombre_arbol_dominio">
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton_cancelar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_cancelarMouseClicked"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButton_cancelarKeyPressed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -226,7 +197,9 @@
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButton_guardar_ap" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_cancelar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="jButton_aceptar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -238,7 +211,10 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jScrollPane_jTreeVisual" min="-2" pref="421" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton_guardar_ap" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jButton_aceptar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton_cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -259,12 +235,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton_guardar_ap">
+        <Component class="javax.swing.JButton" name="jButton_aceptar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar &#xc1;rbol"/>
+            <Property name="text" type="java.lang.String" value="Aceptar"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_guardar_apMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_aceptarMouseClicked"/>
           </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -318,6 +295,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_padre">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel_nuevo">
               <Properties>
@@ -325,10 +305,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_nuevo">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton_agregar_nuevo_nodo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar nuevo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_agregar_nuevo_nodoMouseClicked"/>
@@ -337,6 +321,7 @@
             <Component class="javax.swing.JButton" name="jButton_eliminar_nodo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar Nodo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_eliminar_nodoMouseClicked"/>
@@ -344,6 +329,15 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="jButton_cancelar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_cancelarMouseClicked"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -398,10 +392,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton_habilitar_modificacion_asignatura">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Habilitar Modificaci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Modificar"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_habilitar_modificacion_asignaturaMouseClicked"/>
@@ -409,10 +400,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton_habilitar_nueva_asignatura">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="ff" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Habilitar Nueva Asignatura"/>
+            <Property name="text" type="java.lang.String" value="Nueva Asignatura"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_habilitar_nueva_asignaturaMouseClicked"/>
