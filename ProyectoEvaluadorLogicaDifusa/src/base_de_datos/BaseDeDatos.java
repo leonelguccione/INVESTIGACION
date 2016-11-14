@@ -22,24 +22,28 @@ import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Parcial;
 
-public class BaseDeDatos {
+public class BaseDeDatos
+{
     Connection conexion;
     Statement sentencia;
     ResultSet resultado;
 
-    public BaseDeDatos() {
+    public BaseDeDatos()
+    {
         super();
         inic();
     }
 
-    void inic() {
+    void inic()
+    {
         System.out.println("Iniciando programa.");
 
         // Se carga el driver JDBC-ODBC
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e)
+        }
+        catch (ClassNotFoundException e)
         {
             System.out.println("No se pudo cargar el puente JDBC-ODBC.");
             return;
@@ -49,14 +53,16 @@ public class BaseDeDatos {
         {
             // Se establece la conexión con la base de datos
             conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "");
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             try
             {
                 // Se establece la conexión con la base de datos
                 conexion =
                     DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "leonel");
-            } catch (SQLException f)
+            }
+            catch (SQLException f)
             {
             }
             System.out.println(e);
@@ -66,7 +72,8 @@ public class BaseDeDatos {
     }
 
 
-    private Arbol_Perturbacion blobToArbol(Blob unBlob) throws SQLException {
+    private Arbol_Perturbacion blobToArbol(Blob unBlob) throws SQLException
+    {
         int blobLength;
         Arbol_Perturbacion arbol = null;
 
@@ -77,7 +84,8 @@ public class BaseDeDatos {
     }
 
 
-    public void borrar_arbol_perturbacion(Arbol_Perturbacion arbol) throws SQLException {
+    public void borrar_arbol_perturbacion(Arbol_Perturbacion arbol) throws SQLException
+    {
         PreparedStatement borrar;
 
         borrar = conexion.prepareStatement("DELETE FROM ARBOL where nombre = ?");
@@ -86,7 +94,8 @@ public class BaseDeDatos {
     }
 
 
-    public void almacenar_asignatura_nueva(Asignatura asignatura) throws SQLException {
+    public void almacenar_asignatura_nueva(Asignatura asignatura) throws SQLException
+    {
         String codigo_asignatura = asignatura.getCodigo();
         String nombre_asignatura = asignatura.getNombre();
         Arbol_Perturbacion arbol_dominio = asignatura.getArbol_dominio();
@@ -95,7 +104,8 @@ public class BaseDeDatos {
         {
             byte[] arbol_dominio_serializado = arbol_dominio.serializar();
             blob_arbol_dominio_serializado = new javax.sql.rowset.serial.SerialBlob(arbol_dominio_serializado);
-        } else
+        }
+        else
             blob_arbol_dominio_serializado = null;
 
         PreparedStatement agregar =
@@ -107,7 +117,8 @@ public class BaseDeDatos {
     }
 
     //TODO: mejorar esto. Podría traer problemas si cada asignatura tuviera un identificador automático
-    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException {
+    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
+    {
         String codigo_asignatura = asignatura_en_uso.getCodigo();
         String nombre_asignatura = asignatura_en_uso.getNombre();
         Arbol_Perturbacion arbol_dominio = asignatura_en_uso.getArbol_dominio();
@@ -124,7 +135,8 @@ public class BaseDeDatos {
         agregar.executeUpdate();
     }
 
-    public void borrar_asignatura(Asignatura asignatura) throws SQLException {
+    public void borrar_asignatura(Asignatura asignatura) throws SQLException
+    {
         PreparedStatement borrar;
         borrar = conexion.prepareStatement("DELETE FROM asignaturas WHERE codigo = ?");
         borrar.setString(1, asignatura.getCodigo());
@@ -132,7 +144,8 @@ public class BaseDeDatos {
 
     }
 
-    public Iterator recuperar_asignaturas() throws SQLException {
+    public Iterator recuperar_asignaturas() throws SQLException
+    {
         Statement sentencia;
         ArrayList<Asignatura> listado_asignaturas = new ArrayList<Asignatura>();
 
@@ -172,7 +185,8 @@ public class BaseDeDatos {
 
     // ALUMNOS
 
-    public void almacenar_alumno(Alumno alumno) throws SQLException {
+    public void almacenar_alumno(Alumno alumno) throws SQLException
+    {
         String nombre = alumno.getNombre();
         String apellido = alumno.getApellido();
         long dni = alumno.getDni();
@@ -187,7 +201,8 @@ public class BaseDeDatos {
     }
 
 
-    public void borrar_alumno(Alumno alumno) throws SQLException {
+    public void borrar_alumno(Alumno alumno) throws SQLException
+    {
 
         PreparedStatement borrar = conexion.prepareStatement("DELETE FROM alumnos WHERE dni = ?");
         borrar.setLong(1, alumno.getDni());
@@ -195,7 +210,8 @@ public class BaseDeDatos {
     }
 
 
-    public void modificar_alumno(Alumno alumno) throws SQLException {
+    public void modificar_alumno(Alumno alumno) throws SQLException
+    {
         String nombre = alumno.getNombre();
         String apellido = alumno.getApellido();
         long dni = alumno.getDni();
@@ -211,7 +227,8 @@ public class BaseDeDatos {
     }
 
 
-    public Iterator recuperar_alumnos() throws SQLException {
+    public Iterator recuperar_alumnos() throws SQLException
+    {
         Statement sentencia;
         ArrayList<Alumno> listado_alumnos = new ArrayList<Alumno>();
         long dni, legajo;
@@ -233,7 +250,8 @@ public class BaseDeDatos {
 
     // EVALUACION
 
-    public void almacenar_evaluacion(Parcial parcial, Instancia_Evaluacion ev) throws SQLException {
+    public void almacenar_evaluacion(Parcial parcial, Instancia_Evaluacion ev) throws SQLException
+    {
         Date fecha = ev.getFecha();
         String descripcion = ev.getDescripcion();
         int id_parcial = parcial.getId();
@@ -264,7 +282,8 @@ public class BaseDeDatos {
     }
 
 
-    public int recupera_proxima_evaluacion() throws SQLException {
+    public int recupera_proxima_evaluacion() throws SQLException
+    {
         int id_autoincrement = 0;
 
         sentencia = conexion.createStatement();
@@ -279,7 +298,8 @@ public class BaseDeDatos {
 
     // CURSADA
 
-    public void almacenar_cursada(Asignatura asignatura, Cursada cur) throws SQLException {
+    public void almacenar_cursada(Asignatura asignatura, Cursada cur) throws SQLException
+    {
         //   String asignatura = cur.getAsignatura();
         String codigo_asignatura = asignatura.getCodigo();
         int anio = cur.getAnio_fecha();
@@ -322,7 +342,8 @@ public class BaseDeDatos {
     }
 
 
-    public void actualizar_examen(Examen examen) throws SQLException {
+    public void actualizar_examen(Examen examen) throws SQLException
+    {
         byte[] arbol_serializado = examen.getArbol_podado_particular().serializar();
         Blob blob;
         PreparedStatement agregar;
@@ -334,7 +355,8 @@ public class BaseDeDatos {
     }
 
 
-    public Iterator recuperar_cursadas(Asignatura asignatura) throws SQLException {
+    public Iterator recuperar_cursadas(Asignatura asignatura) throws SQLException
+    {
         Statement sentencia;
         ArrayList<Cursada> listado_cursadas = new ArrayList<Cursada>();
         int id, anio, cuatrimestre;
@@ -359,7 +381,8 @@ public class BaseDeDatos {
     }
 
 
-    public ArrayList<Long> recupera_DNI_Alumnos_Cursada(Cursada cursada) throws SQLException {
+    public ArrayList<Long> recupera_DNI_Alumnos_Cursada(Cursada cursada) throws SQLException
+    {
         ArrayList<Long> listado_dni = new ArrayList<Long>();
         int id = cursada.getId();
         long dni, legajo;
@@ -375,7 +398,8 @@ public class BaseDeDatos {
     }
 
 
-    public void borrar_cursada(Cursada cur) throws SQLException {
+    public void borrar_cursada(Cursada cur) throws SQLException
+    {
         int id = cur.getId();
 
         PreparedStatement borrar = conexion.prepareStatement("DELETE FROM cursadas WHERE ID = ?");
@@ -389,7 +413,8 @@ public class BaseDeDatos {
 
     }
 
-    public void borrar_evaluacion(int id_evaluacion) throws SQLException {
+    public void borrar_evaluacion(int id_evaluacion) throws SQLException
+    {
         PreparedStatement borrar;
 
         borrar = conexion.prepareStatement("DELETE FROM evaluaciones where id_evaluacion = ?");
@@ -398,7 +423,8 @@ public class BaseDeDatos {
 
     }
 
-    public Iterator recuperar_evaluaciones(Parcial parcial) throws SQLException {
+    public Iterator recuperar_evaluaciones(Parcial parcial) throws SQLException
+    {
         Statement sentencia;
         ArrayList<Instancia_Evaluacion> listado_evaluaciones = new ArrayList<Instancia_Evaluacion>();
         int id_evaluacion;
@@ -427,7 +453,8 @@ public class BaseDeDatos {
     }
 
 
-    private ArrayList<Examen> recuperaExamenes(int id) throws SQLException {
+    private ArrayList<Examen> recuperaExamenes(int id) throws SQLException
+    {
         ArrayList<Examen> listado_examenes = new ArrayList<Examen>();
         long dni;
         int id_examen;
@@ -451,7 +478,8 @@ public class BaseDeDatos {
         return listado_examenes;
     }
 
-    public void almacenar_Parcial(Cursada cur, Parcial parcial) throws SQLException {
+    public void almacenar_Parcial(Cursada cur, Parcial parcial) throws SQLException
+    {
         int id_cursada = cur.getId();
 
         String nombre_parcial = parcial.getNombre();
@@ -473,7 +501,8 @@ public class BaseDeDatos {
     }
 
 
-    public Iterator recuperar_parciales(Cursada cursada) throws SQLException {
+    public Iterator recuperar_parciales(Cursada cursada) throws SQLException
+    {
         int id_cursada = cursada.getId();
         Statement sentencia;
         Parcial parcial_actual;
@@ -510,7 +539,8 @@ public class BaseDeDatos {
     }
 
 
-    public void borrar_parcial(Parcial parcial) throws SQLException {
+    public void borrar_parcial(Parcial parcial) throws SQLException
+    {
         PreparedStatement borrar;
 
         borrar = conexion.prepareStatement("DELETE FROM parciales where id = ?");
