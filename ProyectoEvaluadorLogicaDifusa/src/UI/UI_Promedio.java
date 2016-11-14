@@ -25,7 +25,8 @@ import modelo.Parcial;
  *
  * @author Raquel
  */
-public class UI_Promedio extends javax.swing.JInternalFrame {
+public class UI_Promedio extends javax.swing.JInternalFrame
+{
 
     private Modelo modelo;
 
@@ -47,7 +48,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
 
 
     /** Creates new form UI_Correccion */
-    public UI_Promedio(Modelo modelo) {
+    public UI_Promedio(Modelo modelo)
+    {
         initComponents();
         jTree_Arbol_Perturbacion = (ArbolVisual) this.jScrollPane_arbol;
         this.modelo = modelo;
@@ -62,14 +64,14 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
 
     }
 
-    private void actualizar_combo_asignatura() {
+    private void actualizar_combo_asignatura()
+    {
         verificar_enabled();
         this.comboBoxModelAsignatura.removeAllElements();
-        Iterator iterator_asignaturas = modelo.getAsignaturas()
-                                              .values()
-                                              .iterator();
+        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
         //Recorrer el contenido del Iterator
-        while (iterator_asignaturas.hasNext()) {
+        while (iterator_asignaturas.hasNext())
+        {
             Asignatura asignatura = (Asignatura) iterator_asignaturas.next();
             this.comboBoxModelAsignatura.addElement(asignatura);
         }
@@ -77,7 +79,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_combo_cursadas() {
+    private void actualizar_combo_cursadas()
+    {
 
         this.comboBoxModelCursada.removeAllElements();
         ArrayList<Cursada> cursadas;
@@ -93,11 +96,13 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_combo_parciales() {
+    private void actualizar_combo_parciales()
+    {
 
         this.comboBoxModelParciales.removeAllElements();
         ArrayList<Parcial> parciales;
-        if (this.cursada_seleccionada != null) {
+        if (this.cursada_seleccionada != null)
+        {
             verificar_enabled();
             parciales = this.cursada_seleccionada.getParciales();
             for (int i = 0; i < parciales.size(); i++)
@@ -107,11 +112,13 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_combo_instancias() {
+    private void actualizar_combo_instancias()
+    {
 
         this.comboBoxModelInstEvaluacion.removeAllElements();
         ArrayList<Instancia_Evaluacion> instancias;
-        if (this.parcial_seleccionado != null) {
+        if (this.parcial_seleccionado != null)
+        {
             verificar_enabled();
             instancias = this.parcial_seleccionado.getInstancias_evaluaciones();
             for (int i = 0; i < instancias.size(); i++)
@@ -120,11 +127,13 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_lista_examenes() {
+    private void actualizar_lista_examenes()
+    {
         this.listModelexamenes.clear();
 
         ArrayList<Examen> examenes;
-        if (this.instancia_seleccionada != null) {
+        if (this.instancia_seleccionada != null)
+        {
             verificar_enabled();
             examenes = this.instancia_seleccionada.getExamenes();
             for (int i = 0; i < examenes.size(); i++)
@@ -332,7 +341,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
 
     private void jComboBox_AsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_AsignaturaActionPerformed
 
-        if (this.jComboBox_Asignatura.getSelectedItem() != null) {
+        if (this.jComboBox_Asignatura.getSelectedItem() != null)
+        {
             this.asignatura_seleccionada = (Asignatura) this.jComboBox_Asignatura.getSelectedItem();
             this.cursada_seleccionada = null;
             this.parcial_seleccionado = null;
@@ -346,7 +356,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
 
     private void jComboBox_CursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_CursadaActionPerformed
 
-        if (this.jComboBox_Cursada.getSelectedItem() != null) {
+        if (this.jComboBox_Cursada.getSelectedItem() != null)
+        {
             this.cursada_seleccionada = (Cursada) this.jComboBox_Cursada.getSelectedItem();
             this.parcial_seleccionado = null;
             this.instancia_seleccionada = null;
@@ -381,27 +392,36 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
         ArrayList<Arbol_Perturbacion> arboles = new ArrayList<Arbol_Perturbacion>();
         this.listModelexamenespromediadios.clear();
         this.jTree_Arbol_Perturbacion.setModel(null);
-        for (int i = 0; i < seleccionados.size(); i++) {
+        for (int i = 0; i < seleccionados.size(); i++)
+        {
             arbol_actual = seleccionados.get(i).getArbol_podado_particular();
-            if (arbol_actual.isCorregido()) {
+            if (arbol_actual.isCorregido())
+            {
                 arboles.add(arbol_actual);
                 this.listModelexamenespromediadios.addElement(seleccionados.get(i));
 
-            } else
+            }
+            else
+            {
                 JOptionPane.showMessageDialog(this,
-                                              "El examen de " + seleccionados.get(i)
-                                                                                   .getAlumno()
-                                                                                   .toString() +
-                                        " no esta totalmente corregido");
-
+                                              "El examen de " + seleccionados.get(i).getAlumno().toString() +
+                                              " no esta totalmente corregido");
+            }
         }
         if (arboles.size() > 0)
-            try {
+            try
+            {
                 Arbol_Perturbacion arbol_promedio = Arbol_Perturbacion.promedio(arboles);
                 this.jTree_Arbol_Perturbacion.setModel(arbol_promedio.getTreeModel());
                 this.jTree_Arbol_Perturbacion.repaint();
                 System.out.println(arboles.size());
-            } catch (Exception e) {
+            }
+            catch (ArithmeticException e)
+            {
+                
+            }
+            catch (Exception e)
+            {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
 
@@ -437,11 +457,10 @@ public class UI_Promedio extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
 
-    private void verificar_enabled() {
+    private void verificar_enabled()
+    {
         boolean habilitado;
-        habilitado = this.parcial_seleccionado != null && this.jLista_Examenes
-                                                              .getSelectedValuesList()
-                                                              .size() > 1;
+        habilitado = this.parcial_seleccionado != null && this.jLista_Examenes.getSelectedValuesList().size() > 1;
 
         this.jButton_Promedio.setEnabled(habilitado);
     }

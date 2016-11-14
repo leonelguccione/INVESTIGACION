@@ -113,7 +113,8 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
                 Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
                 aux += nodo_hijo.contarHojasInvalidas();
             }
-        } else if (!this.getEtiqueta().isValid())
+        }
+        else if (!this.getEtiqueta().isValid())
             aux++;
         return aux;
     }
@@ -136,6 +137,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
             if (this == otraRaiz)
                 resultado = true;
             //si no referencian al mismo objeto
+
 
             else
             {
@@ -227,22 +229,25 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         }
     }
 
-    public void dividir(double divisor)
+    public void dividir(double divisor) throws ArithmeticException
     {
-        this.getEtiqueta().dividir(divisor);
-        if (!this.esHoja())
+        if (divisor != 0)
         {
-            Enumeration hijos_propios = this.children();
-            Nodo_Perturbacion proximo_propios;
-            while (hijos_propios.hasMoreElements())
+            this.getEtiqueta().dividir(divisor);
+            if (!this.esHoja())
             {
-                proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
-                proximo_propios.dividir(divisor);
+                Enumeration hijos_propios = this.children();
+                Nodo_Perturbacion proximo_propios;
+                while (hijos_propios.hasMoreElements())
+                {
+                    proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
+                    proximo_propios.dividir(divisor);
+                }
             }
         }
+        else 
+            throw new ArithmeticException("división por cero");
     }
-    
-    
 }
 
 

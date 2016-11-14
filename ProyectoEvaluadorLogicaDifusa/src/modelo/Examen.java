@@ -8,6 +8,10 @@ public class Examen
      * @aggregation shared
      */
     private int id;
+
+    /**
+     * @aggregation shared
+     */
     private Alumno alumno;
 
     /**es un clone del arbol de dominio podado que corresponde al Parcial

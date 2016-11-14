@@ -8,6 +8,10 @@ public class Asignatura
     private String nombre_asignatura;
     private String codigo;
     private Arbol_Perturbacion arbol_dominio; //serializable
+
+    /**
+     * @aggregation composite
+     */
     private ArrayList<Cursada> cursadas = new ArrayList<Cursada>();
 
     public Asignatura()

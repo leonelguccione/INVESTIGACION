@@ -270,17 +270,12 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
         this.getRaiz().multiplica(factor);
     }
 
-    public void dividir(double divisor) throws Exception
+    public void dividir(double divisor) throws ArithmeticException
     {
-        if (divisor == 0)
-            throw new Exception("No se puede dividir por cero");
-        else
-        {
-            this.getRaiz().dividir(divisor);
-        }
+        this.getRaiz().dividir(divisor);
     }
 
-    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws Exception
+    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws ArithmeticException
     {
         Arbol_Perturbacion resultado = null;
         if (lista != null && lista.size() != 0)
@@ -296,6 +291,5 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
     public boolean isCorregido()
     {
         return (!this.getRaiz().getEtiqueta().isCero());
-
     }
 }

@@ -133,7 +133,7 @@ public class EtiquetaBean implements Cloneable, Serializable
         setAprendido(aprendido - e.getAprendido());
     }
 
-    void dividir(double cant)
+    void dividir(double cant) throws ArithmeticException
     {
         setAprendido(aprendido / cant);
         setConocido(conocido / cant);
