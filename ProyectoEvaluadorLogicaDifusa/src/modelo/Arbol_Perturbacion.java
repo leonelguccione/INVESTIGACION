@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import Excepciones.NotSemejanteException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -245,20 +247,20 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
         return Arbol_Perturbacion.deserializar(this.serializar());
     }
 
-    public void suma(Arbol_Perturbacion sumando) throws Exception
+    public void suma(Arbol_Perturbacion sumando) throws NotSemejanteException
     {
         if (!this.isSemejante(sumando))
-            throw new Exception("Imposible sumar, los arboles no son semejantes");
+            throw new NotSemejanteException("Imposible sumar, los arboles no son semejantes");
         else
         {
             this.getRaiz().suma(sumando.getRaiz());
         }
     }
 
-    public void resta(Arbol_Perturbacion sustraendo) throws Exception
+    public void resta(Arbol_Perturbacion sustraendo) throws NotSemejanteException
     {
         if (!this.isSemejante(sustraendo))
-            throw new Exception("Imposible restar, los arboles no son semejantes");
+            throw new NotSemejanteException("Imposible restar, los arboles no son semejantes");
         else
         {
             this.getRaiz().resta(sustraendo.getRaiz());
@@ -275,7 +277,7 @@ public class Arbol_Perturbacion implements Serializable, Cloneable
         this.getRaiz().dividir(divisor);
     }
 
-    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws ArithmeticException
+    public static Arbol_Perturbacion promedio(ArrayList<Arbol_Perturbacion> lista) throws ArithmeticException, NotSemejanteException
     {
         Arbol_Perturbacion resultado = null;
         if (lista != null && lista.size() != 0)

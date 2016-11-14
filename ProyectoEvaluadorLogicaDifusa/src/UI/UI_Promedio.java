@@ -1,6 +1,8 @@
 
 package UI;
 
+import Excepciones.NotSemejanteException;
+
 import arbol_visual.ArbolVisual;
 
 import java.util.ArrayList;
@@ -417,6 +419,10 @@ public class UI_Promedio extends javax.swing.JInternalFrame
                 System.out.println(arboles.size());
             }
             catch (ArithmeticException e)
+            {
+                
+            }
+            catch(NotSemejanteException e)
             {
                 
             }
