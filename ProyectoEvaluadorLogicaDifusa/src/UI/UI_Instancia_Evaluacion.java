@@ -364,6 +364,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
             }  
             Instancia_Evaluacion instancia_evaluacion=new Instancia_Evaluacion(this.parcial_en_uso.getArbol_podado(),fecha,this.jText_Descripcion.getText(),alumnos);
             this.modelo.getModelo_abm_instanciaEvaluacion().agregaInstanciaEvaluacion(this.parcial_en_uso,instancia_evaluacion);
+            this.modelo.recuperarInstanciasEvaluaciones(this.parcial_en_uso);
         } catch (ParseException e)
         {
             JOptionPane.showMessageDialog(this, "Fecha erronea");
