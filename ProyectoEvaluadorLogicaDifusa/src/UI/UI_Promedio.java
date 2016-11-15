@@ -416,20 +416,17 @@ public class UI_Promedio extends javax.swing.JInternalFrame
                 Arbol_Perturbacion arbol_promedio = Arbol_Perturbacion.promedio(arboles);
                 this.jTree_Arbol_Perturbacion.setModel(arbol_promedio.getTreeModel());
                 this.jTree_Arbol_Perturbacion.repaint();
-                System.out.println(arboles.size());
+                
             }
             catch (ArithmeticException e)
             {
-                
+                JOptionPane.showMessageDialog(this,e.getMessage());
             }
             catch(NotSemejanteException e)
             {
-                
+                JOptionPane.showMessageDialog(this,e.getMessage());
             }
-            catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
+            
 
 
 

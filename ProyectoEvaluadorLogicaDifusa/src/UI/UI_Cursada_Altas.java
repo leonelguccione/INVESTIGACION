@@ -19,18 +19,16 @@ import modelo.Modelo;
  *
  * @author Leonel
  */
-public class UI_Cursada_Altas extends javax.swing.JInternalFrame
-{
+public class UI_Cursada_Altas extends javax.swing.JInternalFrame {
     Modelo modelo;
-   private DefaultListModel listModel_total_alumnos = new DefaultListModel();
+    private DefaultListModel listModel_total_alumnos = new DefaultListModel();
     private DefaultListModel listModel_alumnos_de_cursada = new DefaultListModel();
     private DefaultListModel listModel_cursadas = new DefaultListModel();
-   private DefaultListModel listModel_asignaturas = new DefaultListModel();
-    private Asignatura asignatura_en_uso=null;
+    private DefaultListModel listModel_asignaturas = new DefaultListModel();
+    private Asignatura asignatura_en_uso = null;
 
     /** Creates new form Class1 */
-    public UI_Cursada_Altas(Modelo modelo)
-    {
+    public UI_Cursada_Altas(Modelo modelo) {
         initComponents();
         this.modelo = modelo;
         this.jList_Total_Alumnos.setModel(listModel_total_alumnos);
@@ -42,36 +40,35 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         this.actualizar_jList_asignaturas();
     }
 
-    private void actualizar_jList_total_alumnos()
-    {
+    private void actualizar_jList_total_alumnos() {
         this.listModel_total_alumnos.clear();
-        Iterator iterator_alumnos = modelo.getAlumnos().values().iterator();
+        Iterator iterator_alumnos = modelo.getAlumnos()
+                                          .values()
+                                          .iterator();
         //Recorrer el contenido del Iterator
-        while (iterator_alumnos.hasNext())
-        {
+        while (iterator_alumnos.hasNext()) {
             Alumno alumno = (Alumno) iterator_alumnos.next();
-           this.listModel_total_alumnos.addElement(alumno);
+            this.listModel_total_alumnos.addElement(alumno);
         }
     }
-    private void actualizar_jList_asignaturas()
-    {
+
+    private void actualizar_jList_asignaturas() {
         listModel_asignaturas.clear();
-        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
+        Iterator iterator_asignaturas = modelo.getAsignaturas()
+                                              .values()
+                                              .iterator();
         //Recorrer el contenido del Iterator
-        while (iterator_asignaturas.hasNext())
-        {
+        while (iterator_asignaturas.hasNext()) {
             Asignatura as = (Asignatura) iterator_asignaturas.next();
             listModel_asignaturas.addElement(as);
         }
     }
-    
-    private void actualizar_jList_cursadas()
-    {
+
+    private void actualizar_jList_cursadas() {
         this.listModel_cursadas.clear();
-        if(this.asignatura_en_uso!=null)
-        {
-            ArrayList<Cursada> cursadas_actuales=this.asignatura_en_uso.getCursadas();  
-            for(int i=0;i<cursadas_actuales.size();i++){
+        if (this.asignatura_en_uso != null) {
+            ArrayList<Cursada> cursadas_actuales = this.asignatura_en_uso.getCursadas();
+            for (int i = 0; i < cursadas_actuales.size(); i++) {
                 this.listModel_cursadas.addElement(cursadas_actuales.get(i));
             }
         }
@@ -120,6 +117,29 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
 
         jLabel2.setText("Año:");
 
+        jText_Anio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jText_AnioActionPerformed(evt);
+            }
+        });
+        jText_Anio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jText_KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jText_KeyPressed(evt);
+            }
+        });
+
+        jText_Cuatrimestre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jText_KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jText_KeyPressed(evt);
+            }
+        });
+
         jLabel3.setText("Cuatr.:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -133,11 +153,11 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jText_Anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addComponent(jText_Asignatura, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jText_Cuatrimestre))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jText_Anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                    .addComponent(jText_Cuatrimestre)
+                    .addComponent(jText_Asignatura))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +167,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
                     .addComponent(jLabel1)
                     .addComponent(jText_Asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jText_Anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -195,6 +215,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
         );
 
         jButton_guardar_cursada.setText("Guardar nueva cursada");
+        jButton_guardar_cursada.setEnabled(false);
         jButton_guardar_cursada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_guardar_cursadaActionPerformed(evt);
@@ -261,7 +282,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -311,79 +332,86 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
 
     private void jButton_guardar_cursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_cursadaActionPerformed
         // TODO add your handling code here:
-       
+
         Alumno al;
-       
+
         int anio = Integer.parseInt(this.jText_Anio.getText());
         int cuatrimestre = Integer.parseInt(this.jText_Cuatrimestre.getText());
         ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-        Cursada cursadaactual = new Cursada(anio,cuatrimestre);
-        for (int i = 0; i < this.listModel_alumnos_de_cursada.size(); i++)
-        {
+        Cursada cursadaactual = new Cursada(anio, cuatrimestre);
+        for (int i = 0; i < this.listModel_alumnos_de_cursada.size(); i++) {
             alumnos.add((Alumno) this.listModel_alumnos_de_cursada.get(i));
         }
         cursadaactual.setAlumnos(alumnos);
         cursadaactual.setAnio_fecha(anio);
-      
+
         cursadaactual.setCuatrimestre(cuatrimestre);
-        try{
-        this.modelo.getModelo_abm_cursada().AgregarCursada(this.asignatura_en_uso,cursadaactual);
-        this.modelo.recuperarCursadas(this.asignatura_en_uso);
-        this.actualizar_jList_total_alumnos();
-       
-        this.listModel_alumnos_de_cursada.removeAllElements();
-        this.jText_Anio.setText("");
-        this.jText_Asignatura.setText("");
-        this.jText_Cuatrimestre.setText("");
-        this.actualizar_jList_cursadas();
-        } catch (SQLException e)
-        {
+        try {
+            this.modelo
+                .getModelo_abm_cursada()
+                .AgregarCursada(this.asignatura_en_uso, cursadaactual);
+            this.modelo.recuperarCursadas(this.asignatura_en_uso);
+            this.actualizar_jList_total_alumnos();
+
+            this.listModel_alumnos_de_cursada.removeAllElements();
+            this.jText_Anio.setText("");
+            this.jText_Asignatura.setText("");
+            this.jText_Cuatrimestre.setText("");
+            this.actualizar_jList_cursadas();
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        
+        this.jButton_Agrega.setEnabled(false);
     }//GEN-LAST:event_jButton_guardar_cursadaActionPerformed
 
     private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_AgregaActionPerformed
     {//GEN-HEADEREND:event_jButton_AgregaActionPerformed
         // TODO add your handling code here:
         List<Alumno> l = this.jList_Total_Alumnos.getSelectedValuesList();
-        for (int i = 0; i < l.size(); i++)
-        {
+        for (int i = 0; i < l.size(); i++) {
             this.listModel_alumnos_de_cursada.addElement(l.get(i));
             this.listModel_total_alumnos.removeElement(l.get(i));
         }
-
+        this.verificaEnabled();
     }//GEN-LAST:event_jButton_AgregaActionPerformed
 
     private void jButton_QuitaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_QuitaActionPerformed
     {//GEN-HEADEREND:event_jButton_QuitaActionPerformed
         // TODO add your handling code here:
         List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
-        for (int i = 0; i < l.size(); i++)
-        {
+        for (int i = 0; i < l.size(); i++) {
             this.listModel_total_alumnos.addElement(l.get(i));
             this.listModel_alumnos_de_cursada.removeElement(l.get(i));
 
         }
+        this.verificaEnabled();
 
     }//GEN-LAST:event_jButton_QuitaActionPerformed
 
     private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_asignaturasMouseClicked
     {//GEN-HEADEREND:event_jList_asignaturasMouseClicked
         // TODO add your handling code here:
-        if(this.jList_asignaturas.getSelectedValue() != null)
-        {
+        if (this.jList_asignaturas.getSelectedValue() != null) {
             this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
             this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
             this.actualizar_jList_cursadas();
-            
-           
-        } 
-        
-        
-        
+
+
+        }
+
+
+        this.verificaEnabled();        
         
     }//GEN-LAST:event_jList_asignaturasMouseClicked
+
+    private void jText_KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jText_KeyPressed
+        // TODO add your handling code here:
+        this.verificaEnabled();
+    }//GEN-LAST:event_jText_KeyPressed
+
+    private void jText_AnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jText_AnioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jText_AnioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -410,5 +438,19 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame
     private javax.swing.JTextField jText_Asignatura;
     private javax.swing.JTextField jText_Cuatrimestre;
     // End of variables declaration//GEN-END:variables
-
+    private void verificaEnabled() {
+        boolean no_son_null;
+        boolean hay_textos;
+        no_son_null = this.asignatura_en_uso != null && this.jList_Alumnos_Cursada
+                                                            .getModel()
+                                                            .getSize() > 0;
+        try {
+            Integer.parseInt(this.jText_Anio.getText());
+            Integer.parseInt(this.jText_Cuatrimestre.getText());
+            hay_textos = true;
+        } catch (NumberFormatException e) {
+            hay_textos = false;
+        }
+        this.jButton_guardar_cursada.setEnabled(no_son_null && hay_textos);
+    }
 }

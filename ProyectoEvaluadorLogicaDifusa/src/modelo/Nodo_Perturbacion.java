@@ -119,6 +119,28 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         return aux;
     }
 
+
+    /**
+     * @return Cantidad de hojas
+     */
+    public int contarHojas()
+    {
+        int aux = 0;
+        if (!esHoja())
+        {
+            Enumeration hijos = children();
+            while (hijos.hasMoreElements())
+            {
+                Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
+                aux += nodo_hijo.contarHojas();
+            }
+        }
+        else aux++;
+        return aux;
+    }
+
+
+
     /**Determina si un árbol es semejante a otro.
      * La semejanza está determinada por las siguientes condiciones:
      * - ambos null

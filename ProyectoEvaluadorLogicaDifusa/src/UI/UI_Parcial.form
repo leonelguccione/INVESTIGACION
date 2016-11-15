@@ -33,16 +33,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel15" max="32767" attributes="0"/>
-                  <Component id="jPanel1" pref="556" max="32767" attributes="0"/>
+                  <Component id="jPanel1" pref="477" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="jScrollPane_jTreeVisual" min="-2" pref="460" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                       <Component id="jButton_eliminar_nodo" min="-2" pref="94" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton_conservar_rama" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButton_guardar_ap" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -57,7 +54,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jPanel1" pref="433" max="32767" attributes="0"/>
+                      <Component id="jPanel1" pref="555" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel15" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -67,7 +64,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton_guardar_ap" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton_eliminar_nodo" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton_conservar_rama" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -190,14 +186,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton_conservar_rama">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Conservar Rama"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_conservar_ramaActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
@@ -288,6 +276,7 @@
                     <StringItem index="4" value="Item 5"/>
                   </StringArray>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
