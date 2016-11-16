@@ -15,22 +15,29 @@ import modelo.Modelo;
  *
  * @author guille
  */
-public class UI_Alta_Alumno extends javax.swing.JInternalFrame
-{
-    Modelo modelo;
-    DefaultListModel listModel = new DefaultListModel();
-    Alumno alumno_seleccionado = null;
+
+
+public class UI_Alta_Alumno extends javax.swing.JInternalFrame {
+    private static final int CONSULTA = 0;
+    private static final int MODIFICACION = 1;
+    private static final int AGREGAR = 2;
+    private static final int BORRADO = 3;
+
+
+    private Modelo modelo;
+    private DefaultListModel listModel = new DefaultListModel();
+    private Alumno alumno_seleccionado = null;
+    private int modo = UI_Alta_Alumno.CONSULTA;
 
 
     /** Creates new form UI_Alta_Alumno */
     @SuppressWarnings("unchecked")
-    public UI_Alta_Alumno(Modelo modelo)
-    {
+    public UI_Alta_Alumno(Modelo modelo) {
         initComponents();
         this.modelo = modelo;
         this.jList_Alumnos.setModel(listModel);
         this.actualizar_jList();
-        this.habilita_jtext();
+        this.setEnabled_jtext(false);
         this.limpia_jText();
     }
 
@@ -58,6 +65,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         jButton_Modificar = new javax.swing.JButton();
         jButton_Borrar = new javax.swing.JButton();
         jButton_Cancelar = new javax.swing.JButton();
+        jButton_Aceptar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Gestión de Alumnos");
@@ -77,12 +85,14 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -127,6 +137,14 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
             }
         });
 
+        jButton_Aceptar.setText("Aceptar");
+        jButton_Aceptar.setEnabled(false);
+        jButton_Aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_AceptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,29 +153,31 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton_Agregar)
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton_Modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jText_Dni)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jText_Legajo)
                             .addComponent(jText_Apellido)
-                            .addComponent(jText_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jText_Nombre)
+                            .addComponent(jText_Dni)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton_Borrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Agregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_Modificar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jButton_Cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(73, 73, 73)
+                        .addComponent(jButton_Aceptar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Cancelar)
+                        .addGap(80, 80, 80)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,15 +198,15 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jText_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Agregar)
-                    .addComponent(jButton_Modificar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton_Modificar)
+                    .addComponent(jButton_Borrar))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Borrar)
-                    .addComponent(jButton_Cancelar))
-                .addGap(10, 10, 10))
+                    .addComponent(jButton_Cancelar)
+                    .addComponent(jButton_Aceptar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,9 +216,9 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(46, 46, 46)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 447, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +227,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10))
+                .addContainerGap())
         );
 
         pack();
@@ -215,86 +235,72 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
 
     private void jButton_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregarActionPerformed
         // TODO add your handling code here:
-
-        String st_dni = this.jText_Dni.getText();
-        String st_legajo = this.jText_Legajo.getText();
-
-        System.out.println(st_dni);
-
-        long dni = Long.parseLong(st_dni);
-        long legajo = Long.parseLong(st_legajo);
-        String apellido = this.jText_Apellido.getText().trim();
-        String nombre = this.jText_Nombre.getText().trim();
-        Alumno al = new Alumno(legajo, apellido, nombre, dni);
-        try
-        {
-            this.modelo.agrega_alumno(al);
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.actualizar_jList();
+        this.setEnabledAceptarCancelar(true);
+        this.modo = UI_Alta_Alumno.AGREGAR;
         this.limpia_jText();
+        this.setEnabled_jtext(true);
     }//GEN-LAST:event_jButton_AgregarActionPerformed
 
     private void jList_AlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_AlumnosMouseClicked
         // TODO add your handling code here:
-        if (!this.listModel.isEmpty())
-        {
+        if (!this.listModel.isEmpty()) {
 
-            if (this.jList_Alumnos.getSelectedValue() != null)
-            {
-                this.jButton_Borrar.setEnabled(true);
-                this.jButton_Modificar.setEnabled(true);
+            if (this.jList_Alumnos.getSelectedValue() != null) {
                 this.alumno_seleccionado = (Alumno) this.jList_Alumnos.getSelectedValue();
-
                 this.jText_Apellido.setText(this.alumno_seleccionado.getApellido());
                 this.jText_Nombre.setText(this.alumno_seleccionado.getNombre());
                 this.jText_Dni.setText(String.valueOf(this.alumno_seleccionado.getDni()));
                 this.jText_Legajo.setText(String.valueOf(this.alumno_seleccionado.getLegajo()));
             }
         }
+        this.verificaEnabled();
         
     }//GEN-LAST:event_jList_AlumnosMouseClicked
 
     private void jButton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelarActionPerformed
         // TODO add your handling code here:
-        this.resetEnabledDisabled();
+        this.consultar();
+        
+        
+        
     }//GEN-LAST:event_jButton_CancelarActionPerformed
 
     private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
-        String st_dni = this.jText_Dni.getText();
-        long dni = Long.parseLong(st_dni);
-        try
-        {
-            this.modelo.getModelo_abm_alumno().borrarAlumno(this.alumno_seleccionado);
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.actualizar_jList();
-        this.limpia_jText();
-        this.alumno_seleccionado=null;
+        this.setEnabledAceptarCancelar(true);
+        this.modo = UI_Alta_Alumno.BORRADO;
     }//GEN-LAST:event_jButton_BorrarActionPerformed
 
     private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
-        long dni = Long.parseLong(this.jText_Dni.getText());
-        long legajo = Long.parseLong(this.jText_Legajo.getText());
-        String apellido = this.jText_Apellido.getText();
-        String nombre = this.jText_Nombre.getText();
-        Alumno al = new Alumno(legajo, apellido, nombre, dni);
-        try
-        {
-            this.modelo.getModelo_abm_alumno().modificarAlumno(al);
-        } catch (SQLException e)
-        {JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.habilita_jtext();
+        this.setEnabledAceptarCancelar(true);
+        this.modo = UI_Alta_Alumno.MODIFICACION;
+        this.setEnabled_jtext(true);
         this.jText_Dni.setEnabled(false);
+        
     }//GEN-LAST:event_jButton_ModificarActionPerformed
+
+    private void jButton_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AceptarActionPerformed
+        switch (this.modo) {
+        case UI_Alta_Alumno.BORRADO:
+            this.borrar();
+
+            break;
+        case UI_Alta_Alumno.AGREGAR:
+            this.agregar();
+
+            break;
+        case UI_Alta_Alumno.MODIFICACION:
+            this.modificar();
+
+            break;
+        }
+        this.consultar();
+        
+        
+    }//GEN-LAST:event_jButton_AceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Aceptar;
     private javax.swing.JButton jButton_Agregar;
     private javax.swing.JButton jButton_Borrar;
     private javax.swing.JButton jButton_Cancelar;
@@ -313,24 +319,15 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     private javax.swing.JTextField jText_Nombre;
     // End of variables declaration//GEN-END:variables
 
-    private void habilita_jtext()
-    {
-        this.jText_Apellido.setEnabled(true);
-        this.jText_Nombre.setEnabled(true);
-        this.jText_Dni.setEnabled(true);
-        this.jText_Legajo.setEnabled(true);
+    private void setEnabled_jtext(boolean parametro) {
+        this.jText_Apellido.setEnabled(parametro);
+        this.jText_Nombre.setEnabled(parametro);
+        this.jText_Dni.setEnabled(parametro);
+        this.jText_Legajo.setEnabled(parametro);
     }
 
-    private void deshabilita_jtext()
-    {
-        this.jText_Apellido.setEnabled(false);
-        this.jText_Nombre.setEnabled(false);
-        this.jText_Dni.setEnabled(false);
-        this.jText_Legajo.setEnabled(false);
-    }
 
-    private void limpia_jText()
-    {
+    private void limpia_jText() {
         this.jText_Apellido.setText("");
         this.jText_Nombre.setText("");
         this.jText_Dni.setText("");
@@ -338,39 +335,101 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame
     }
 
 
-    private void actualizar_jList()
-    {
+    private void actualizar_jList() {
         listModel.clear();
 
         // Iterator iterator_alumnos = modelo.getModelo_abm_alumno().get_lista_alumnos();
-        Iterator iterator_alumnos = modelo.getAlumnos().values().iterator();
-        while (iterator_alumnos.hasNext())
-        {
+        Iterator iterator_alumnos = modelo.getAlumnos()
+                                          .values()
+                                          .iterator();
+        while (iterator_alumnos.hasNext()) {
             Alumno al = (Alumno) iterator_alumnos.next();
             listModel.addElement(al);
         }
     }
 
-    private void resetEnabledDisabled()
-    {
+
+    private void verificaEnabled() {
+        this.jButton_Borrar.setEnabled(this.alumno_seleccionado != null);
+        this.jButton_Modificar.setEnabled(this.alumno_seleccionado != null);
+
+    }
+
+
+    private void borrar() {
+        String st_dni = this.jText_Dni.getText();
+
+        try {
+            this.modelo
+                .getModelo_abm_alumno()
+                .borrarAlumno(this.alumno_seleccionado);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            
+        }
+        this.modelo.getAlumnos().remove(this.alumno_seleccionado.getDni());
+        
+    }
+
+    private void agregar() {
+        String st_dni = this.jText_Dni.getText();
+        String st_legajo = this.jText_Legajo.getText();
+        try {
+            long dni = Long.parseLong(st_dni);
+            long legajo = Long.parseLong(st_legajo);
+
+            String apellido = this.jText_Apellido
+                                  .getText()
+                                  .trim();
+            String nombre = this.jText_Nombre
+                                .getText()
+                                .trim();
+            Alumno al = new Alumno(legajo, apellido, nombre, dni);
+
+            this.modelo.agrega_alumno(al);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void modificar() {
+        try {
+            long legajo = Long.parseLong(this.jText_Legajo.getText());
+            String apellido = this.jText_Apellido.getText();
+            String nombre = this.jText_Nombre.getText();
+            this.alumno_seleccionado.setApellido(apellido);
+            this.alumno_seleccionado.setNombre(nombre);
+            this.alumno_seleccionado.setLegajo(legajo);
+
+            this.modelo
+                .getModelo_abm_alumno()
+                .modificarAlumno(this.alumno_seleccionado);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+
+    private void setEnabledAceptarCancelar(boolean parametro) {
+        this.jButton_Cancelar.setEnabled(parametro);
+        this.jButton_Aceptar.setEnabled(parametro);
+        this.jButton_Agregar.setEnabled(!parametro);
+        this.jButton_Borrar.setEnabled(!parametro);
+        this.jButton_Modificar.setEnabled(!parametro);
+        this.jList_Alumnos.setEnabled(!parametro);
+        this.setEnabled_jtext(false);
+    }
+
+    private void consultar() {
         this.actualizar_jList();
         this.limpia_jText();
-        this.deshabilita_jtext();
-        this.jButton_Cancelar.setEnabled(false);
-        this.jButton_Agregar.setEnabled(true);
-        this.jButton_Borrar.setEnabled(false);
-        this.jButton_Modificar.setEnabled(false);
-        this.jList_Alumnos.setEnabled(true);
+        this.alumno_seleccionado = null;
+        this.setEnabledAceptarCancelar(false);
+        this.modo = UI_Alta_Alumno.CONSULTA;
+        this.setEnabled_jtext(false);
     }
-
-    private void preparaEnabledDisabled()
-    {
-        this.jButton_Agregar.setEnabled(false);
-        this.jButton_Borrar.setEnabled(false);
-        this.jButton_Modificar.setEnabled(false);
-        this.jButton_Cancelar.setEnabled(true);
-        this.jList_Alumnos.setEnabled(false);
-
-    }
-
 }
