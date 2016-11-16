@@ -28,8 +28,7 @@ import javax.swing.SwingUtilities;
 
 import modelo.Arbol_Perturbacion;
 
-public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
-{
+public class UI_Arbol_Perturbacion extends JFrame implements ActionListener {
     private static final String CAPTURA = "captura";
     private static final String TRADICIONAL = "tradicional";
     private static final String PERSONALIZADO = "personalizado";
@@ -46,11 +45,12 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     private JRadioButton jr_Tradicional = new JRadioButton("Tradicional");
     private JScrollPane jScrollPane_jTree_Tradicional = new javax.swing.JScrollPane();
 
-    public UI_Arbol_Perturbacion(String string, Arbol_Perturbacion arbol) throws HeadlessException
-    {
+    public UI_Arbol_Perturbacion(String string, Arbol_Perturbacion arbol) throws HeadlessException {
         super(string);
         this.setVisible(true);
-        setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        setExtendedState(java.awt
+                             .Frame
+                             .MAXIMIZED_BOTH);
         this.jtree_arbol_visual.setModel(arbol.getTreeModel());
         this.jtree_tradicional.setModel(arbol.getTreeModel());
         this.jtree_tradicional.setScrollsOnExpand(true);
@@ -70,12 +70,24 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
         jPanel_grilla.add(jButton_capturar);
         jPanel_grilla.add(jr_Tradicional);
         this.jr_Personalizado.setSelected(true);
+
+        /*         this.jtree_arbol_visual.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                Nodo_Perturbacion nodo = (Nodo_Perturbacion) jtree_arbol_visual.getNodoSeleccionado();
+                if (nodo != null) {
+                    System.out.println("level: " + nodo.getLevel() + "depth: " + nodo.getDepth());
+                }
+            }
+        }); */
+        
+        
         this.inicia_visual(this.jtree_arbol_visual);
-       
+
     }
 
-    public static BufferedImage getScreenShot(Component component)
-    {
+    public static BufferedImage getScreenShot(Component component) {
         component.setSize(component.getPreferredSize());
         BufferedImage image =
             new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -85,28 +97,22 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == UI_Arbol_Perturbacion.CAPTURA)
             this.captura();
-        if (e.getActionCommand() == UI_Arbol_Perturbacion.PERSONALIZADO)
-        {
+        if (e.getActionCommand() == UI_Arbol_Perturbacion.PERSONALIZADO) {
             this.inicia_visual(this.jtree_arbol_visual);
         }
-        if (e.getActionCommand() == UI_Arbol_Perturbacion.TRADICIONAL)
-        {
+        if (e.getActionCommand() == UI_Arbol_Perturbacion.TRADICIONAL) {
             this.inicia_visual(this.jScrollPane_jTree_Tradicional);
 
         }
     }
 
-    private void captura()
-    {
-        Runnable r = new Runnable()
-        {
+    private void captura() {
+        Runnable r = new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 BufferedImage imagen;
                 if (jr_Personalizado.isSelected())
                     imagen = getScreenShot(jtree_arbol_visual.getComponent(0));
@@ -114,12 +120,10 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
                     imagen = getScreenShot(jtree_tradicional);
 
 
-                try
-                {
+                try {
                     File archivo = new File("screenshot.png");
                     ImageIO.write(imagen, "png", archivo);
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -129,13 +133,14 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
 
     }
 
-    private void inicia_visual(JComponent jarbolactual)
-    {
+    private void inicia_visual(JComponent jarbolactual) {
         this.getContentPane().removeAll();
         this.getContentPane().add(jPanel_sur, BorderLayout.SOUTH);
         this.getContentPane().add(jarbolactual, BorderLayout.CENTER);
         this.pack();
-        setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        setExtendedState(java.awt
+                             .Frame
+                             .MAXIMIZED_BOTH);
     }
 
 }
