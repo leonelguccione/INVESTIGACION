@@ -82,6 +82,102 @@
    <hash n="oracle.jdeveloper.compiler.OjcConfiguration">
       <value n="internalEncoding" v="UTF-8"/>
    </hash>
+   <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
+      <hash n="profileDefinitions">
+         <hash n="Archivo">
+            <hash n="archiveOptions">
+               <list n="additionalManifests">
+                  <url path="../../Class-Path.mf"/>
+               </list>
+               <value n="hasManifest" v="true"/>
+               <value n="mainClass" v="UI.UI_Principal"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                              <value n="type" v="0"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/Archivo.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="Archivo"/>
+         </hash>
+         <hash n="Modelo_Del_Estudiante">
+            <hash n="archiveOptions">
+               <list n="additionalManifests">
+                  <url path="../../Class-Path.mf"/>
+               </list>
+               <value n="hasManifest" v="true"/>
+               <value n="mainClass" v="UI.UI_Principal"/>
+            </hash>
+            <hash n="dependencies">
+               <list n="dependencyList">
+                  <hash>
+                     <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
+                     <url n="ownerURL" path="ProyectoEvaluadorLogicaDifusa.jpr"/>
+                     <url n="sourceURL" path="JTreeVisual.jar"/>
+                  </hash>
+                  <hash>
+                     <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
+                     <url n="ownerURL" path="ProyectoEvaluadorLogicaDifusa.jpr"/>
+                     <url n="sourceURL" path="mysql-connector-java-5.1.40-bin.jar"/>
+                  </hash>
+               </list>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                              <value n="type" v="0"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/Modelo_Del_Estudiante.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="Modelo_Del_Estudiante"/>
+         </hash>
+      </hash>
+      <list n="profileList">
+         <string v="Modelo_Del_Estudiante"/>
+         <string v="Archivo"/>
+      </list>
+   </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
       <hash n="webContentSet">
          <list n="pattern-filters">
