@@ -361,7 +361,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        this.jButton_Agrega.setEnabled(false);
+       // this.jButton_Agrega.setEnabled(false);
     }//GEN-LAST:event_jButton_guardar_cursadaActionPerformed
 
     private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_AgregaActionPerformed
