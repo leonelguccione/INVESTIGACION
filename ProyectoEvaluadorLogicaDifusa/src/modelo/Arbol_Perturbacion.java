@@ -165,10 +165,10 @@ public class Arbol_Perturbacion implements Serializable, Cloneable {
             os.writeObject(this);
             os.close();
         } catch (IOException e) {
-        } finally {
+        } 
             byte[] bytes = bs.toByteArray(); // devuelve byte[]
             return bytes;
-        }
+        
     }
 
     public static Arbol_Perturbacion deserializar(byte[] bytes) {

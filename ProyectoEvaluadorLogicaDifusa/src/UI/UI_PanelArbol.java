@@ -1,11 +1,11 @@
 package UI;
 
-import arbol_visual.ArbolVisual;
+
+import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -14,7 +14,7 @@ import modelo.Arbol_Perturbacion;
 
 public class UI_PanelArbol extends JPanel
 {
-    private ArbolVisual tree;
+    private ArbolPerturbacionVisual tree;
     private DefaultTreeModel dtmodel;
     private Arbol_Perturbacion arbol_perturbacion; 
    
@@ -50,12 +50,7 @@ public class UI_PanelArbol extends JPanel
         setLayout(new BorderLayout());
 
         //this.modeloarbol = new DefaultTreeModel(new DefaultMutableTreeNode(raiz));
-        tree = new ArbolVisual(dtmodel);
-        tree.setJuegoImagenesNodoVisual(new ImageIcon("r_hoja.png"), new ImageIcon("r_rama_cont.png"),
-                                                new ImageIcon("r_rama_exp.png"), new ImageIcon("r_hoja_s.png"),
-                                                new ImageIcon("r_rama_cont_s.png"), new ImageIcon("r_rama_exp_s.png"),
-                                                new ImageIcon("mas.png"), new ImageIcon("menos.png")); 
-        
+        tree = new ArbolPerturbacionVisual(dtmodel);
         this.rectas();
         this.add(tree);
     }

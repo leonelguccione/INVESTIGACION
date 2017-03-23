@@ -273,7 +273,7 @@
       <SubComponents>
         <Container class="javax.swing.JScrollPane" name="jScrollPane_arbol">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ArbolVisual()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ArbolPerturbacionVisual()"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
