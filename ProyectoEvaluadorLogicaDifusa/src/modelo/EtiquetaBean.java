@@ -125,6 +125,7 @@ public class EtiquetaBean implements Cloneable, Serializable
         setConocido(conocido + e.getConocido());
         setAprendido(aprendido + e.getAprendido());
     }
+
     public void resta(EtiquetaBean e)
     {
         setDesconocido(desconocido - e.getDesconocido());
@@ -148,7 +149,7 @@ public class EtiquetaBean implements Cloneable, Serializable
         setDesconocido(desconocido * cant);
         setParcialmenteConocido(parcialmente_conocido * cant);
     }
-    
+
     @Override
     public String toString()
     {
@@ -191,5 +192,60 @@ public class EtiquetaBean implements Cloneable, Serializable
         setParcialmenteConocido(0.00);
     }
 
+    public double getNota()
+    {
+        return this.getParcialmenteConocido() * 0.40 + this.getConocido() * 0.65 + this.getAprendido() * 1;
+    }
+
+    public void setEtiquetaDesdeNota(double nota) throws Exception
+    {
+        if (nota < 0 || nota > 1)
+            throw new Exception("Nota no válida");
+        if (nota <= 0.30)
+        {
+            this.desconocido = 1;
+            this.parcialmente_conocido = 0;
+            this.conocido = 0;
+            this.aprendido = 0;
+        } else if (nota < 0.40)
+        {
+            this.parcialmente_conocido = (nota - 0.30) * 10;
+            this.desconocido = 1 - this.parcialmente_conocido;
+            this.conocido = 0;
+            this.aprendido = 0;
+        } else if (nota < 0.55)
+        {
+            this.desconocido = 0;
+            this.parcialmente_conocido = 1;
+            this.conocido = 0;
+            this.aprendido = 0;
+        } else if (nota < 0.65)
+        {
+            this.desconocido = 0;
+            this.conocido = (nota - 0.55) * 10;
+            this.parcialmente_conocido = 1 - this.conocido;
+            this.aprendido = 0;
+        } else if (nota < 0.80)
+        {
+            this.desconocido = 0;
+            this.parcialmente_conocido = 0;
+            this.conocido = 1;
+            this.aprendido = 0;
+        } else if (nota < 0.90)
+        {
+            this.desconocido = 0;
+            this.parcialmente_conocido = 0;
+            this.aprendido = (nota - 0.8) * 10;
+            this.conocido = 1 - this.aprendido;
+        } else
+        {
+            this.desconocido = 0;
+            this.parcialmente_conocido = 0;
+            this.conocido = 0;
+            this.aprendido = 1;
+        }
+
+
+    }
 
 }

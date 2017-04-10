@@ -4,7 +4,7 @@ package UI;
 import Excepciones.NoCompletoException;
 import Excepciones.RaizNulaException;
 
-import arbol_visual.ArbolVisual;
+import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -47,13 +47,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private Parcial parcial_seleccionado = null;
     private Instancia_Evaluacion instancia_seleccionada = null;
     private Examen examen_seleccionado = null;
-    private ArbolVisual jTree_Arbol_Perturbacion = null;
+    private ArbolPerturbacionVisual jTree_Arbol_Perturbacion = null;
     private MouseAdapter mouseA;
 
     /** Creates new form UI_Correccion */
     public UI_Correccion(Modelo modelo) {
         initComponents();
-        jTree_Arbol_Perturbacion = (ArbolVisual) this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion = (ArbolPerturbacionVisual) this.jScrollPane_arbol;
         this.modelo = modelo;
 
         this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
@@ -143,7 +143,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    private void initComponents() {//GEN-BEGIN:initComponents
+    private void initComponents()//GEN-BEGIN:initComponents
+    {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -162,7 +163,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jBAceptar = new javax.swing.JButton();
         jB_Guardar = new javax.swing.JButton();
-        jScrollPane_arbol = new ArbolVisual();
+        jScrollPane_arbol = new ArbolPerturbacionVisual();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel_porcentaje_corregido = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -199,15 +200,19 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel13.setText("Desconocido:");
 
         jTextDesconocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextDesconocido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextKeyRelease(evt);
             }
         });
 
         jTextParcialmente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextParcialmente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextKeyRelease(evt);
             }
         });
@@ -215,8 +220,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel14.setText("Parcialmente Conocido:");
 
         jTextConocido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextConocido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextKeyRelease(evt);
             }
         });
@@ -224,8 +231,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel15.setText("Conocido:");
 
         jTextAprendido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        jTextAprendido.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 jTextKeyRelease(evt);
             }
         });
@@ -234,15 +243,19 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
         jBAceptar.setText("Aceptar");
         jBAceptar.setEnabled(false);
-        jBAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jBAceptar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jBAceptarActionPerformed(evt);
             }
         });
 
         jB_Guardar.setText("Guardar");
-        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jB_GuardarMouseClicked(evt);
             }
         });
@@ -350,8 +363,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de Evaluaciones"));
 
         jComboBox_Asignatura.setModel(this.comboBoxModelAsignatura);
-        jComboBox_Asignatura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Asignatura.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_AsignaturaActionPerformed(evt);
             }
         });
@@ -361,15 +376,19 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel8.setText("Cursada:");
 
         jComboBox_Cursada.setModel(this.comboBoxModelCursada);
-        jComboBox_Cursada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Cursada.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_CursadaActionPerformed(evt);
             }
         });
 
         jComboBox_Inst_Evaluacion.setModel(this.comboBoxModelInstEvaluacion);
-        jComboBox_Inst_Evaluacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Inst_Evaluacion.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_Inst_EvaluacionActionPerformed(evt);
             }
         });
@@ -379,15 +398,19 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel12.setText("Parcial:");
 
         jComboBox_Parcial.setModel(this.comboBoxModelParciales);
-        jComboBox_Parcial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox_Parcial.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox_ParcialActionPerformed(evt);
             }
         });
 
         jLista_Examenes.setModel(this.listModelexamenes);
-        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jLista_ExamenesMouseClicked(evt);
             }
         });

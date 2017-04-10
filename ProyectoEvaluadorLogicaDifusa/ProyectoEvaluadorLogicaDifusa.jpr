@@ -73,6 +73,8 @@
       <list n="technologyScope">
          <string v="Database"/>
          <string v="Database-Modeling"/>
+         <string v="HTML"/>
+         <string v="JAVASCRIPT"/>
          <string v="Java"/>
          <string v="Java-Modeling"/>
          <string v="UML"/>

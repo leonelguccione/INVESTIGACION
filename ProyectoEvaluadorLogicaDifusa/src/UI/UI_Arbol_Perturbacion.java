@@ -1,6 +1,7 @@
 package UI;
 
-import arbol_visual.ArbolVisual;
+
+import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -34,7 +35,7 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener {
     private static final String PERSONALIZADO = "personalizado";
 
 
-    private ArbolVisual jtree_arbol_visual = new ArbolVisual();
+    private ArbolPerturbacionVisual jtree_arbol_visual =new ArbolPerturbacionVisual();
     private JPanel jPanel_sur = new JPanel();
     private JPanel jPanel_grilla = new JPanel();
     private JButton jButton_capturar = new JButton("Capturar Imagen");
