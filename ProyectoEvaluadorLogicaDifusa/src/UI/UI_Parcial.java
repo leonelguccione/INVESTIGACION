@@ -109,20 +109,20 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
         jButton_guardar_ap.setText("Guardar Parcial");
         jButton_guardar_ap.setEnabled(false);
-        jButton_guardar_ap.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_guardar_ap.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_guardar_apMouseClicked(evt);
+                jButton_guardar_apActionPerformed(evt);
             }
         });
 
         jButton_eliminar_nodo.setText("Eliminar Nodo");
-        jButton_eliminar_nodo.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_eliminar_nodo.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_eliminar_nodoMouseClicked(evt);
+                jButton_eliminar_nodoActionPerformed(evt);
             }
         });
 
@@ -273,9 +273,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1539, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -311,40 +309,6 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
         pack();
     }//GEN-END:initComponents
-
-    private void jButton_guardar_apMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_guardar_apMouseClicked
-    {//GEN-HEADEREND:event_jButton_guardar_apMouseClicked
-        try
-        {
-            this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
-                                                               new Parcial(0, this.jText_Nombre.getText(),
-                                                                           this.arbolPodado));
-
-            this.modelo.recuperarParciales(this.cursada_en_uso);
-            this.modo_edicion = false;
-            limpiar();
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    
-    }//GEN-LAST:event_jButton_guardar_apMouseClicked
-
-    private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked
-    {//GEN-HEADEREND:event_jButton_eliminar_nodoMouseClicked
-        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
-        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
-        if (nodoSeleccionado != null)
-        {
-            if (!nodoSeleccionado.isRoot())
-            {
-                dtm.removeNodeFromParent(nodoSeleccionado);
-            } else
-            {
-                this.eliminar_arbol_completo();
-            }
-        }
-    }//GEN-LAST:event_jButton_eliminar_nodoMouseClicked
 
     private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_asignaturasMouseClicked
         // TODO add your handling code here:
@@ -424,6 +388,40 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         limpiar();
      
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButton_guardar_apActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_guardar_apActionPerformed
+    {//GEN-HEADEREND:event_jButton_guardar_apActionPerformed
+    try
+    {
+        this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
+                                                           new Parcial(0, this.jText_Nombre.getText(),
+                                                                       this.arbolPodado));
+
+        this.modelo.recuperarParciales(this.cursada_en_uso);
+        this.modo_edicion = false;
+        limpiar();
+    } catch (SQLException e)
+    {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    
+    }//GEN-LAST:event_jButton_guardar_apActionPerformed
+
+    private void jButton_eliminar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoActionPerformed
+    {//GEN-HEADEREND:event_jButton_eliminar_nodoActionPerformed
+        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
+        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
+        if (nodoSeleccionado != null)
+        {
+            if (!nodoSeleccionado.isRoot())
+            {
+                dtm.removeNodeFromParent(nodoSeleccionado);
+            } else
+            {
+                this.eliminar_arbol_completo();
+            }
+        }
+    }//GEN-LAST:event_jButton_eliminar_nodoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

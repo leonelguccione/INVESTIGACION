@@ -252,11 +252,11 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         });
 
         jB_Guardar.setText("Guardar");
-        jB_Guardar.addMouseListener(new java.awt.event.MouseAdapter()
+        jB_Guardar.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jB_GuardarMouseClicked(evt);
+                jB_GuardarActionPerformed(evt);
             }
         });
 
@@ -407,11 +407,11 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         });
 
         jLista_Examenes.setModel(this.listModelexamenes);
-        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter()
+        jLista_Examenes.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jLista_ExamenesMouseClicked(evt);
+                jLista_ExamenesValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(jLista_Examenes);
@@ -503,61 +503,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
 
    
-    private void jB_GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jB_GuardarMouseClicked
-        // TODO add your handling code here:
-
-        Examen ex = this.examen_seleccionado;
-        if (ex != null && ex.isModificado()) {
-
-            try {
-                ex.getArbol_podado_particular().procesar();
-            } catch (NoCompletoException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
-            this.actualiza_jtree();
-
-            try {
-                modelo.getModelo_abm_evaluacion().actualizar_examen(ex);
-                ex.setModificado(false);
-                this.verifica_modificado();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
-
-        }
-           
-        
-    }//GEN-LAST:event_jB_GuardarMouseClicked
-
     private void jBAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAceptarActionPerformed
         this.actualizaEtiqueta();
         this.actualiza_jtree();
     }//GEN-LAST:event_jBAceptarActionPerformed
-
-    private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_ExamenesMouseClicked
-
-        // TODO add your handling code here:
-        this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
-        if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled()) {
-            limpiar_zona_correccion();
-            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
-                                                       .getArbol_podado_particular()
-                                                       .getTreeModel());
-            this.actualiza_jtree();
-            this.jT_Alumno.setText(this.examen_seleccionado
-                                       .getAlumno()
-                                       .toString());
-            this.nodo_seleccionado = null;
-            jT_id_arbol_perturbacion.setText(this.examen_seleccionado
-                                                 .getArbol_podado_particular()
-                                                 .getNombre());
-            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado
-                                                          .getArbol_podado_particular()
-                                                          .getDescripcion());
-            this.verifica_modificado();
-
-        }
-    }//GEN-LAST:event_jLista_ExamenesMouseClicked
 
     private void jComboBox_AsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_AsignaturaActionPerformed
         
@@ -606,6 +555,53 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_Inst_EvaluacionActionPerformed
+
+    private void jB_GuardarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jB_GuardarActionPerformed
+    {//GEN-HEADEREND:event_jB_GuardarActionPerformed
+    Examen ex = this.examen_seleccionado;
+    if (ex != null && ex.isModificado()) {
+
+        try {
+            ex.getArbol_podado_particular().procesar();
+        } catch (NoCompletoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        this.actualiza_jtree();
+
+        try {
+            modelo.getModelo_abm_evaluacion().actualizar_examen(ex);
+            ex.setModificado(false);
+            this.verifica_modificado();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }
+       
+    }//GEN-LAST:event_jB_GuardarActionPerformed
+
+    private void jLista_ExamenesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLista_ExamenesValueChanged
+    {//GEN-HEADEREND:event_jLista_ExamenesValueChanged
+    this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
+    if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled()) {
+        limpiar_zona_correccion();
+        this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
+                                                   .getArbol_podado_particular()
+                                                   .getTreeModel());
+        this.actualiza_jtree();
+        this.jT_Alumno.setText(this.examen_seleccionado
+                                   .getAlumno()
+                                   .toString());
+        this.nodo_seleccionado = null;
+        jT_id_arbol_perturbacion.setText(this.examen_seleccionado
+                                             .getArbol_podado_particular()
+                                             .getNombre());
+        jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado
+                                                      .getArbol_podado_particular()
+                                                      .getDescripcion());
+        this.verifica_modificado();
+    }
+    }//GEN-LAST:event_jLista_ExamenesValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

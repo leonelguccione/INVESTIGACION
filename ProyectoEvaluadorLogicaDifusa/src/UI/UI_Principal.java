@@ -5,6 +5,7 @@ import java.beans.PropertyVetoException;
 
 import java.sql.SQLException;
 
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 import modelo.Modelo;
@@ -16,9 +17,9 @@ import modelo.Modelo;
  */
 public class UI_Principal extends javax.swing.JFrame
 {
-    Modelo modelo;
+    private Modelo modelo;
+    private JInternalFrame ventanaAnterior = null;
 
-    /** Creates new form UI_Principal */
     public UI_Principal()
     {
         initComponents();
@@ -178,35 +179,23 @@ public class UI_Principal extends javax.swing.JFrame
         // TODO add your handling code here:
 
         UI_Alta_Alumno ui_al = new UI_Alta_Alumno(modelo);
-        this.jPanel_ppal.add(ui_al);
-        ui_al.setVisible(true);
-        try
-        {
-            ui_al.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }
+        this.agregaVentana(ui_al);
+    
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         UI_Cursada_Altas ui_cur = new UI_Cursada_Altas(modelo);
-        this.jPanel_ppal.add(ui_cur);
-        ui_cur.setVisible(true);
-        try
-        {
-            ui_cur.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }
+        this.agregaVentana(ui_cur);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem_ABM_AsignatuasActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem_ABM_AsignatuasActionPerformed
     {//GEN-HEADEREND:event_jMenuItem_ABM_AsignatuasActionPerformed
         // TODO add your handling code here:
-        lanzar_UI_Asignaturas();
+        UI_Asignatura ui_asignatura = new UI_Asignatura(modelo);
+        this.agregaVentana(ui_asignatura);
+
     }//GEN-LAST:event_jMenuItem_ABM_AsignatuasActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenu1ActionPerformed
@@ -218,67 +207,29 @@ public class UI_Principal extends javax.swing.JFrame
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
     {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
         UI_Parcial ui_par = new UI_Parcial(modelo);
-         this.jPanel_ppal.add(ui_par);
-        ui_par.setVisible(true);
-       try
-        {
-            ui_par.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }// TODO add your handling code here:
-
+        this.jPanel_ppal.add(ui_par);
+        this.agregaVentana(ui_par);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem5ActionPerformed
     {//GEN-HEADEREND:event_jMenuItem5ActionPerformed
-      UI_Instancia_Evaluacion ui_ie = new UI_Instancia_Evaluacion(modelo);
-   
-     this.jPanel_ppal.add(ui_ie);
-    ui_ie.setVisible(true);
-    try
-    {
-        ui_ie.setMaximum(true);
-    }
-    catch (PropertyVetoException e)
-    {
-    }// TODO add your handling code here:
+        UI_Instancia_Evaluacion ui_ie = new UI_Instancia_Evaluacion(modelo);
 
+        this.agregaVentana(ui_ie);
        
        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-UI_Correccion ui_correccion=new UI_Correccion(modelo);
-        this.jPanel_ppal.add(ui_correccion);
-        ui_correccion.setVisible(true);
-        try
-        {
-           ui_correccion.setMaximum(true);
-        }
-        catch (PropertyVetoException e)
-        {
-        }// TODO add your
+        UI_Correccion ui_correccion = new UI_Correccion(modelo);
+        this.agregaVentana(ui_correccion);
 
-
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-    UI_Promedio ui_comparaciones=new UI_Promedio(modelo);
-            this.jPanel_ppal.add(ui_comparaciones);
-           ui_comparaciones.setVisible(true);
-            try
-            {
-              ui_comparaciones.setMaximum(true);
-            }
-            catch (PropertyVetoException e)
-            {
-            }// TODO add your
-
-        
-        
-        // TODO add your handling code here:
+        UI_Promedio ui_comparaciones = new UI_Promedio(modelo);
+        this.agregaVentana(ui_comparaciones);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
     /**
      * @param args the command line arguments
@@ -300,23 +251,19 @@ UI_Correccion ui_correccion=new UI_Correccion(modelo);
                     break;
                 }
             }
-        }
-        catch (ClassNotFoundException ex)
+        } catch (ClassNotFoundException ex)
         {
             java.util.logging.Logger.getLogger(UI_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                  ex);
-        }
-        catch (InstantiationException ex)
+        } catch (InstantiationException ex)
         {
             java.util.logging.Logger.getLogger(UI_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                  ex);
-        }
-        catch (IllegalAccessException ex)
+        } catch (IllegalAccessException ex)
         {
             java.util.logging.Logger.getLogger(UI_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                  ex);
-        }
-        catch (javax.swing.UnsupportedLookAndFeelException ex)
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
             java.util.logging.Logger.getLogger(UI_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                  ex);
@@ -352,18 +299,27 @@ UI_Correccion ui_correccion=new UI_Correccion(modelo);
     // End of variables declaration//GEN-END:variables
 
 
-    public void lanzar_UI_Asignaturas()
+    
+
+    private void agregaVentana(JInternalFrame nueva)
     {
-        UI_Asignatura ui_Asignatura = new UI_Asignatura(modelo);
-        this.jPanel_ppal.add(ui_Asignatura);
-        ui_Asignatura.setVisible(true);
+        if (this.ventanaAnterior != null && !this.ventanaAnterior.isClosed())
+            try
+            {
+                this.ventanaAnterior.setClosed(true);
+            } catch (PropertyVetoException e)
+            {
+            }
+        this.ventanaAnterior = nueva;
+        this.jPanel_ppal.removeAll();
+        this.jPanel_ppal.add(nueva);
+        nueva.setVisible(true);
         try
         {
-            ui_Asignatura.setMaximum(true);
+            nueva.setMaximum(true);
         } catch (PropertyVetoException e)
         {
         }
-
 
     }
 }
