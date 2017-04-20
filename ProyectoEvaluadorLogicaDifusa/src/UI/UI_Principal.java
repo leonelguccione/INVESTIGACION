@@ -29,6 +29,7 @@ public class UI_Principal extends javax.swing.JFrame
         } catch (SQLException e)
         {
             JOptionPane.showMessageDialog(this, e.getMessage());
+           System.exit(1);
         }
 
 

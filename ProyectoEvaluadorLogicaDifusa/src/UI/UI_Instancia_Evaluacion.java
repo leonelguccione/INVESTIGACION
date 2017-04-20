@@ -100,11 +100,11 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList_asignaturas.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_asignaturas.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_asignaturasMouseClicked(evt);
+                jList_asignaturasValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(jList_asignaturas);
@@ -118,11 +118,11 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList_cursadas.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_cursadas.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_cursadasMouseClicked(evt);
+                jList_cursadasValueChanged(evt);
             }
         });
         jScrollPane3.setViewportView(jList_cursadas);
@@ -137,13 +137,6 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
             public Object getElementAt(int i) { return strings[i]; }
         });
         jList_parciales.setFocusable(false);
-        jList_parciales.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                jList_parcialesMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jList_parciales);
 
         jPanel1.add(jScrollPane1);
@@ -196,7 +189,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
             .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva Instancia de EvaluaciÃ³n"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva Instancia de Evaluación"));
 
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener()
@@ -214,7 +207,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
 
         jLabel1.setText("Parcial:");
 
-        jLabel2.setText("DescripciÃ³n:");
+        jLabel2.setText("Descripción:");
 
         jLabel3.setText("Fecha:");
 
@@ -307,45 +300,6 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         pack();
     }//GEN-END:initComponents
 
-    private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_asignaturasMouseClicked
-        // TODO add your handling code here:
-        if (this.jList_asignaturas.getSelectedValue() != null)
-        {
-            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-            this.cursada_en_uso = null;
-            this.actualizar_jList_cursadas();
-            this.parcial_en_uso = null;
-            this.actualizar_jList_parciales();
-            this.actualizar_jList_alumnos_cursadas();
-            this.limpiaTextos();
-        }
-        this.verificaEnabled();
-    }//GEN-LAST:event_jList_asignaturasMouseClicked
-
-    private void jList_cursadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_cursadasMouseClicked
-        // TODO add your handling code here:
-        if (this.jList_cursadas.getSelectedValue() != null)
-        {
-            this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
-            this.parcial_en_uso = null;
-            this.actualizar_jList_parciales();
-            this.actualizar_jList_alumnos_cursadas();
-            this.limpiaTextos();
-        }
-        this.verificaEnabled();
-    }//GEN-LAST:event_jList_cursadasMouseClicked
-
-    private void jList_parcialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_parcialesMouseClicked
-        if (this.jList_parciales.getSelectedValue() != null)
-        {
-            this.parcial_en_uso = (Parcial) this.jList_parciales.getSelectedValue();
-            this.jText_Parcial.setText(this.parcial_en_uso.toString());
-            this.actualizar_jList_alumnos_cursadas();
-        }
-        this.verificaEnabled(); //jList_asignaturasMouseClicked();
-
-    }//GEN-LAST:event_jList_parcialesMouseClicked
-
     private void jButton_AgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregaActionPerformed
         // TODO add your handling code here:
         List<Alumno> l = this.jList_Alumnos_Cursada.getSelectedValuesList();
@@ -390,6 +344,33 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame
         }
         
     }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
+    {//GEN-HEADEREND:event_jList_asignaturasValueChanged
+    if (this.jList_asignaturas.getSelectedValue() != null)
+    {
+        this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+        this.cursada_en_uso = null;
+        this.actualizar_jList_cursadas();
+        this.parcial_en_uso = null;
+        this.actualizar_jList_parciales();
+        this.actualizar_jList_alumnos_cursadas();
+        this.limpiaTextos();
+    }
+    this.verificaEnabled();
+    }//GEN-LAST:event_jList_asignaturasValueChanged
+
+    private void jList_cursadasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_cursadasValueChanged
+    {//GEN-HEADEREND:event_jList_cursadasValueChanged
+    if (this.jList_parciales.getSelectedValue() != null)
+    {
+        this.parcial_en_uso = (Parcial) this.jList_parciales.getSelectedValue();
+        this.jText_Parcial.setText(this.parcial_en_uso.toString());
+        this.actualizar_jList_alumnos_cursadas();
+    }
+    this.verificaEnabled(); //jList_asignaturasMouseClicked();
+
+    }//GEN-LAST:event_jList_cursadasValueChanged
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -28,13 +28,13 @@ public class BaseDeDatos
     Statement sentencia;
     ResultSet resultado;
 
-    public BaseDeDatos()
+    public BaseDeDatos() throws SQLException
     {
         super();
         inic();
     }
 
-    void inic()
+    void inic() throws SQLException
     {
         System.out.println("Iniciando programa.");
 
@@ -56,17 +56,13 @@ public class BaseDeDatos
         }
         catch (SQLException e)
         {
-            try
-            {
+           
                 // Se establece la conexión con la base de datos
                 conexion =
                     DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "leonel");
-            }
-            catch (SQLException f)
-            {
-            }
+          
             System.out.println(e);
-            return;
+            
         }
         System.out.println("Creación finalizada.");
     }

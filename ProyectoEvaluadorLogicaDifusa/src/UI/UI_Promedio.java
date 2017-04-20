@@ -208,7 +208,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             }
         });
 
-        jLabel9.setText("Inst. EvaluaciÃ³n:");
+        jLabel9.setText("Inst. Evaluación:");
 
         jLabel12.setText("Parcial:");
 
@@ -222,11 +222,11 @@ public class UI_Promedio extends javax.swing.JInternalFrame
         });
 
         jLista_Examenes.setModel(this.listModelexamenes);
-        jLista_Examenes.addMouseListener(new java.awt.event.MouseAdapter()
+        jLista_Examenes.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jLista_ExamenesMouseClicked(evt);
+                jLista_ExamenesValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(jLista_Examenes);
@@ -448,9 +448,10 @@ public class UI_Promedio extends javax.swing.JInternalFrame
 
     }//GEN-LAST:event_jButton_PromedioActionPerformed
 
-    private void jLista_ExamenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLista_ExamenesMouseClicked
-        this.verificar_enabled();     
-    }//GEN-LAST:event_jLista_ExamenesMouseClicked
+    private void jLista_ExamenesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLista_ExamenesValueChanged
+    {//GEN-HEADEREND:event_jLista_ExamenesValueChanged
+    this.verificar_enabled();     
+    }//GEN-LAST:event_jLista_ExamenesValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
