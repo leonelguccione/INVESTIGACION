@@ -64,7 +64,12 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         this.jList_asignaturas.setModel(listModel_asignaturas);
         this.mouseA = new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent me) {
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                // TODO Implement this method
+                super.mousePressed(e);
                 DefaultMutableTreeNode dmtn = jtree_arbol.getNodoSeleccionado();
                 if (dmtn != null)
                 {
@@ -72,6 +77,8 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                 }
                 jButton_eliminar_nodo.setEnabled(dmtn != null && modoEdicion);
             }
+
+            
         };
         jtree_arbol = (ArbolVisual) jScrollPane_jTreeVisual;
         this.asignatura_en_uso = null;
@@ -98,27 +105,12 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         this.jButton_habilitar_nueva_asignatura.setEnabled(!v);
         this.jButton_eliminar_asignatura.setEnabled(!v);
         this.jList_asignaturas.setEnabled(!v);
+        
 
     }
 
 
-    /**almacena nuevamente la asignatura incorporando el Arbol de perturbacion
-     */
-
-    public void jButton_eliminar_nodo() {
-        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
-        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
-        if (nodoSeleccionado != null)
-        {
-            if (!nodoSeleccionado.isRoot())
-            {
-                dtm.removeNodeFromParent(nodoSeleccionado);
-            } else
-            {
-                this.eliminar_arbol_completo();
-            }
-        }
-    }
+   
 
     private void eliminar_arbol_completo() {
         this.asignatura_en_uso.setArbol_dominio(null);
@@ -162,10 +154,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         }
     }
 
-    //EVENTOS
-    private void jButton_registrar_asignaturaMouseClicked() {
-
-    }
+   
 
 
     /** This method is called from within the constructor to
@@ -223,11 +212,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList_asignaturas.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_asignaturas.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_asignaturasMouseClicked(evt);
+                jList_asignaturasValueChanged(evt);
             }
         });
         jScrollPane1.setViewportView(jList_asignaturas);
@@ -282,11 +271,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
 
         jButton_aceptar.setText("Aceptar");
         jButton_aceptar.setEnabled(false);
-        jButton_aceptar.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_aceptar.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_aceptarMouseClicked(evt);
+                jButton_aceptarActionPerformed(evt);
             }
         });
 
@@ -300,21 +289,21 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
 
         jButton_agregar_nuevo_nodo.setText("Agregar nuevo");
         jButton_agregar_nuevo_nodo.setEnabled(false);
-        jButton_agregar_nuevo_nodo.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_agregar_nuevo_nodo.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_agregar_nuevo_nodoMouseClicked(evt);
+                jButton_agregar_nuevo_nodoActionPerformed(evt);
             }
         });
 
         jButton_eliminar_nodo.setText("Eliminar Nodo");
         jButton_eliminar_nodo.setEnabled(false);
-        jButton_eliminar_nodo.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_eliminar_nodo.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_eliminar_nodoMouseClicked(evt);
+                jButton_eliminar_nodoActionPerformed(evt);
             }
         });
 
@@ -366,11 +355,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
 
         jButton_cancelar.setText("Cancelar");
         jButton_cancelar.setEnabled(false);
-        jButton_cancelar.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_cancelar.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_cancelarMouseClicked(evt);
+                jButton_cancelarActionPerformed(evt);
             }
         });
 
@@ -409,29 +398,29 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jButton_eliminar_asignatura.setText("Eliminar");
-        jButton_eliminar_asignatura.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_eliminar_asignatura.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_eliminar_asignaturaMouseClicked(evt);
+                jButton_eliminar_asignaturaActionPerformed(evt);
             }
         });
 
         jButton_habilitar_modificacion_asignatura.setText("Modificar");
-        jButton_habilitar_modificacion_asignatura.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_habilitar_modificacion_asignatura.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_habilitar_modificacion_asignaturaMouseClicked(evt);
+                jButton_habilitar_modificacion_asignaturaActionPerformed(evt);
             }
         });
 
         jButton_habilitar_nueva_asignatura.setText("Nueva Asignatura");
-        jButton_habilitar_nueva_asignatura.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_habilitar_nueva_asignatura.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_habilitar_nueva_asignaturaMouseClicked(evt);
+                jButton_habilitar_nueva_asignaturaActionPerformed(evt);
             }
         });
 
@@ -495,19 +484,91 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         pack();
     }//GEN-END:initComponents
 
-    private void jButton_habilitar_nueva_asignaturaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_habilitar_nueva_asignaturaMouseClicked
-    {//GEN-HEADEREND:event_jButton_habilitar_nueva_asignaturaMouseClicked
-        this.setModoEdicion(true);
-        this.limpiar_campos();
-        this.asignatura_en_uso = null;
-        this.jTextField_codigo_asignatura.requestFocus();
-        this.modificar = false;
-        
-    }//GEN-LAST:event_jButton_habilitar_nueva_asignaturaMouseClicked
+    private void jButton_ver_arbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ver_arbolActionPerformed
+    {//GEN-HEADEREND:event_jButton_ver_arbolActionPerformed
+UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.getArbol_dominio().getNombre(),this.asignatura_en_uso.getArbol_dominio());
+    }//GEN-LAST:event_jButton_ver_arbolActionPerformed
 
-    private void jButton_habilitar_modificacion_asignaturaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_habilitar_modificacion_asignaturaMouseClicked
-    {//GEN-HEADEREND:event_jButton_habilitar_modificacion_asignaturaMouseClicked
-        
+    private void jButton_aceptarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_aceptarActionPerformed
+    {//GEN-HEADEREND:event_jButton_aceptarActionPerformed
+    if (this.modificar)
+    {
+        this.asignatura_en_uso.setArbol_dominio(this.arbol_auxiliar);
+
+        try
+        {
+            this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
+            JOptionPane.showMessageDialog(this, "Asignatura actualizada");
+        } catch (SerialException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        this.modificar = false;
+    } else
+    {
+        String codigo_asignatura = jTextField_codigo_asignatura.getText().trim();
+        String nombre_asignatura = jTextField_nombre_asignatura.getText().trim();
+        String nombre_arbol_dominio = jTextField_nombre_arbol_dominio.getText().trim();
+        this.asignatura_en_uso = new Asignatura(nombre_asignatura, codigo_asignatura, this.arbol_auxiliar);
+        JOptionPane.showMessageDialog(this, "Asignatura guardada");
+        try
+        {
+            this.modelo.agrega_asignatura(this.asignatura_en_uso);
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        this.limpiar_campos();
+
+    }
+    this.setModoEdicion(false);
+    this.arbol_auxiliar = null;
+       
+    }//GEN-LAST:event_jButton_aceptarActionPerformed
+
+    private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_cancelarActionPerformed
+    {//GEN-HEADEREND:event_jButton_cancelarActionPerformed
+       
+        this.limpiar_campos();
+               this.arbol_auxiliar = null;
+               this.setModoEdicion(false);
+               this.modificar = false;
+             
+    }//GEN-LAST:event_jButton_cancelarActionPerformed
+
+    private void jButton_eliminar_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_asignaturaActionPerformed
+    {//GEN-HEADEREND:event_jButton_eliminar_asignaturaActionPerformed
+    try
+    {
+        this.modelo_abm_asignatura.borrar_asignatura(this.asignatura_en_uso);
+    } catch (SQLException e)
+    {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    this.modelo.getAsignaturas().remove(this.asignatura_en_uso.getCodigo());
+    this.limpiar_campos();
+
+    if (jList_asignaturas.getModel().getSize() > 0)
+    {
+        jList_asignaturas.setSelectedIndex(0);
+    }
+    this.asignatura_en_uso = null;
+    }//GEN-LAST:event_jButton_eliminar_asignaturaActionPerformed
+
+    private void jButton_habilitar_nueva_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_habilitar_nueva_asignaturaActionPerformed
+    {//GEN-HEADEREND:event_jButton_habilitar_nueva_asignaturaActionPerformed
+    this.setModoEdicion(true);
+    this.limpiar_campos();
+    this.asignatura_en_uso = null;
+    this.jTextField_codigo_asignatura.requestFocus();
+    this.modificar = false;
+    }//GEN-LAST:event_jButton_habilitar_nueva_asignaturaActionPerformed
+
+    private void jButton_habilitar_modificacion_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_habilitar_modificacion_asignaturaActionPerformed
+    {//GEN-HEADEREND:event_jButton_habilitar_modificacion_asignaturaActionPerformed
         if (this.asignatura_en_uso != null)
         {
             this.modificar = true;
@@ -521,103 +582,26 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
 
             }
         }
-    }//GEN-LAST:event_jButton_habilitar_modificacion_asignaturaMouseClicked
+    }//GEN-LAST:event_jButton_habilitar_modificacion_asignaturaActionPerformed
 
-    private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jList_asignaturasMouseClicked
-    {//GEN-HEADEREND:event_jList_asignaturasMouseClicked
-        
-        
-        DefaultTreeModel treeModelSeleccionado = null;
-        //this.limpiar_jTree();
-        if (jList_asignaturas.getSelectedValue() != null)
+    private void jButton_eliminar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoActionPerformed
+    {//GEN-HEADEREND:event_jButton_eliminar_nodoActionPerformed
+        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
+        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
+        if (nodoSeleccionado != null)
         {
-            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-            if (this.asignatura_en_uso.getArbol_dominio() != null)
-
+            if (!nodoSeleccionado.isRoot())
             {
-                treeModelSeleccionado = this.asignatura_en_uso.getArbol_dominio().getTreeModel();
-                this.jTextField_nombre_arbol_dominio.setText(this.asignatura_en_uso.getArbol_dominio().getNombre());
+                dtm.removeNodeFromParent(nodoSeleccionado);
+            } else
+            {
+                this.eliminar_arbol_completo();
             }
-            jtree_arbol.setModel(treeModelSeleccionado);
-            this.jTextField_codigo_asignatura.setText(this.asignatura_en_uso.getCodigo());
-            this.jTextField_nombre_asignatura.setText(this.asignatura_en_uso.getNombre());
-
         }
-    }//GEN-LAST:event_jList_asignaturasMouseClicked
+    }//GEN-LAST:event_jButton_eliminar_nodoActionPerformed
 
-    private void jButton_eliminar_asignaturaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_eliminar_asignaturaMouseClicked
-    {//GEN-HEADEREND:event_jButton_eliminar_asignaturaMouseClicked
-        try
-        {
-            this.modelo_abm_asignatura.borrar_asignatura(this.asignatura_en_uso);
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.modelo.getAsignaturas().remove(this.asignatura_en_uso.getCodigo());
-        this.limpiar_campos();
-
-        if (jList_asignaturas.getModel().getSize() > 0)
-        {
-            jList_asignaturas.setSelectedIndex(0);
-        }
-        this.asignatura_en_uso = null;
-    }//GEN-LAST:event_jButton_eliminar_asignaturaMouseClicked
-
-    private void jButton_cancelarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_cancelarMouseClicked
-    {//GEN-HEADEREND:event_jButton_cancelarMouseClicked
-        this.limpiar_campos();
-        this.arbol_auxiliar = null;
-        this.setModoEdicion(false);
-        this.modificar = false;
-      
-        
-    }//GEN-LAST:event_jButton_cancelarMouseClicked
-
-    private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked
-        jButton_eliminar_nodo();
-    }//GEN-LAST:event_jButton_eliminar_nodoMouseClicked
-
-    private void jButton_aceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_aceptarMouseClicked
-        if (this.modificar)
-        {
-            this.asignatura_en_uso.setArbol_dominio(this.arbol_auxiliar);
-
-            try
-            {
-                this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
-                JOptionPane.showMessageDialog(this, "Asignatura actualizada");
-            } catch (SerialException e)
-            {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            } catch (SQLException e)
-            {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
-            this.modificar = false;
-        } else
-        {
-            String codigo_asignatura = jTextField_codigo_asignatura.getText().trim();
-            String nombre_asignatura = jTextField_nombre_asignatura.getText().trim();
-            String nombre_arbol_dominio = jTextField_nombre_arbol_dominio.getText().trim();
-            this.asignatura_en_uso = new Asignatura(nombre_asignatura, codigo_asignatura, this.arbol_auxiliar);
-            JOptionPane.showMessageDialog(this, "Asignatura guardada");
-            try
-            {
-                this.modelo.agrega_asignatura(this.asignatura_en_uso);
-            } catch (SQLException e)
-            {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
-            this.limpiar_campos();
-
-        }
-        this.setModoEdicion(false);
-        this.arbol_auxiliar = null;
-    }//GEN-LAST:event_jButton_aceptarMouseClicked
-
-    private void jButton_agregar_nuevo_nodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_agregar_nuevo_nodoMouseClicked
-
+    private void jButton_agregar_nuevo_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_agregar_nuevo_nodoActionPerformed
+    {//GEN-HEADEREND:event_jButton_agregar_nuevo_nodoActionPerformed
         if (this.arbol_auxiliar == null)
         {
             this.bt_raizActionPerformed();
@@ -625,12 +609,28 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         {
             this.bt_nuevo_nodoActionPerformed();
         }
-    }//GEN-LAST:event_jButton_agregar_nuevo_nodoMouseClicked
+    }//GEN-LAST:event_jButton_agregar_nuevo_nodoActionPerformed
 
-    private void jButton_ver_arbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ver_arbolActionPerformed
-    {//GEN-HEADEREND:event_jButton_ver_arbolActionPerformed
-UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.getArbol_dominio().getNombre(),this.asignatura_en_uso.getArbol_dominio());
-    }//GEN-LAST:event_jButton_ver_arbolActionPerformed
+    private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
+    {//GEN-HEADEREND:event_jList_asignaturasValueChanged
+    DefaultTreeModel treeModelSeleccionado = null;
+    //this.limpiar_jTree();
+    if (jList_asignaturas.getSelectedValue() != null)
+    {
+        this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+        if (this.asignatura_en_uso.getArbol_dominio() != null)
+
+        {
+            treeModelSeleccionado = this.asignatura_en_uso.getArbol_dominio().getTreeModel();
+            this.jTextField_nombre_arbol_dominio.setText(this.asignatura_en_uso.getArbol_dominio().getNombre());
+        }
+        jtree_arbol.setModel(treeModelSeleccionado);
+        this.jTextField_codigo_asignatura.setText(this.asignatura_en_uso.getCodigo());
+        this.jTextField_nombre_asignatura.setText(this.asignatura_en_uso.getNombre());
+
+    }
+     
+    }//GEN-LAST:event_jList_asignaturasValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

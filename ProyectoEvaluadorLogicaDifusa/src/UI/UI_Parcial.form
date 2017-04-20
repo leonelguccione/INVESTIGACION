@@ -33,10 +33,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel1" pref="1539" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jPanel15" min="-2" pref="460" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel15" min="-2" pref="460" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="jScrollPane_jTreeVisual" min="-2" pref="460" max="-2" attributes="0"/>
@@ -102,7 +99,7 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_guardar_apMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_guardar_apActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_eliminar_nodo">
@@ -110,7 +107,7 @@
         <Property name="text" type="java.lang.String" value="Eliminar Nodo"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_eliminar_nodoMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_eliminar_nodoActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel15">
@@ -226,7 +223,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jList_asignaturasMouseClicked"/>
+                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jList_asignaturasValueChanged"/>
               </Events>
             </Component>
           </SubComponents>
@@ -256,7 +253,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jList_cursadasMouseClicked"/>
+                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jList_cursadasValueChanged"/>
               </Events>
             </Component>
           </SubComponents>
@@ -287,7 +284,7 @@
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jList_parcialesMouseClicked"/>
+                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jList_parcialesValueChanged"/>
               </Events>
             </Component>
           </SubComponents>

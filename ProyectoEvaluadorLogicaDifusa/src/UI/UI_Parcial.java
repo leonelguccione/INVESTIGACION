@@ -101,28 +101,28 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         jButtonCancelar = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("Gesti√≥n de Parciales");
+        setTitle("GestiÛn de Parciales");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("√Årbol Podado"));
+        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("¡rbol Podado"));
 
         jButton_guardar_ap.setText("Guardar Parcial");
         jButton_guardar_ap.setEnabled(false);
-        jButton_guardar_ap.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_guardar_ap.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_guardar_apMouseClicked(evt);
+                jButton_guardar_apActionPerformed(evt);
             }
         });
 
         jButton_eliminar_nodo.setText("Eliminar Nodo");
-        jButton_eliminar_nodo.addMouseListener(new java.awt.event.MouseAdapter()
+        jButton_eliminar_nodo.addActionListener(new java.awt.event.ActionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_eliminar_nodoMouseClicked(evt);
+                jButton_eliminar_nodoActionPerformed(evt);
             }
         });
 
@@ -197,11 +197,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList_asignaturas.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_asignaturas.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_asignaturasMouseClicked(evt);
+                jList_asignaturasValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(jList_asignaturas);
@@ -215,11 +215,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList_cursadas.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_cursadas.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_cursadasMouseClicked(evt);
+                jList_cursadasValueChanged(evt);
             }
         });
         jScrollPane3.setViewportView(jList_cursadas);
@@ -234,11 +234,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             public Object getElementAt(int i) { return strings[i]; }
         });
         jList_parciales.setFocusable(false);
-        jList_parciales.addMouseListener(new java.awt.event.MouseAdapter()
+        jList_parciales.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                jList_parcialesMouseClicked(evt);
+                jList_parcialesValueChanged(evt);
             }
         });
         jScrollPane1.setViewportView(jList_parciales);
@@ -273,9 +273,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1539, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -312,93 +310,6 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         pack();
     }//GEN-END:initComponents
 
-    private void jButton_guardar_apMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_guardar_apMouseClicked
-    {//GEN-HEADEREND:event_jButton_guardar_apMouseClicked
-        try
-        {
-            this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
-                                                               new Parcial(0, this.jText_Nombre.getText(),
-                                                                           this.arbolPodado));
-
-            this.modelo.recuperarParciales(this.cursada_en_uso);
-            this.modo_edicion = false;
-            limpiar();
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    
-    }//GEN-LAST:event_jButton_guardar_apMouseClicked
-
-    private void jButton_eliminar_nodoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoMouseClicked
-    {//GEN-HEADEREND:event_jButton_eliminar_nodoMouseClicked
-        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
-        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
-        if (nodoSeleccionado != null)
-        {
-            if (!nodoSeleccionado.isRoot())
-            {
-                dtm.removeNodeFromParent(nodoSeleccionado);
-            } else
-            {
-                this.eliminar_arbol_completo();
-            }
-        }
-    }//GEN-LAST:event_jButton_eliminar_nodoMouseClicked
-
-    private void jList_asignaturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_asignaturasMouseClicked
-        // TODO add your handling code here:
-        if (this.jList_asignaturas.getSelectedValue() != null&&!this.modo_edicion)
-        {
-            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-            this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
-            this.cursada_en_uso = null;
-            this.actualizar_jList_cursadas();
-            this.actualizar_jList_parciales();
-            this.jButton_eliminar_nodo.setEnabled(false);
-
-            if (this.asignatura_en_uso.getArbol_dominio() != null)
-            {
-                this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
-
-                jtree_arbol.setModel(this.arbolPodado.getTreeModel());
-            }
-            this.verificaEnabled();
-        }
-
-    }//GEN-LAST:event_jList_asignaturasMouseClicked
-
-    private void jList_cursadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_cursadasMouseClicked
-        // TODO add your handling code here:
-        if (this.jList_cursadas.getSelectedValue() != null&&!this.modo_edicion)
-        {
-            this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
-            this.jText_Nombre_Cursada.setText(String.valueOf(this.cursada_en_uso.getNombreCursada()));
-            this.actualizar_jList_parciales();
-            if (this.asignatura_en_uso.getArbol_dominio() != null)
-            {
-                this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
-
-                jtree_arbol.setModel(this.arbolPodado.getTreeModel());
-            }
-            this.verificaEnabled();
-            this.jButton_eliminar_nodo.setEnabled(false);
-        }
-        
-    }//GEN-LAST:event_jList_cursadasMouseClicked
-
-    private void jList_parcialesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_parcialesMouseClicked
-        //jList_asignaturasMouseClicked();
-        if(this.jList_parciales.getSelectedValue()!=null&&!this.modo_edicion)      
-        {
-                Parcial parcial = (Parcial) this.jList_parciales.getSelectedValue();
-                this.arbolPodado = parcial.getArbol_podado();
-                jtree_arbol.setModel(this.arbolPodado.getTreeModel());
-            }
-        
-
-    }//GEN-LAST:event_jList_parcialesMouseClicked
-
     private void jButtonVerArbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVerArbolActionPerformed
     {//GEN-HEADEREND:event_jButtonVerArbolActionPerformed
         UI_Arbol_Perturbacion ui_arbol =
@@ -424,6 +335,90 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         limpiar();
      
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButton_guardar_apActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_guardar_apActionPerformed
+    {//GEN-HEADEREND:event_jButton_guardar_apActionPerformed
+    try
+    {
+        this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
+                                                           new Parcial(0, this.jText_Nombre.getText(),
+                                                                       this.arbolPodado));
+
+        this.modelo.recuperarParciales(this.cursada_en_uso);
+        this.modo_edicion = false;
+        limpiar();
+    } catch (SQLException e)
+    {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    
+    }//GEN-LAST:event_jButton_guardar_apActionPerformed
+
+    private void jButton_eliminar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoActionPerformed
+    {//GEN-HEADEREND:event_jButton_eliminar_nodoActionPerformed
+        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
+        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
+        if (nodoSeleccionado != null)
+        {
+            if (!nodoSeleccionado.isRoot())
+            {
+                dtm.removeNodeFromParent(nodoSeleccionado);
+            } else
+            {
+                this.eliminar_arbol_completo();
+            }
+        }
+    }//GEN-LAST:event_jButton_eliminar_nodoActionPerformed
+
+    private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
+    {//GEN-HEADEREND:event_jList_asignaturasValueChanged
+    if (this.jList_asignaturas.getSelectedValue() != null&&!this.modo_edicion)
+    {
+        this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+        this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
+        this.cursada_en_uso = null;
+        this.actualizar_jList_cursadas();
+        this.actualizar_jList_parciales();
+        this.jButton_eliminar_nodo.setEnabled(false);
+
+        if (this.asignatura_en_uso.getArbol_dominio() != null)
+        {
+            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
+
+            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+        }
+        this.verificaEnabled();
+    }
+    }//GEN-LAST:event_jList_asignaturasValueChanged
+
+    private void jList_cursadasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_cursadasValueChanged
+    {//GEN-HEADEREND:event_jList_cursadasValueChanged
+    if (this.jList_cursadas.getSelectedValue() != null&&!this.modo_edicion)
+    {
+        this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
+        this.jText_Nombre_Cursada.setText(String.valueOf(this.cursada_en_uso.getNombreCursada()));
+        this.actualizar_jList_parciales();
+        if (this.asignatura_en_uso.getArbol_dominio() != null)
+        {
+            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
+
+            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+        }
+        this.verificaEnabled();
+        this.jButton_eliminar_nodo.setEnabled(false);
+    }
+    }//GEN-LAST:event_jList_cursadasValueChanged
+
+    private void jList_parcialesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_parcialesValueChanged
+    {//GEN-HEADEREND:event_jList_parcialesValueChanged
+    if(this.jList_parciales.getSelectedValue()!=null&&!this.modo_edicion)      
+    {
+            Parcial parcial = (Parcial) this.jList_parciales.getSelectedValue();
+            this.arbolPodado = parcial.getArbol_podado();
+            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+        }
+    
+    }//GEN-LAST:event_jList_parcialesValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
