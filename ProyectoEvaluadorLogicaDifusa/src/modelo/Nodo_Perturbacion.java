@@ -15,26 +15,31 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author leonel
  */
-public class Nodo_Perturbacion extends DefaultMutableTreeNode
-{
+public class Nodo_Perturbacion extends DefaultMutableTreeNode {
     @SuppressWarnings("compatibility:-6181443248382898133")
     private static final long serialVersionUID = -945102238251152449L;
+    private Nodo_Perturbacion impacta = null;
 
-    public Nodo_Perturbacion(Object object, boolean b)
-    {
+    public void setImpacta(Nodo_Perturbacion impacta) {
+        this.impacta = impacta;
+    }
+
+    public Nodo_Perturbacion getImpacta() {
+        return impacta;
+    }
+
+    public Nodo_Perturbacion(Object object, boolean b) {
         super(object, b);
     }
 
-    public Nodo_Perturbacion(Object object)
-    {
+    public Nodo_Perturbacion(Object object) {
         super(object);
     }
 
     /**constructor
      * Crea un nodo de perturbación con un datoBean que contiene su idDato y la Etiqueta vacía.
      */
-    public Nodo_Perturbacion(String idDato)
-    {
+    public Nodo_Perturbacion(String idDato) {
         super();
         DatoBean dato = new DatoBean(idDato);
         setDato(dato);
@@ -43,18 +48,15 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
     /**
      * @return retorna la etiqueta. Ojbeto con los cuatro conjuntos difusos con sus valores
      */
-    public EtiquetaBean getEtiqueta()
-    {
+    public EtiquetaBean getEtiqueta() {
         return getDato().getEtiquetaBean();
     }
 
-    public DatoBean getDato()
-    {
+    public DatoBean getDato() {
         return (DatoBean) getUserObject();
     }
 
-    public boolean esHoja()
-    {
+    public boolean esHoja() {
         return isLeaf();
     }
 
@@ -62,8 +64,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
      * establece el dato que contiene el nodo. Es un objeto de tipo DatoBean
      * @param dato Dato a guardar en el nodo.
      */
-    public void setDato(DatoBean dato)
-    {
+    public void setDato(DatoBean dato) {
         setUserObject(dato);
     }
 
@@ -71,8 +72,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
      * Agrega el datoBean como dato del nodo.
      * @param idNodo
      */
-    public void crearNodo(String idNodo)
-    {
+    public void crearNodo(String idNodo) {
         EtiquetaBean e = new EtiquetaBean();
         DatoBean datoBean = new DatoBean(idNodo, e);
         setDato(datoBean);
@@ -82,15 +82,12 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
      * Completa la etiqueta del nodo con el promedio de los valores de las etiquetas de los hijos.
      * En caso de ser una hoja, deja el nodo como está.
      */
-    public void procesar_Nodo()
-    {
-        if (!esHoja())
-        {
+    public void procesar_Nodo() {
+        if (!esHoja()) {
             EtiquetaBean etiqueta = getEtiqueta();
             Enumeration hijos = children();
             int cantidad_hijos = getChildCount();
-            while (hijos.hasMoreElements())
-            {
+            while (hijos.hasMoreElements()) {
                 Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
                 nodo_hijo.procesar_Nodo();
                 etiqueta.suma(nodo_hijo.getEtiqueta());
@@ -102,19 +99,15 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
     /**
      * @return Cantidad de hojas con valores de etiqueta no validos.
      */
-    public int contarHojasInvalidas()
-    {
+    public int contarHojasInvalidas() {
         int aux = 0;
-        if (!esHoja())
-        {
+        if (!esHoja()) {
             Enumeration hijos = children();
-            while (hijos.hasMoreElements())
-            {
+            while (hijos.hasMoreElements()) {
                 Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
                 aux += nodo_hijo.contarHojasInvalidas();
             }
-        }
-        else if (!this.getEtiqueta().isValid())
+        } else if (!this.getEtiqueta().isValid())
             aux++;
         return aux;
     }
@@ -123,22 +116,18 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
     /**
      * @return Cantidad de hojas
      */
-    public int contarHojas()
-    {
+    public int contarHojas() {
         int aux = 0;
-        if (!esHoja())
-        {
+        if (!esHoja()) {
             Enumeration hijos = children();
-            while (hijos.hasMoreElements())
-            {
+            while (hijos.hasMoreElements()) {
                 Nodo_Perturbacion nodo_hijo = (Nodo_Perturbacion) hijos.nextElement();
                 aux += nodo_hijo.contarHojas();
             }
-        }
-        else aux++;
+        } else
+            aux++;
         return aux;
     }
-
 
 
     /**Determina si un árbol es semejante a otro.
@@ -150,8 +139,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
      * @return
      * precondición: otraRaiz != null
      */
-    public boolean isSemejante(Nodo_Perturbacion otraRaiz)
-    {
+    public boolean isSemejante(Nodo_Perturbacion otraRaiz) {
         boolean resultado = false;
         if (otraRaiz != null) //otraRaiz (principal) distinto de null
         {
@@ -161,18 +149,16 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
             //si no referencian al mismo objeto
 
 
-            else
-            {
+            else {
                 //si sus id de dato contienen el mismo texto
-                if (this.getDato().getIdDato().equals(otraRaiz.getDato().getIdDato()))
-                { //si no tienen la misma cantidad de hijos NO son semejantes
-                    if (this.getChildCount() != otraRaiz.getChildCount())
-                    {
+                if (this.getDato()
+                        .getIdDato()
+                        .equals(otraRaiz.getDato().getIdDato())) { //si no tienen la misma cantidad de hijos NO son semejantes
+                    if (this.getChildCount() != otraRaiz.getChildCount()) {
                         resultado = false;
                     }
                     //si es rama entonces
-                    else
-                    { //si tienen la misma cantidad de hijos
+                    else { //si tienen la misma cantidad de hijos
                         if (this.esHoja()) //si ambos nodos son hojas
                             resultado = true;
                         else
@@ -184,8 +170,7 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
                             Nodo_Perturbacion proximo_propios;
                             boolean semejanzaparcial = true;
                             while (hijos_propios.hasMoreElements() && hijos_otraRaiz.hasMoreElements() &&
-                                   semejanzaparcial)
-                            {
+                                   semejanzaparcial) {
                                 proximo_otraRaiz = (Nodo_Perturbacion) hijos_otraRaiz.nextElement();
                                 proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                                 semejanzaparcial = proximo_propios.isSemejante(proximo_otraRaiz);
@@ -199,17 +184,14 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         return resultado;
     }
 
-    public void suma(Nodo_Perturbacion sumando)
-    {
+    public void suma(Nodo_Perturbacion sumando) {
         this.getEtiqueta().suma(sumando.getEtiqueta());
-        if (!this.esHoja())
-        {
+        if (!this.esHoja()) {
             Enumeration hijos_propios = this.children();
             Enumeration hijos_sumando = sumando.children();
             Nodo_Perturbacion proximo_sumando;
             Nodo_Perturbacion proximo_propios;
-            while (hijos_propios.hasMoreElements() && hijos_sumando.hasMoreElements())
-            {
+            while (hijos_propios.hasMoreElements() && hijos_sumando.hasMoreElements()) {
                 proximo_sumando = (Nodo_Perturbacion) hijos_sumando.nextElement();
                 proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                 proximo_propios.suma(proximo_sumando);
@@ -218,17 +200,14 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
     }
 
 
-    public void resta(Nodo_Perturbacion sustraendo)
-    {
+    public void resta(Nodo_Perturbacion sustraendo) {
         this.getEtiqueta().resta(sustraendo.getEtiqueta());
-        if (!this.esHoja())
-        {
+        if (!this.esHoja()) {
             Enumeration hijos_propios = this.children();
             Enumeration hijos_sustraendo = sustraendo.children();
             Nodo_Perturbacion proximo_sustraendo;
             Nodo_Perturbacion proximo_propios;
-            while (hijos_propios.hasMoreElements() && hijos_sustraendo.hasMoreElements())
-            {
+            while (hijos_propios.hasMoreElements() && hijos_sustraendo.hasMoreElements()) {
                 proximo_sustraendo = (Nodo_Perturbacion) hijos_sustraendo.nextElement();
                 proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                 proximo_propios.resta(proximo_sustraendo);
@@ -236,40 +215,44 @@ public class Nodo_Perturbacion extends DefaultMutableTreeNode
         }
     }
 
-    public void multiplica(double factor)
-    {
+    public void multiplica(double factor) {
         this.getEtiqueta().multiplica(factor);
-        if (!this.esHoja())
-        {
+        if (!this.esHoja()) {
             Enumeration hijos_propios = this.children();
             Nodo_Perturbacion proximo_propios;
-            while (hijos_propios.hasMoreElements())
-            {
+            while (hijos_propios.hasMoreElements()) {
                 proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                 proximo_propios.multiplica(factor);
             }
         }
     }
 
-    public void dividir(double divisor) throws ArithmeticException
-    {
-        if (divisor != 0)
-        {
+    public void dividir(double divisor) throws ArithmeticException {
+        if (divisor != 0) {
             this.getEtiqueta().dividir(divisor);
-            if (!this.esHoja())
-            {
+            if (!this.esHoja()) {
                 Enumeration hijos_propios = this.children();
                 Nodo_Perturbacion proximo_propios;
-                while (hijos_propios.hasMoreElements())
-                {
+                while (hijos_propios.hasMoreElements()) {
                     proximo_propios = (Nodo_Perturbacion) hijos_propios.nextElement();
                     proximo_propios.dividir(divisor);
                 }
             }
-        }
-        else 
+        } else
             throw new ArithmeticException("división por cero");
     }
+
+    /*  @Override
+    public String toString() {
+
+        String cartel;
+        if (this.getImpacta() != null)
+
+            cartel = this.getDato().toString() + " impacta a " + this.getImpacta();
+        else
+            cartel = super.toString();
+        return cartel;
+    } */
 }
 
 

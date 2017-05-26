@@ -2,7 +2,7 @@
 package UI;
 
 
-import arbolVisual.ArbolVisual;
+import arbolvisual.ArbolVisual;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -161,7 +161,7 @@ public class UI_PanelAlta extends javax.swing.JPanel
 
         setMaximumSize(new java.awt.Dimension(660, 670));
         setMinimumSize(new java.awt.Dimension(660, 670));
-        setName("√Årbol de Dominio"); // NOI18N
+        setName("√?rbol de Dominio"); // NOI18N
         setPreferredSize(new java.awt.Dimension(660, 670));
 
         jPanel_nuevo_nodo.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -233,7 +233,7 @@ public class UI_PanelAlta extends javax.swing.JPanel
 
         jPanel_arbol_seleccionado.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("√Årbol:");
+        jLabel1.setText("√?rbol:");
 
         jLabel2.setText("Descripci√≥n:");
 

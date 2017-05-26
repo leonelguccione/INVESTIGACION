@@ -2,7 +2,7 @@
 package UI;
 
 
-import arbolVisual.ArbolVisual;
+import arbolvisual.ArbolVisual;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

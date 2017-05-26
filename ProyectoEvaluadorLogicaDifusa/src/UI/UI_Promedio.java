@@ -451,6 +451,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     private void jLista_ExamenesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLista_ExamenesValueChanged
     {//GEN-HEADEREND:event_jLista_ExamenesValueChanged
     this.verificar_enabled();     
+    
     }//GEN-LAST:event_jLista_ExamenesValueChanged
 
 
