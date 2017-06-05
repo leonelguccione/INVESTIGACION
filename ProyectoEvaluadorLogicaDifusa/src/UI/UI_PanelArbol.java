@@ -10,13 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
+
 
 public class UI_PanelArbol extends JPanel
 {
     private ArbolPerturbacionVisual tree;
     private DefaultTreeModel dtmodel;
-    private Arbol_Perturbacion arbol_perturbacion; 
+    private ArbolPerturbacion arbol_perturbacion; 
    
 
 
@@ -29,12 +31,12 @@ public class UI_PanelArbol extends JPanel
     }
 
 
-    public void setArbol_perturbacion(Arbol_Perturbacion arbol_perturbacion)
+    public void setArbol_perturbacion(ArbolPerturbacion arbol_perturbacion)
     {
         this.arbol_perturbacion = arbol_perturbacion;
     }
 
-    public Arbol_Perturbacion getArbol_perturbacion()
+    public ArbolPerturbacion getArbol_perturbacion()
     {
         return arbol_perturbacion;
     }

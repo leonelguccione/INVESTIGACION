@@ -27,7 +27,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
 
 public class UI_Arbol_Perturbacion extends JFrame implements ActionListener {
     private static final String CAPTURA = "captura";
@@ -46,7 +47,7 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener {
     private JRadioButton jr_Tradicional = new JRadioButton("Tradicional");
     private JScrollPane jScrollPane_jTree_Tradicional = new javax.swing.JScrollPane();
 
-    public UI_Arbol_Perturbacion(String string, Arbol_Perturbacion arbol) throws HeadlessException {
+    public UI_Arbol_Perturbacion(String string, ArbolPerturbacion arbol) throws HeadlessException {
         super(string);
         this.setVisible(true);
         setExtendedState(java.awt

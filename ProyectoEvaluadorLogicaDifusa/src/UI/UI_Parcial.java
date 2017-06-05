@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Modelo;
@@ -31,7 +31,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 {
     private Modelo modelo;
     private ArbolVisual jtree_arbol;
-    private Arbol_Perturbacion arbolPodado;
+    private ArbolPerturbacion arbolPodado;
 
     private DefaultListModel listModel_cursadas = new DefaultListModel();
     private DefaultListModel listModel_asignaturas = new DefaultListModel();
@@ -101,11 +101,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         jButtonCancelar = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("Gestión de Parciales");
+        setTitle("Gestiï¿½n de Parciales");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("Árbol Podado"));
+        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("ï¿½rbol Podado"));
 
         jButton_guardar_ap.setText("Guardar Parcial");
         jButton_guardar_ap.setEnabled(false);

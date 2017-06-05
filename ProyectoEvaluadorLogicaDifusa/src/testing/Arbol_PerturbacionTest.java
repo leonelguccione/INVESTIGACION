@@ -1,7 +1,9 @@
 package testing;
 
-import modelo.Arbol_Perturbacion;
-import modelo.Nodo_Perturbacion;
+import modelo.ArbolPerturbacion;
+
+import modelo.NodoPerturbacion;
+
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,32 +14,31 @@ import org.junit.Test;
 
 public class Arbol_PerturbacionTest
 {
-    private Arbol_Perturbacion arbol_perturbacion;
-    private Arbol_Perturbacion otro_arbol_perturbacion;
+    private ArbolPerturbacion arbol_perturbacion;
+    private ArbolPerturbacion otro_arbol_perturbacion;
     
     public Arbol_PerturbacionTest()
     {
     }
     
-    public Arbol_Perturbacion construir_arbol()
+    public ArbolPerturbacion construir_arbol()
     {
         String id = "id1";
         String descripcion = "D1";
-        Arbol_Perturbacion aux = new Arbol_Perturbacion(id, descripcion);
-        Nodo_Perturbacion raiz = new Nodo_Perturbacion("nodoRaiz");
+        ArbolPerturbacion aux = new ArbolPerturbacion(id, descripcion);
+        NodoPerturbacion raiz = new NodoPerturbacion("nodoRaiz");
         aux.agregarNodo(raiz, raiz);//como el arbol esta vacio usa solamente el primer parametro
        
         //creo varios nodos internos y los agrego al arbol
-        Nodo_Perturbacion h1 = new Nodo_Perturbacion("h1");
-        Nodo_Perturbacion h2 = new Nodo_Perturbacion("h2");
-        Nodo_Perturbacion n1delh1 = new Nodo_Perturbacion("n1delh1");
-        Nodo_Perturbacion n2delh1 = new Nodo_Perturbacion("n2delh1");
-        Nodo_Perturbacion n1delh2 = new Nodo_Perturbacion("n1delh2");
-        Nodo_Perturbacion n2delh2 = new Nodo_Perturbacion("n2delh2");
-        Nodo_Perturbacion n3delh2 = new Nodo_Perturbacion("n3delh2");
-        Nodo_Perturbacion n4delh2 = new Nodo_Perturbacion("n4delh2");
-        
-        aux.agregarNodo(raiz,h1);
+        NodoPerturbacion h1 = new NodoPerturbacion("h1");
+        NodoPerturbacion h2 = new NodoPerturbacion("h2");
+        NodoPerturbacion n1delh1 = new NodoPerturbacion("n1delh1");
+        NodoPerturbacion n2delh1 = new NodoPerturbacion("n2delh1");
+        NodoPerturbacion n1delh2 = new NodoPerturbacion("n1delh2");
+        NodoPerturbacion n2delh2 = new NodoPerturbacion("n2delh2");
+        NodoPerturbacion n3delh2 = new NodoPerturbacion("n3delh2");
+        NodoPerturbacion n4delh2 = new NodoPerturbacion("n4delh2");
+                aux.agregarNodo(raiz,h1);
         aux.agregarNodo(raiz,h2);
         aux.agregarNodo(h1, n1delh1);
         aux.agregarNodo(h1, n2delh1);
@@ -48,25 +49,24 @@ public class Arbol_PerturbacionTest
         return aux;
     }
     
-    public Arbol_Perturbacion otro_construir_arbol()
+    public ArbolPerturbacion otro_construir_arbol()
     {
         String id = "id1";
         String descripcion = "D1";
-        Arbol_Perturbacion aux = new Arbol_Perturbacion(id, descripcion);
-        Nodo_Perturbacion raiz = new Nodo_Perturbacion("nodoRaiz");
+        ArbolPerturbacion aux = new ArbolPerturbacion(id, descripcion);
+        NodoPerturbacion raiz = new NodoPerturbacion("nodoRaiz");
         aux.agregarNodo(raiz, raiz);//como el arbol esta vacio usa solamente el primer parametro
        
         //creo varios nodos internos y los agrego al arbol
-        Nodo_Perturbacion h1 = new Nodo_Perturbacion("h1");
-        Nodo_Perturbacion h2 = new Nodo_Perturbacion("h2");
-        Nodo_Perturbacion n1delh1 = new Nodo_Perturbacion("n1delh1Distinto"); //cambio de identificador
-        Nodo_Perturbacion n2delh1 = new Nodo_Perturbacion("n2delh1");
-        Nodo_Perturbacion n1delh2 = new Nodo_Perturbacion("n1delh2");
-        Nodo_Perturbacion n2delh2 = new Nodo_Perturbacion("n2delh2");
-        Nodo_Perturbacion n3delh2 = new Nodo_Perturbacion("n3delh2");
-        Nodo_Perturbacion n4delh2 = new Nodo_Perturbacion("n4delh2");
-        
-        aux.agregarNodo(raiz,h1);
+        NodoPerturbacion h1 = new NodoPerturbacion("h1");
+        NodoPerturbacion h2 = new NodoPerturbacion("h2");
+        NodoPerturbacion n1delh1 = new NodoPerturbacion("n1delh1Distinto"); //cambio de identificador
+        NodoPerturbacion n2delh1 = new NodoPerturbacion("n2delh1");
+        NodoPerturbacion n1delh2 = new NodoPerturbacion("n1delh2");
+        NodoPerturbacion n2delh2 = new NodoPerturbacion("n2delh2");
+        NodoPerturbacion n3delh2 = new NodoPerturbacion("n3delh2");
+        NodoPerturbacion n4delh2 = new NodoPerturbacion("n4delh2");
+                aux.agregarNodo(raiz,h1);
         aux.agregarNodo(raiz,h2);
         aux.agregarNodo(h1, n1delh1);
         aux.agregarNodo(h1, n2delh1);
@@ -100,7 +100,7 @@ public class Arbol_PerturbacionTest
     }
 
     /**
-     * @see Arbol_Perturbacion#isSemejante(Arbol_Perturbacion)
+     * @see ArbolPerturbacion#isSemejante(Arbol_Perturbacion)
      * Se comprueba si dos árboles son semejantes.
      * La semejanza está determinada por las siguientes condiciones:
      * - la igualdad entre los campos dato->idDato de cada nodo correspondiente

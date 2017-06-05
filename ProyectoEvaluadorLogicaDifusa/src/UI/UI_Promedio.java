@@ -15,13 +15,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
-import modelo.Nodo_Perturbacion;
+import modelo.NodoPerturbacion;
+
 import modelo.Parcial;
 
 /**
@@ -41,7 +43,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     private DefaultListModel listModelexamenes = new DefaultListModel();
     private DefaultListModel listModelexamenespromediadios = new DefaultListModel();
 
-    private Nodo_Perturbacion nodo_seleccionado = null;
+    private NodoPerturbacion nodo_seleccionado = null;
     private Asignatura asignatura_seleccionada = null;
     private Cursada cursada_seleccionada = null;
     private Parcial parcial_seleccionado = null;
@@ -208,7 +210,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             }
         });
 
-        jLabel9.setText("Inst. Evaluación:");
+        jLabel9.setText("Inst. Evaluaciï¿½n:");
 
         jLabel12.setText("Parcial:");
 
@@ -404,8 +406,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame
 
     private void jButton_PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PromedioActionPerformed
         List<Examen> seleccionados = this.jLista_Examenes.getSelectedValuesList();
-        Arbol_Perturbacion arbol_actual;
-        ArrayList<Arbol_Perturbacion> arboles = new ArrayList<Arbol_Perturbacion>();
+        ArbolPerturbacion arbol_actual;
+        ArrayList<ArbolPerturbacion> arboles = new ArrayList<ArbolPerturbacion>();
         this.listModelexamenespromediadios.clear();
         this.jTree_Arbol_Perturbacion.setModel(null);
         for (int i = 0; i < seleccionados.size(); i++)
@@ -427,7 +429,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
         if (arboles.size() > 0)
             try
             {
-                Arbol_Perturbacion arbol_promedio = Arbol_Perturbacion.promedio(arboles);
+                ArbolPerturbacion arbol_promedio = ArbolPerturbacion.promedio(arboles);
                 this.jTree_Arbol_Perturbacion.setModel(arbol_promedio.getTreeModel());
                 this.jTree_Arbol_Perturbacion.repaint();
                 

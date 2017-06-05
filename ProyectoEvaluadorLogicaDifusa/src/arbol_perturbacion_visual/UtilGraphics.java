@@ -1,0 +1,30 @@
+package arbol_perturbacion_visual;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class UtilGraphics
+{
+    public static void lineaDegrade(Graphics g, int x1, int y1, int x2, int y2, Color origen, Color destino, int pasos)
+    {
+        double dif_X = (double)(x2 - x1) / pasos;
+       double dif_Y = (double)(y2 - y1) / pasos;
+        double dif_Red=(double)(destino.getRed()-origen.getRed())/pasos;
+        double dif_Green=(double)(destino.getGreen()-origen.getGreen())/pasos;
+        double dif_Blue=(double)(destino.getBlue()-origen.getBlue())/pasos;
+        
+        
+        for (int i = 0; i < pasos; i++)
+        {
+            /*if (i % 2 == 0)
+                g.setColor(origen);
+            else
+                g.setColor(destino);*/
+            
+            g.setColor(new Color(origen.getRed()+(int)(dif_Red*i),origen.getGreen()+(int)(dif_Green*i),origen.getBlue()+(int)(dif_Blue*i)));
+            g.drawLine(x1 + (int)(dif_X * i), y1 +(int) (dif_Y * i), x1 +(int) (dif_X * (i + 1)), y1 + (int)(dif_Y * (i + 1)));
+        }
+
+
+    }
+}

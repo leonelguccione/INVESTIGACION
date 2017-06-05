@@ -6,8 +6,11 @@ import Excepciones.RaizNulaException;
 
 import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import arbolvisual.ArbolVisual;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 import java.sql.SQLException;
 
@@ -25,7 +28,8 @@ import modelo.EtiquetaBean;
 import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
-import modelo.Nodo_Perturbacion;
+import modelo.NodoPerturbacion;
+
 import modelo.Parcial;
 
 /**
@@ -41,14 +45,14 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstEvaluacion =
         new DefaultComboBoxModel<Instancia_Evaluacion>();
     private DefaultListModel listModelexamenes = new DefaultListModel();
-    private Nodo_Perturbacion nodo_seleccionado = null;
+    private NodoPerturbacion nodo_seleccionado = null;
     private Asignatura asignatura_seleccionada = null;
     private Cursada cursada_seleccionada = null;
     private Parcial parcial_seleccionado = null;
     private Instancia_Evaluacion instancia_seleccionada = null;
     private Examen examen_seleccionado = null;
     private ArbolPerturbacionVisual jTree_Arbol_Perturbacion = null;
-    private MouseAdapter mouseA;
+    private ActionListener actionL;
 
     /** Creates new form UI_Correccion */
     public UI_Correccion(Modelo modelo) {
@@ -62,13 +66,14 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         this.jComboBox_Inst_Evaluacion.setModel((ComboBoxModel) this.comboBoxModelInstEvaluacion);
         this.jLista_Examenes.setModel(listModelexamenes);
         this.actualizar_combo_asignatura();
-
-        this.mouseA = new MouseAdapter() {
-            public void mouseClicked(MouseEvent me) {
-                jtree_arbolMouseClicked();
+        this.actionL=new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getActionCommand().equals(ArbolVisual.NODO_SELECCIONADO))
+                    jtree_arbolActionPerformed();
             }
         };
-        this.jTree_Arbol_Perturbacion.addMouseListener(mouseA);
+        this.jTree_Arbol_Perturbacion.addActionListener(this.actionL);
         this.jTree_Arbol_Perturbacion.setLineasRectas(true);
     }
 
@@ -189,7 +194,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jT_Alumno.setEditable(false);
         jT_Alumno.setFocusable(false);
 
-        jLabel11.setText("Árbol de Perturbación");
+        jLabel11.setText("�?rbol de Perturbación");
 
         jT_id_arbol_perturbacion.setText("<Nombre>");
 
@@ -639,8 +644,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextParcialmente;
     // End of variables declaration//GEN-END:variables
 
-    private void jtree_arbolMouseClicked() {
-        nodo_seleccionado = (Nodo_Perturbacion) jTree_Arbol_Perturbacion.getLastSelectedPathComponent();
+    private void jtree_arbolActionPerformed() {
+        nodo_seleccionado = (NodoPerturbacion) this.jTree_Arbol_Perturbacion.getNodoSeleccionado();
         if (nodo_seleccionado != null && this.jTree_Arbol_Perturbacion.isEnabled()) {
             EtiquetaBean etiqueta;
             etiqueta = nodo_seleccionado.getDato().getEtiquetaBean();

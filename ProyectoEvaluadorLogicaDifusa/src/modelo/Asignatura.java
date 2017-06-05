@@ -7,7 +7,7 @@ public class Asignatura
 {
     private String nombre_asignatura;
     private String codigo;
-    private Arbol_Perturbacion arbol_dominio; //serializable
+    private ArbolPerturbacion arbol_dominio; //serializable
 
     /**
      * @aggregation composite
@@ -20,7 +20,7 @@ public class Asignatura
     }
 
 
-    public Asignatura(String nombre_asignatura, String codigo, Arbol_Perturbacion arbol_dominio)
+    public Asignatura(String nombre_asignatura, String codigo, ArbolPerturbacion arbol_dominio)
     {
         this.nombre_asignatura = nombre_asignatura;
         this.codigo = codigo;
@@ -47,12 +47,12 @@ public class Asignatura
         return codigo;
     }
 
-    public void setArbol_dominio(Arbol_Perturbacion arbol_dominio)
+    public void setArbol_dominio(ArbolPerturbacion arbol_dominio)
     {
         this.arbol_dominio = arbol_dominio;
     }
 
-    public Arbol_Perturbacion getArbol_dominio()
+    public ArbolPerturbacion getArbol_dominio()
     {
         return arbol_dominio;
     }

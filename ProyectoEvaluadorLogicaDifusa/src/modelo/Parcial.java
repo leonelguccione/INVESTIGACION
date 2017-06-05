@@ -9,10 +9,10 @@ public class Parcial
 {
     private int id;
     private String nombre;
-    private Arbol_Perturbacion arbol_podado = null;
+    private ArbolPerturbacion arbol_podado = null;
     private ArrayList<Instancia_Evaluacion> instancias_evaluaciones = new ArrayList<Instancia_Evaluacion>();
 
-     public Parcial(int id, String nombre, Arbol_Perturbacion arbol_podado)
+     public Parcial(int id, String nombre, ArbolPerturbacion arbol_podado)
     {
         this.id = id;
         this.nombre = nombre;
@@ -40,12 +40,12 @@ public class Parcial
         return nombre;
     }
 
-    public void setArbol_podado(Arbol_Perturbacion arbol_podado)
+    public void setArbol_podado(ArbolPerturbacion arbol_podado)
     {
         this.arbol_podado = arbol_podado;
     }
 
-    public Arbol_Perturbacion getArbol_podado()
+    public ArbolPerturbacion getArbol_podado()
     {
         return arbol_podado;
     }

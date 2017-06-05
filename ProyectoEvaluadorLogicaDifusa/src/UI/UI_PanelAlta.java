@@ -10,7 +10,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
 
 
 /**
@@ -45,12 +46,12 @@ public class UI_PanelAlta extends javax.swing.JPanel
         this.habilitar_cargar_raiz();
     }
     
-    public void setArbol_perturbacion(Arbol_Perturbacion arbol_perturbacion)
+    public void setArbol_perturbacion(ArbolPerturbacion arbol_perturbacion)
     {
         this.panel_arbol.setArbol_perturbacion(arbol_perturbacion);
     }
 
-    public Arbol_Perturbacion getArbol_perturbacion()
+    public ArbolPerturbacion getArbol_perturbacion()
     {
         return this.panel_arbol.getArbol_perturbacion();
     }
@@ -161,7 +162,7 @@ public class UI_PanelAlta extends javax.swing.JPanel
 
         setMaximumSize(new java.awt.Dimension(660, 670));
         setMinimumSize(new java.awt.Dimension(660, 670));
-        setName("Ã?rbol de Dominio"); // NOI18N
+        setName("ï¿½?rbol de Dominio"); // NOI18N
         setPreferredSize(new java.awt.Dimension(660, 670));
 
         jPanel_nuevo_nodo.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -233,7 +234,7 @@ public class UI_PanelAlta extends javax.swing.JPanel
 
         jPanel_arbol_seleccionado.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Ã?rbol:");
+        jLabel1.setText("ï¿½?rbol:");
 
         jLabel2.setText("DescripciÃ³n:");
 
