@@ -4,20 +4,25 @@ package arbol_perturbacion_visual;
 import arbolvisual.ArbolVisual;
 import arbolvisual.NodoVisual;
 
-import arbolvisual.ArbolVisual;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.Iterator;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import javax.swing.tree.TreeModel;
+
 import modelo.NodoPerturbacion;
+import modelo.NodoPerturbacionEvaluable;
 import modelo.RelacionImpacto;
 
 
-public class ArbolPerturbacionVisual extends ArbolVisual
+public abstract class ArbolPerturbacionVisual extends ArbolVisual
 {
     private Paleta paleta = new Paleta();
     {
@@ -45,30 +50,50 @@ public class ArbolPerturbacionVisual extends ArbolVisual
 
                 if (origen.isVisible())
                 {
-                    NodoPerturbacion nodo = (NodoPerturbacion) origen.getNodoReal();
-                    NodoPerturbacion impactado;
-                    
-                                        Iterator<RelacionImpacto> impactados = nodo.IteratorImpactos();
+                    if (!origen.isOculto() || ArbolPerturbacionVisual.this.isMuestraNodosOcultos())
+                    {
+                        NodoPerturbacion nodo = (NodoPerturbacion) origen.getNodoReal();
+                        NodoPerturbacion impactado;
 
-                    while (impactados.hasNext())
-                    {impactado=impactados.next().getNodo();
-                        if (          ArbolPerturbacionVisual.this.getNodoVisual(impactado).isVisible())
+                        Iterator<RelacionImpacto> impactados = nodo.iteratorImpactos();
 
+                        while (impactados.hasNext())
                         {
+                            impactado = impactados.next().getNodo();
                             NodoVisual destino = ArbolPerturbacionVisual.this.getNodoVisual(impactado);
+                            if (destino.isVisible() &&
+                                (!destino.isOculto() || ArbolPerturbacionVisual.this.isMuestraNodosOcultos()))
 
-                            UtilGraphics.lineaDegrade(g,
-                                                      origen.getX() + ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
-                                                      origen.getY() + ArbolPerturbacionVisual.this.getAltoNodo() / 2,
-                                                      destino.getX() + ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
-                                                      destino.getY() + ArbolPerturbacionVisual.this.getAltoNodo() / 2,
-                                                      ArbolPerturbacionVisual.this.colorLineasRelacionalesOrigen,
-                                                      ArbolPerturbacionVisual.this.colorLineasRelacionalesDestino,
-                                                      1000);
+                            {
+                                Color colorOrigen;
+                                Color colorDestino;
+                                if (origen.isOculto())
+                                    colorOrigen =
+                                        UtilGraphics.getColorAlpha(ArbolPerturbacionVisual.this
+                                                                   .colorLineasRelacionalesOrigen, 32);
+                                else
+                                    colorOrigen = ArbolPerturbacionVisual.this.colorLineasRelacionalesOrigen;
+                                if (destino.isOculto())
+                                    colorDestino =
+                                        UtilGraphics.getColorAlpha(ArbolPerturbacionVisual.this
+                                                                   .colorLineasRelacionalesDestino, 32);
+                                else
+                                    colorDestino = ArbolPerturbacionVisual.this.colorLineasRelacionalesDestino;
+
+                                UtilGraphics.lineaDegrade(g,
+                                                          origen.getX() +
+                                                          ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
+                                                          origen.getY() +
+                                                          ArbolPerturbacionVisual.this.getAltoNodo() / 2,
+                                                          destino.getX() +
+                                                          ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
+                                                          destino.getY() +
+                                                          ArbolPerturbacionVisual.this.getAltoNodo() / 2, colorOrigen,
+                                                          colorDestino, 100);
+                            }
                         }
                     }
                 }
-
 
             }
             super.paint(g);
@@ -103,9 +128,9 @@ public class ArbolPerturbacionVisual extends ArbolVisual
 
         if (this.paleta != null)
         {
-            if (!nodo.getEtiqueta().isCero())
+            if (!nodo.isCero())
             {
-                Color color = this.paleta.getColor(nodo.getEtiqueta().getNota());
+                Color color = this.paleta.getColor(nodo.getNota());
                 nodoVisual.setColorRelleno(color);
                 nodoVisual.setColorBorde(color.darker());
             }
@@ -147,5 +172,17 @@ public class ArbolPerturbacionVisual extends ArbolVisual
     {
         return colorLineasRelacionalesDestino;
     }
+
+    public abstract void verificaOcultos();
+    
+
+    @Override
+    public void setModel(TreeModel arbol)
+    {
+        // TODO Implement this method
+        super.setModel(arbol);
+        this.verificaOcultos();
+    }
+
 
 }

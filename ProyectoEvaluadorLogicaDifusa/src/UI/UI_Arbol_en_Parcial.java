@@ -1,14 +1,13 @@
 package UI;
 
-
 import arbol_perturbacion_visual.ANoEvaluableVisual;
 import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import arbolvisual.NodoVisual;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
@@ -30,13 +29,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
 
-
-public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
+public class UI_Arbol_en_Parcial extends JFrame implements ActionListener
 {
     private static final String CAPTURA = "captura";
     private static final String TRADICIONAL = "tradicional";
@@ -57,7 +54,7 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     private JRadioButton jr_Tradicional = new JRadioButton("Tradicional");
     private JScrollPane jScrollPane_jTree_Tradicional = new javax.swing.JScrollPane();
 
-    public UI_Arbol_Perturbacion(String string, ArbolPerturbacion arbol) throws HeadlessException
+    public UI_Arbol_en_Parcial(String string, ArbolPerturbacion arbol) throws HeadlessException
     {
         super(string);
         this.setVisible(true);
@@ -70,10 +67,10 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
         this.jtree_arbol_visual.setLineasRectas(true);
         grupo.add(jr_Personalizado);
         grupo.add(jr_Tradicional);
-        this.jButton_capturar.setActionCommand(UI_Arbol_Perturbacion.CAPTURA);
+        this.jButton_capturar.setActionCommand(UI_Arbol_en_Parcial.CAPTURA);
         jScrollPane_jTree_Tradicional.setViewportView(jtree_tradicional);
-        this.jr_Tradicional.setActionCommand(UI_Arbol_Perturbacion.TRADICIONAL);
-        this.jr_Personalizado.setActionCommand(UI_Arbol_Perturbacion.PERSONALIZADO);
+        this.jr_Tradicional.setActionCommand(UI_Arbol_en_Parcial.TRADICIONAL);
+        this.jr_Personalizado.setActionCommand(UI_Arbol_en_Parcial.PERSONALIZADO);
         this.jButton_capturar.addActionListener(this);
         this.jr_Tradicional.addActionListener(this);
         this.jr_Personalizado.addActionListener(this);
@@ -106,13 +103,13 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getActionCommand().equals(UI_Arbol_Perturbacion.CAPTURA))
+        if (e.getActionCommand().equals(UI_Arbol_en_Parcial.CAPTURA))
             this.captura();
-        if (e.getActionCommand().equals(UI_Arbol_Perturbacion.PERSONALIZADO))
+        if (e.getActionCommand().equals(UI_Arbol_en_Parcial.PERSONALIZADO))
         {
             this.inicia_visual(this.jtree_arbol_visual);
         }
-        if (e.getActionCommand().equals(UI_Arbol_Perturbacion.TRADICIONAL))
+        if (e.getActionCommand().equals(UI_Arbol_en_Parcial.TRADICIONAL))
         {
             this.inicia_visual(this.jScrollPane_jTree_Tradicional);
 
@@ -179,3 +176,4 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     }
 
 }
+

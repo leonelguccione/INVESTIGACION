@@ -6,22 +6,76 @@ import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import modelo.NodoPerturbacionEvaluable;
+
 /**
  * Clase que representa un nodo visual dentro del arbol visual, a cada DefaultMutableTreeNode le corresponde un nodo visual.
  */
-public class NodoVisual implements Serializable
+public class NodoVisual implements Serializable, Cloneable
 {
     @SuppressWarnings("compatibility:894136378009397574")
     private static final long serialVersionUID = 1601652017252495439L;
 
 
     private DefaultMutableTreeNode nodoReal;
-    private boolean expandido, visible, seleccionado;
+    private boolean expandido;
+    private boolean visible;
+    private boolean seleccionado;
+    private boolean oculto;
     private int x, y, anchoreservado;
     private Color colorRelleno;
     private Color colorBorde;
     private Color colorSeleccionado;
+    private Color colorLinea;
+    private Color colorTexto;
+    private Color colorControl;
 
+
+    public void setColorControl(Color colorControl)
+    {
+        this.colorControl = colorControl;
+    }
+
+    public Color getColorControl()
+    {
+        return colorControl;
+    }
+
+    public void setColorTexto(Color colorTexto)
+    {
+        this.colorTexto = colorTexto;
+    }
+
+    public Color getColorTexto()
+    {
+        return colorTexto;
+    }
+
+
+    public void setColorLinea(Color colorLinea)
+    {
+        this.colorLinea = colorLinea;
+    }
+
+    public Color getColorLinea()
+    {
+        return colorLinea;
+    }
+
+    public void setOculto(boolean oculto)
+    {
+        this.oculto = oculto;
+        if (oculto)
+            this.setAlpha(32);
+        else
+            this.setAlpha(255);
+
+    }
+
+    public boolean isOculto()
+    {
+        return oculto;
+    }
 
     public void setColorRelleno(Color colorRelleno)
     {
@@ -60,6 +114,8 @@ public class NodoVisual implements Serializable
     {
         this.nodoReal = nodoReal;
         this.setVisible(true);
+        this.setOculto(false);
+
         this.expandido = !this.nodoReal.isLeaf();
         ;
     }
@@ -207,4 +263,40 @@ public class NodoVisual implements Serializable
     }
 
 
+    @Override
+    protected NodoVisual clone()
+    {
+        // TODO Implement this method
+        NodoVisual resp = null;
+        try
+        {
+            resp = (NodoVisual) super.clone();
+        } catch (CloneNotSupportedException e)
+        {
+        }
+        return resp;
+    }
+
+
+    private void setAlpha(int alpha)
+    {
+        Color c = this.getColorBorde();
+        if (c != null)
+            this.setColorBorde(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        c = this.getColorRelleno();
+        if (c != null)
+            this.setColorRelleno(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        c = this.getColorLinea();
+        if (c != null)
+            this.setColorLinea(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        c = this.getColorTexto();
+        if (c != null)
+            this.setColorTexto(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        c = this.getColorSeleccionado();
+        if (c != null)
+            this.setColorSeleccionado(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        c = this.getColorControl();
+        if (c != null)
+            this.setColorControl(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+    }
 }

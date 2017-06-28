@@ -5,6 +5,10 @@
  */
 package modelo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import java.util.Iterator;
@@ -12,30 +16,39 @@ import java.util.LinkedHashSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
- 
+
 /**
  * Nodo del Ã¡rbol, que almacena un datoBean.
  *
  * @author leonel
  */
-public class NodoPerturbacion extends DefaultMutableTreeNode
+public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjuntoDifuso
 {
     @SuppressWarnings("compatibility:-6181443248382898133")
     private static final long serialVersionUID = -945102238251152449L;
     private LinkedHashSet<RelacionImpacto> impacta = new LinkedHashSet<RelacionImpacto>();
-    public boolean addImpacta(NodoPerturbacion np)
-       {
-          return this.impacta.add(new RelacionImpacto(np));
-       }
+  
+    
 
-       public Iterator<RelacionImpacto> IteratorImpactos()
-       {
-           return this.impacta.iterator();
+    public void addImpacta(NodoPerturbacion np, double valor)
+    {
     
-       }
+        this.impacta.add(new RelacionImpacto(np, valor));
 
-    
-    
+    }
+
+    public void addImpacta(NodoPerturbacion np)
+    {
+        this.addImpacta(np, 0.0);
+
+    }
+
+    public Iterator<RelacionImpacto> iteratorImpactos()
+    {
+        return this.impacta.iterator();
+
+    }
+
 
     public NodoPerturbacion(Object object, boolean b)
     {
@@ -54,18 +67,18 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
     {
         super();
         DatoBean dato = new DatoBean(idDato);
-        setDato(dato);
+        setUserObject(dato);
     }
 
     /**
      * @return retorna la etiqueta. Ojbeto con los cuatro conjuntos difusos con sus valores
      */
-    public EtiquetaBean getEtiqueta()
+    private EtiquetaBean getEtiqueta()
     {
         return getDato().getEtiquetaBean();
     }
 
-    public DatoBean getDato()
+    private DatoBean getDato()
     {
         return (DatoBean) getUserObject();
     }
@@ -75,14 +88,6 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
         return isLeaf();
     }
 
-    /**
-     * establece el dato que contiene el nodo. Es un objeto de tipo DatoBean
-     * @param dato Dato a guardar en el nodo.
-     */
-    public void setDato(DatoBean dato)
-    {
-        setUserObject(dato);
-    }
 
     /**crea un nuevo nodo a partir del idNodo.
      * Agrega el datoBean como dato del nodo.
@@ -92,7 +97,8 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
     {
         EtiquetaBean e = new EtiquetaBean();
         DatoBean datoBean = new DatoBean(idNodo, e);
-        setDato(datoBean);
+        setUserObject(datoBean);
+        
     }
 
     /**
@@ -218,7 +224,9 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
 
     public void suma(NodoPerturbacion sumando)
     {
+
         this.getEtiqueta().suma(sumando.getEtiqueta());
+        
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -238,6 +246,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
     public void resta(NodoPerturbacion sustraendo)
     {
         this.getEtiqueta().resta(sustraendo.getEtiqueta());
+        
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -256,6 +265,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
     public void multiplica(double factor)
     {
         this.getEtiqueta().multiplica(factor);
+        
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -273,6 +283,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
         if (divisor != 0)
         {
             this.getEtiqueta().dividir(divisor);
+            
             if (!this.esHoja())
             {
                 Enumeration hijos_propios = this.children();
@@ -290,7 +301,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
     @Override
     public String toString()
     {
-        
+
         return this.getDato().toString();
     }
 
@@ -305,6 +316,106 @@ public class NodoPerturbacion extends DefaultMutableTreeNode
             cartel = super.toString();
         return cartel;
     } */
+
+    public String getIdDato()
+    {
+        return this.getDato().getIdDato();
+    }
+
+    @Override
+    public double getDesconocido()
+    {
+        // TODO Implement this method
+        return this.getEtiqueta().getDesconocido();
+    }
+
+    @Override
+    public void setDesconocido(double desconocido)
+    {
+        this.getEtiqueta().setDesconocido(desconocido);
+        
+    }
+
+    @Override
+    public double getParcialmenteConocido()
+    {
+        // TODO Implement this method
+        return this.getEtiqueta().getParcialmenteConocido();
+    }
+
+    @Override
+    public void setParcialmenteConocido(double parcialmente)
+    {
+        this.getEtiqueta().setParcialmenteConocido(parcialmente);
+        
+    }
+
+    @Override
+    public double getConocido()
+    {
+        return this.getEtiqueta().getConocido();
+    }
+
+    @Override
+    public void setConocido(double conocido)
+    {
+        this.getEtiqueta().setConocido(conocido);
+        
+    }
+
+    @Override
+    public double getAprendido()
+    {
+        return this.getEtiqueta().getAprendido();
+    }
+
+    @Override
+    public void setAprendido(double aprendido)
+    {
+        this.getEtiqueta().setAprendido(aprendido);
+        
+    }
+
+    @Override
+    public boolean isValid()
+    {
+        // TODO Implement this method
+        return this.getEtiqueta().isValid();
+    }
+
+    @Override
+    public boolean isCero()
+    {
+        // TODO Implement this method
+        return this.getEtiqueta().isCero();
+    }
+
+    @Override
+    public void inicializar()
+    {
+        this.getEtiqueta().inicializar();
+    }
+
+    @Override
+    public double getNota()
+    {
+        // TODO Implement this method
+        return this.getEtiqueta().getNota();
+    }
+
+    @Override
+    public void setEtiquetaDesdeNota(double nota) throws Exception
+    {
+        this.getEtiqueta().setEtiquetaDesdeNota(nota);
+        
+    }
+
+
+    
+
+
+   
+
 }
 
 

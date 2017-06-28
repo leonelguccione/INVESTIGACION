@@ -4,6 +4,7 @@ package UI;
 import Excepciones.NotSemejanteException;
 
 
+import arbol_perturbacion_visual.AEvaluableVisual;
 import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
         jLabel7 = new javax.swing.JLabel();
         jButton_Promedio = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane_arbol = new ArbolPerturbacionVisual();
+        jScrollPane_arbol = new AEvaluableVisual();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList_examenes_promediados = new javax.swing.JList();
 
@@ -210,7 +211,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             }
         });
 
-        jLabel9.setText("Inst. Evaluaci�n:");
+        jLabel9.setText("Inst. Evaluación:");
 
         jLabel12.setText("Parcial:");
 

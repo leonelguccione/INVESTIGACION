@@ -9,6 +9,8 @@ import Excepciones.NoCompletoException;
 import Excepciones.NotSemejanteException;
 import Excepciones.RaizNulaException;
 
+import arbolvisual.NodoVisual;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,6 +20,11 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
+
+import java.util.Iterator;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -226,6 +233,41 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         // TODO Implement this method
         return ArbolPerturbacion.deserializar(this.serializar());
     }
+    
+    
+    public ArbolPerturbacion toEvaluable()
+    {ArbolPerturbacion nuevo=new ArbolPerturbacion(this.getNombre(),this.getDescripcion());
+     HashMap<NodoPerturbacion, NodoPerturbacionEvaluable> hashmap = new HashMap<NodoPerturbacion, NodoPerturbacionEvaluable> ();
+     NodoPerturbacionEvaluable raizEvaluada=new NodoPerturbacionEvaluable(this.getRaiz(),hashmap);
+     nuevo.setRaiz(raizEvaluada);
+     Iterator <NodoPerturbacion> iterator_nodos=hashmap.keySet().iterator();
+     
+     
+     
+     
+     while(iterator_nodos.hasNext())
+     {
+      NodoPerturbacion n=iterator_nodos.next();
+     Iterator<RelacionImpacto>it_relaciones=n.iteratorImpactos();
+         while(it_relaciones.hasNext()) 
+         {
+             RelacionImpacto rel=it_relaciones.next();
+             hashmap.get(n).addImpacta(hashmap.get(rel.getNodo()), rel.getValor());
+             
+             }
+        
+               
+         
+         }
+     
+     
+     
+     
+     
+     return nuevo;
+        
+        
+        }
 
     public void suma(ArbolPerturbacion sumando) throws NotSemejanteException
     {
@@ -273,9 +315,7 @@ public class ArbolPerturbacion implements Serializable, Cloneable
 
     public boolean isCorregido()
     {
-        return (!this.getRaiz()
-                     .getEtiqueta()
-                     .isCero());
+        return (!this.getRaiz().isCero());
     }
 
     public double getPorcentajeCorreccion() throws RaizNulaException

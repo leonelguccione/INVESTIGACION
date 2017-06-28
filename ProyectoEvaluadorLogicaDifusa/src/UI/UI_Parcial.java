@@ -2,6 +2,10 @@
 package UI;
 
 
+import arbol_perturbacion_visual.AEvaluableVisual;
+import arbol_perturbacion_visual.ArbolPerturbacionVisual;
+
+
 import arbolvisual.ArbolVisual;
 
 import java.awt.event.MouseAdapter;
@@ -14,13 +18,13 @@ import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import modelo.ArbolPerturbacion;
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Modelo;
+import modelo.NodoPerturbacionEvaluable;
 import modelo.Parcial;
 
 /**
@@ -30,7 +34,7 @@ import modelo.Parcial;
 public class UI_Parcial extends javax.swing.JInternalFrame
 {
     private Modelo modelo;
-    private ArbolVisual jtree_arbol;
+    private AEvaluableVisual jtree_arbol;
     private ArbolPerturbacion arbolPodado;
 
     private DefaultListModel listModel_cursadas = new DefaultListModel();
@@ -53,20 +57,22 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
         this.jList_parciales.setModel(listModel_parciales);
         this.actualizar_jList_asignaturas();
-        this.jtree_arbol = (ArbolVisual) this.jScrollPane_jTreeVisual;
-        this.jButton_eliminar_nodo.setEnabled(false);
+        this.jtree_arbol = (AEvaluableVisual) this.jScrollPane_jTreeVisual;
+        this.jButton_ocultar_nodo.setEnabled(false);
 
         this.jtree_arbol.setLineasRectas(true);
         this.jtree_arbol.addMouseListener(new MouseAdapter()
+                                          
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
                 super.mouseClicked(e);
-                UI_Parcial.this.jButton_eliminar_nodo.setEnabled(UI_Parcial.this.jtree_arbol.getNodoSeleccionado() !=
+                UI_Parcial.this.jButton_ocultar_nodo.setEnabled(UI_Parcial.this.jtree_arbol.getNodoSeleccionado() !=
                                                                  null && UI_Parcial.this.cursada_en_uso != null);
             }
         });
+        this.jtree_arbol.setMuestraNodosOcultos(true);
     }
 
     /** This method is called from within the constructor to
@@ -79,9 +85,9 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jScrollPane_jTreeVisual = new ArbolVisual();
+        jScrollPane_jTreeVisual = new AEvaluableVisual();
         jButton_guardar_ap = new javax.swing.JButton();
-        jButton_eliminar_nodo = new javax.swing.JButton();
+        jButton_ocultar_nodo = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jButton_Agregar_nuevo = new javax.swing.JButton();
         jLabel41 = new javax.swing.JLabel();
@@ -97,15 +103,17 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         jList_cursadas = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList_parciales = new javax.swing.JList();
-        jButtonVerArbol = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonVerArbol = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setClosable(true);
-        setTitle("Gesti�n de Parciales");
+        setTitle("Gestión de Parciales");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
 
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("�rbol Podado"));
+        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("Árbol Evaluado"));
 
         jButton_guardar_ap.setText("Guardar Parcial");
         jButton_guardar_ap.setEnabled(false);
@@ -117,15 +125,16 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             }
         });
 
-        jButton_eliminar_nodo.setText("Eliminar Nodo");
-        jButton_eliminar_nodo.addActionListener(new java.awt.event.ActionListener()
+        jButton_ocultar_nodo.setText("Ocultar Nodo");
+        jButton_ocultar_nodo.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton_eliminar_nodoActionPerformed(evt);
+                jButton_ocultar_nodoActionPerformed(evt);
             }
         });
 
+        jPanel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel15.setLayout(new java.awt.GridBagLayout());
 
         jButton_Agregar_nuevo.setText("Agregar nuevo parcial");
@@ -245,16 +254,6 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
         jPanel1.add(jScrollPane1);
 
-        jButtonVerArbol.setText("Ver arbol actual");
-        jButtonVerArbol.setEnabled(false);
-        jButtonVerArbol.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButtonVerArbolActionPerformed(evt);
-            }
-        });
-
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.setEnabled(false);
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener()
@@ -265,6 +264,45 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             }
         });
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jButtonVerArbol.setText("Ver arbol actual");
+        jButtonVerArbol.setEnabled(false);
+        jButtonVerArbol.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonVerArbolActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonVerArbol)
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonVerArbol)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("Ver nodos ocultos");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -272,16 +310,19 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1539, Short.MAX_VALUE)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButton_eliminar_nodo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonVerArbol)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_ocultar_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1)
+                        .addGap(29, 29, 29)
                         .addComponent(jButtonCancelar)
                         .addGap(18, 18, 18)
                         .addComponent(jButton_guardar_ap)))
@@ -294,16 +335,18 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane_jTreeVisual)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_guardar_ap)
-                            .addComponent(jButton_eliminar_nodo)
-                            .addComponent(jButtonVerArbol)
-                            .addComponent(jButtonCancelar))))
+                            .addComponent(jButton_ocultar_nodo)
+                            .addComponent(jButtonCancelar)
+                            .addComponent(jCheckBox1))))
                 .addContainerGap())
         );
 
@@ -312,16 +355,24 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
     private void jButtonVerArbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVerArbolActionPerformed
     {//GEN-HEADEREND:event_jButtonVerArbolActionPerformed
-        UI_Arbol_Perturbacion ui_arbol =
+        
+        /*   UI_Arbol_Perturbacion ui_arbol =
             new UI_Arbol_Perturbacion(this.arbolPodado.getNombre(),
-                                      this.arbolPodado); // TODO add your handling code here:
+                                      this.arbolPodado);  */
+        
+       
+       
+        
+        
+        
+        
     }//GEN-LAST:event_jButtonVerArbolActionPerformed
 
     private void jButton_Agregar_nuevoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_Agregar_nuevoActionPerformed
     {//GEN-HEADEREND:event_jButton_Agregar_nuevoActionPerformed
     if (this.asignatura_en_uso.getArbol_dominio() != null)
     {
-        this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
+        this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
 
         jtree_arbol.setModel(this.arbolPodado.getTreeModel());
     }
@@ -354,21 +405,20 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     
     }//GEN-LAST:event_jButton_guardar_apActionPerformed
 
-    private void jButton_eliminar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_nodoActionPerformed
-    {//GEN-HEADEREND:event_jButton_eliminar_nodoActionPerformed
-        DefaultMutableTreeNode nodoSeleccionado = jtree_arbol.getNodoSeleccionado();
+    private void jButton_ocultar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ocultar_nodoActionPerformed
+    {//GEN-HEADEREND:event_jButton_ocultar_nodoActionPerformed
+        NodoPerturbacionEvaluable nodoSeleccionado = (NodoPerturbacionEvaluable) jtree_arbol.getNodoSeleccionado();
         DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
-        if (nodoSeleccionado != null)
+        if (nodoSeleccionado != null&& !nodoSeleccionado.isRoot())
         {
-            if (!nodoSeleccionado.isRoot())
-            {
-                dtm.removeNodeFromParent(nodoSeleccionado);
-            } else
-            {
-                this.eliminar_arbol_completo();
+                this.jtree_arbol.setOculto(nodoSeleccionado,nodoSeleccionado.isEvaluado());
+             this.jtree_arbol.repaint();
+             //   this.jtree_arbol.verificaOcultos();
             }
-        }
-    }//GEN-LAST:event_jButton_eliminar_nodoActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButton_ocultar_nodoActionPerformed
 
     private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
     {//GEN-HEADEREND:event_jList_asignaturasValueChanged
@@ -379,11 +429,11 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.cursada_en_uso = null;
         this.actualizar_jList_cursadas();
         this.actualizar_jList_parciales();
-        this.jButton_eliminar_nodo.setEnabled(false);
+        this.jButton_ocultar_nodo.setEnabled(false);
 
         if (this.asignatura_en_uso.getArbol_dominio() != null)
         {
-            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
+            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
 
             jtree_arbol.setModel(this.arbolPodado.getTreeModel());
         }
@@ -400,12 +450,12 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.actualizar_jList_parciales();
         if (this.asignatura_en_uso.getArbol_dominio() != null)
         {
-            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().clone();
+            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
 
             jtree_arbol.setModel(this.arbolPodado.getTreeModel());
         }
         this.verificaEnabled();
-        this.jButton_eliminar_nodo.setEnabled(false);
+        this.jButton_ocultar_nodo.setEnabled(false);
     }
     }//GEN-LAST:event_jList_cursadasValueChanged
 
@@ -420,13 +470,19 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     
     }//GEN-LAST:event_jList_parcialesValueChanged
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBox1ActionPerformed
+    {//GEN-HEADEREND:event_jCheckBox1ActionPerformed
+        this.jtree_arbol.setMuestraNodosOcultos(this.jCheckBox1.isSelected());
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonVerArbol;
     private javax.swing.JButton jButton_Agregar_nuevo;
-    private javax.swing.JButton jButton_eliminar_nodo;
     private javax.swing.JButton jButton_guardar_ap;
+    private javax.swing.JButton jButton_ocultar_nodo;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
@@ -435,6 +491,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private javax.swing.JList jList_parciales;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -496,14 +553,14 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.jList_parciales.setEnabled(!this.modo_edicion);
     }
 
-    private void eliminar_arbol_completo()
+    /*    private void eliminar_arbol_completo()
     {
 
         this.jtree_arbol.setModel(null);
         jtree_arbol.paintAll(this.jtree_arbol.getGraphics());
         this.jButton_eliminar_nodo.setEnabled(false);
 
-    }
+    } */
 
     private void limpiar()
     {
@@ -515,7 +572,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.jText_Nombre_Cursada.setText("");
         this.actualizar_jList_cursadas();
         this.actualizar_jList_parciales();
-        this.jButton_eliminar_nodo.setEnabled(false);
+        this.jButton_ocultar_nodo.setEnabled(false);
         this.verificaEnabled();
 
 

@@ -4,9 +4,9 @@ package UI;
 import Excepciones.NoCompletoException;
 import Excepciones.RaizNulaException;
 
-import arbol_perturbacion_visual.ArbolPerturbacionVisual;
+import arbol_perturbacion_visual.AEvaluableVisual;
 
-import arbolvisual.ArbolVisual;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +30,7 @@ import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.NodoPerturbacion;
 
+import modelo.NodoPerturbacionEvaluable;
 import modelo.Parcial;
 
 /**
@@ -45,19 +46,20 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstEvaluacion =
         new DefaultComboBoxModel<Instancia_Evaluacion>();
     private DefaultListModel listModelexamenes = new DefaultListModel();
-    private NodoPerturbacion nodo_seleccionado = null;
+    private NodoPerturbacionEvaluable nodo_seleccionado = null;
     private Asignatura asignatura_seleccionada = null;
     private Cursada cursada_seleccionada = null;
     private Parcial parcial_seleccionado = null;
     private Instancia_Evaluacion instancia_seleccionada = null;
     private Examen examen_seleccionado = null;
-    private ArbolPerturbacionVisual jTree_Arbol_Perturbacion = null;
+    private AEvaluableVisual jTree_Arbol_Perturbacion = null;
     private ActionListener actionL;
 
     /** Creates new form UI_Correccion */
     public UI_Correccion(Modelo modelo) {
         initComponents();
-        jTree_Arbol_Perturbacion = (ArbolPerturbacionVisual) this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion = (AEvaluableVisual) this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion.setMuestraNodosOcultos(true);
         this.modelo = modelo;
 
         this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
@@ -69,7 +71,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         this.actionL=new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getActionCommand().equals(ArbolVisual.NODO_SELECCIONADO))
+                if(e.getActionCommand().equals(AEvaluableVisual.NODO_SELECCIONADO))
                     jtree_arbolActionPerformed();
             }
         };
@@ -168,7 +170,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jBAceptar = new javax.swing.JButton();
         jB_Guardar = new javax.swing.JButton();
-        jScrollPane_arbol = new ArbolPerturbacionVisual();
+        jScrollPane_arbol = new AEvaluableVisual();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel_porcentaje_corregido = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -194,7 +196,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jT_Alumno.setEditable(false);
         jT_Alumno.setFocusable(false);
 
-        jLabel11.setText("�?rbol de Perturbación");
+        jLabel11.setText("Árbol de Perturbación");
 
         jT_id_arbol_perturbacion.setText("<Nombre>");
 
@@ -501,7 +503,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     private void jTextKeyRelease(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextKeyRelease
         // TODO add your handling code here:
-        this.jBAceptar.setEnabled(this.nodo_seleccionado != null && this.construyeEtiqueta().isValid());
+        this.jBAceptar.setEnabled(this.nodo_seleccionado != null && this.valoresValidos());
         
     }//GEN-LAST:event_jTextKeyRelease
 
@@ -645,29 +647,27 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void jtree_arbolActionPerformed() {
-        nodo_seleccionado = (NodoPerturbacion) this.jTree_Arbol_Perturbacion.getNodoSeleccionado();
+        nodo_seleccionado = (NodoPerturbacionEvaluable) this.jTree_Arbol_Perturbacion.getNodoSeleccionado();
         if (nodo_seleccionado != null && this.jTree_Arbol_Perturbacion.isEnabled()) {
-            EtiquetaBean etiqueta;
-            etiqueta = nodo_seleccionado.getDato().getEtiquetaBean();
-
-            if (nodo_seleccionado.esHoja()) {
+           
+            if ((!nodo_seleccionado.tieneHijoEvaluable()&&nodo_seleccionado.isEvaluado())) {
                 this.setModoEdicion(true);
-                jTextDesconocido.setText(String.valueOf(etiqueta.getDesconocido()));
-                jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
-                jTextConocido.setText(String.valueOf(etiqueta.getConocido()));
-                jTextAprendido.setText(String.valueOf(etiqueta.getAprendido()));
+                jTextDesconocido.setText(String.valueOf( nodo_seleccionado.getDesconocido()));
+                jTextParcialmente.setText(String.valueOf( nodo_seleccionado.getParcialmenteConocido()));
+                jTextConocido.setText(String.valueOf( nodo_seleccionado.getConocido()));
+                jTextAprendido.setText(String.valueOf( nodo_seleccionado.getAprendido()));
             } else {
                 this.setModoEdicion(false);
-                if (etiqueta.isCero()) {
+                if ( nodo_seleccionado.isCero()) {
                     jTextDesconocido.setText("");
                     jTextParcialmente.setText("");
                     jTextConocido.setText("");
                     jTextAprendido.setText("");
                 } else {
-                    jTextDesconocido.setText(String.valueOf(etiqueta.getDesconocido()));
-                    jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
-                    jTextConocido.setText(String.valueOf(etiqueta.getConocido()));
-                    jTextAprendido.setText(String.valueOf(etiqueta.getAprendido()));
+                    jTextDesconocido.setText(String.valueOf( nodo_seleccionado.getDesconocido()));
+                    jTextParcialmente.setText(String.valueOf( nodo_seleccionado.getParcialmenteConocido()));
+                    jTextConocido.setText(String.valueOf( nodo_seleccionado.getConocido()));
+                    jTextAprendido.setText(String.valueOf( nodo_seleccionado.getAprendido()));
 
                 }
             }
@@ -685,32 +685,52 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
 
     private void actualizaEtiqueta() {
-        this.nodo_seleccionado
-            .getDato()
-            .setEtiquetaBean(this.construyeEtiqueta());
+       this.construyeEtiqueta();
         this.examen_seleccionado.setModificado(true);
         this.verifica_modificado();
 
     }
 
-    private EtiquetaBean construyeEtiqueta() {
+    private void construyeEtiqueta() {
         double aprendido = 0, conocido = 0, parcialmente = 0, desconocido = 0;
-        EtiquetaBean etiqueta = new EtiquetaBean();
+       
         try {
             aprendido = Double.parseDouble(jTextAprendido.getText());
             conocido = Double.parseDouble(jTextConocido.getText());
             desconocido = Double.parseDouble(jTextDesconocido.getText());
             parcialmente = Double.parseDouble(jTextParcialmente.getText());
-
-            etiqueta.setAprendido(aprendido);
-            etiqueta.setConocido(conocido);
-            etiqueta.setDesconocido(desconocido);
-            etiqueta.setParcialmenteConocido(parcialmente);
+            this.nodo_seleccionado.setAprendido(aprendido);
+            this.nodo_seleccionado.setConocido(conocido);
+            this.nodo_seleccionado.setDesconocido(desconocido);
+            this.nodo_seleccionado.setParcialmenteConocido(parcialmente);
         } catch (Exception e) {
-            etiqueta.inicializar();
+            this.nodo_seleccionado.inicializar();
         }
-        return etiqueta;
+        
     }
+    
+    private boolean valoresValidos()
+    {
+        EtiquetaBean e=new EtiquetaBean();
+            double aprendido = 0, conocido = 0, parcialmente = 0, desconocido = 0;
+            
+            try {
+                aprendido = Double.parseDouble(jTextAprendido.getText());
+                conocido = Double.parseDouble(jTextConocido.getText());
+                desconocido = Double.parseDouble(jTextDesconocido.getText());
+                parcialmente = Double.parseDouble(jTextParcialmente.getText());
+                e.setAprendido(aprendido);
+                e.setConocido(conocido);
+                e.setDesconocido(desconocido);
+                e.setParcialmenteConocido(parcialmente);
+            } catch (Exception exception) {
+                e.inicializar();
+            }
+        
+        
+        return e.isValid();
+        
+        }
 
     private void limpiar_zona_correccion() {
         jT_Alumno.setText("");
