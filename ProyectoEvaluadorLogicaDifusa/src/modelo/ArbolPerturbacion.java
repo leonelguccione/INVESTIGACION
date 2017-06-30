@@ -97,15 +97,17 @@ public class ArbolPerturbacion implements Serializable, Cloneable
 
     public void procesar() throws NoCompletoException
     {
-        if (getRaiz().contarHojasInvalidas() != 0)
+        NodoPerturbacionEvaluable nodoRaiz = (NodoPerturbacionEvaluable) this.getRaiz();
+        if (nodoRaiz.contarHojasInvalidas() != 0)
             throw new NoCompletoException("Hay hojas no validas o vacías");
         else
-            getRaiz().procesar_Nodo();
+            nodoRaiz.procesar_Nodo();
     }
 
     public boolean isCompleto()
     {
-        return (getRaiz().contarHojasInvalidas() == 0);
+        NodoPerturbacionEvaluable nodoRaiz = (NodoPerturbacionEvaluable) this.getRaiz();
+        return (nodoRaiz.contarHojasInvalidas() == 0);
     }
 
 
@@ -320,10 +322,11 @@ public class ArbolPerturbacion implements Serializable, Cloneable
 
     public double getPorcentajeCorreccion() throws RaizNulaException
     {
+        NodoPerturbacionEvaluable nodoRaiz = (NodoPerturbacionEvaluable) this.getRaiz();
         if (this.raiz == null)
             throw new RaizNulaException("La raiz del arbol es nula");
         double resultado = 0;
-        resultado = 1 - ((double) this.getRaiz().contarHojasInvalidas() / (double) this.getRaiz().contarHojas());
+        resultado = 1 - ((double) nodoRaiz.contarHojasInvalidas() / (double) nodoRaiz.contarNodosCorregibles());
         resultado = resultado * 100;
         return resultado;
     }

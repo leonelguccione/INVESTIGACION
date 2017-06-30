@@ -27,12 +27,11 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     @SuppressWarnings("compatibility:-6181443248382898133")
     private static final long serialVersionUID = -945102238251152449L;
     private LinkedHashSet<RelacionImpacto> impacta = new LinkedHashSet<RelacionImpacto>();
-  
-    
+
 
     public void addImpacta(NodoPerturbacion np, double valor)
     {
-    
+
         this.impacta.add(new RelacionImpacto(np, valor));
 
     }
@@ -73,7 +72,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     /**
      * @return retorna la etiqueta. Ojbeto con los cuatro conjuntos difusos con sus valores
      */
-    private EtiquetaBean getEtiqueta()
+    protected EtiquetaBean getEtiqueta()
     {
         return getDato().getEtiquetaBean();
     }
@@ -98,47 +97,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
         EtiquetaBean e = new EtiquetaBean();
         DatoBean datoBean = new DatoBean(idNodo, e);
         setUserObject(datoBean);
-        
-    }
 
-    /**
-     * Completa la etiqueta del nodo con el promedio de los valores de las etiquetas de los hijos.
-     * En caso de ser una hoja, deja el nodo como estÃ¡.
-     */
-    public void procesar_Nodo()
-    {
-        if (!esHoja())
-        {
-            EtiquetaBean etiqueta = getEtiqueta();
-            Enumeration hijos = children();
-            int cantidad_hijos = getChildCount();
-            while (hijos.hasMoreElements())
-            {
-                NodoPerturbacion nodo_hijo = (NodoPerturbacion) hijos.nextElement();
-                nodo_hijo.procesar_Nodo();
-                etiqueta.suma(nodo_hijo.getEtiqueta());
-            }
-            etiqueta.dividir(cantidad_hijos);
-        }
-    }
-
-    /**
-     * @return Cantidad de hojas con valores de etiqueta no validos.
-     */
-    public int contarHojasInvalidas()
-    {
-        int aux = 0;
-        if (!esHoja())
-        {
-            Enumeration hijos = children();
-            while (hijos.hasMoreElements())
-            {
-                NodoPerturbacion nodo_hijo = (NodoPerturbacion) hijos.nextElement();
-                aux += nodo_hijo.contarHojasInvalidas();
-            }
-        } else if (!this.getEtiqueta().isValid())
-            aux++;
-        return aux;
     }
 
 
@@ -162,14 +121,14 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     }
 
 
-    /**Determina si un Ã¡rbol es semejante a otro.
-     * La semejanza estÃ¡ determinada por las siguientes condiciones:
+    /**Determina si un árbol es semejante a otro.
+     * La semejanza está determinada por las siguientes condiciones:
      * - ambos null
      * - la igualdad entre los campos dato->idDato de cada nodo correspondiente
-     * - la misma estructura de Ã¡rbol.
+     * - la misma estructura de árbol.
      * @param otraRaiz
      * @return
-     * precondiciÃ³n: otraRaiz != null
+     * precondición: otraRaiz != null
      */
     public boolean isSemejante(NodoPerturbacion otraRaiz)
     {
@@ -226,7 +185,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     {
 
         this.getEtiqueta().suma(sumando.getEtiqueta());
-        
+
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -246,7 +205,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void resta(NodoPerturbacion sustraendo)
     {
         this.getEtiqueta().resta(sustraendo.getEtiqueta());
-        
+
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -265,7 +224,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void multiplica(double factor)
     {
         this.getEtiqueta().multiplica(factor);
-        
+
         if (!this.esHoja())
         {
             Enumeration hijos_propios = this.children();
@@ -283,7 +242,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
         if (divisor != 0)
         {
             this.getEtiqueta().dividir(divisor);
-            
+
             if (!this.esHoja())
             {
                 Enumeration hijos_propios = this.children();
@@ -295,7 +254,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
                 }
             }
         } else
-            throw new ArithmeticException("divisiÃ³n por cero");
+            throw new ArithmeticException("división por cero");
     }
 
     @Override
@@ -333,7 +292,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void setDesconocido(double desconocido)
     {
         this.getEtiqueta().setDesconocido(desconocido);
-        
+
     }
 
     @Override
@@ -347,7 +306,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void setParcialmenteConocido(double parcialmente)
     {
         this.getEtiqueta().setParcialmenteConocido(parcialmente);
-        
+
     }
 
     @Override
@@ -360,7 +319,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void setConocido(double conocido)
     {
         this.getEtiqueta().setConocido(conocido);
-        
+
     }
 
     @Override
@@ -373,7 +332,7 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void setAprendido(double aprendido)
     {
         this.getEtiqueta().setAprendido(aprendido);
-        
+
     }
 
     @Override
@@ -407,14 +366,9 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     public void setEtiquetaDesdeNota(double nota) throws Exception
     {
         this.getEtiqueta().setEtiquetaDesdeNota(nota);
-        
+
     }
 
-
-    
-
-
-   
 
 }
 

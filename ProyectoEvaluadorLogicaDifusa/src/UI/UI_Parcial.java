@@ -356,9 +356,9 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private void jButtonVerArbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVerArbolActionPerformed
     {//GEN-HEADEREND:event_jButtonVerArbolActionPerformed
         
-        /*   UI_Arbol_Perturbacion ui_arbol =
-            new UI_Arbol_Perturbacion(this.arbolPodado.getNombre(),
-                                      this.arbolPodado);  */
+           UI_Arbol_Evaluable ui_arbol =
+            new UI_Arbol_Evaluable(this.arbolPodado.getNombre(),
+                                      this.arbolPodado);  
         
        
        

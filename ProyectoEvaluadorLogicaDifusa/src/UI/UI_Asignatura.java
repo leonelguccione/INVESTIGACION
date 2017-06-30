@@ -135,7 +135,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
     {
 
         this.arbol_auxiliar =
-            new ArbolPerturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripciÃƒÂ³n >");
+            new ArbolPerturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripción >");
         this.arbol_auxiliar.setRaiz(jTextField_nuevo.getText().trim());
         jtree_arbol.setModel(this.arbol_auxiliar.getTreeModel());
         //TODO: probar esto en el constructor
