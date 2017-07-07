@@ -377,6 +377,7 @@ public class UI_Cursada_Altas extends javax.swing.JInternalFrame {
             this.jText_Asignatura.setText("");
             this.jText_Cuatrimestre.setText("");
             this.actualizar_jList_cursadas();
+            JOptionPane.showMessageDialog(this, "Cursada guardada");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

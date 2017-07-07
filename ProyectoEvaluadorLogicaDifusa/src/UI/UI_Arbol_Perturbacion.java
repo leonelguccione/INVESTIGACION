@@ -57,9 +57,9 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
     private JRadioButton jr_Tradicional = new JRadioButton("Tradicional");
     private JScrollPane jScrollPane_jTree_Tradicional = new javax.swing.JScrollPane();
 
-    public UI_Arbol_Perturbacion(String string, ArbolPerturbacion arbol) throws HeadlessException
+    public UI_Arbol_Perturbacion( ArbolPerturbacion arbol) throws HeadlessException
     {
-        super(string);
+        super(arbol.getNombre());
         this.setVisible(true);
         setExtendedState(java.awt
                              .Frame

@@ -50,9 +50,9 @@ public class UI_Arbol_Evaluable extends JFrame implements ActionListener
     
     
 
-    public UI_Arbol_Evaluable(String string, ArbolPerturbacion arbol) throws HeadlessException
+    public UI_Arbol_Evaluable( ArbolPerturbacion arbol) throws HeadlessException
     {
-        super(string);
+        super(arbol.getNombre());
         this.setVisible(true);
         setExtendedState(java.awt
                              .Frame

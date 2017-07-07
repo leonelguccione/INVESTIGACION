@@ -180,7 +180,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva Instancia de Evaluación"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva Instancia de Evaluaciï¿½n"));
 
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +196,7 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Parcial:");
 
-        jLabel2.setText("Descripción:");
+        jLabel2.setText("Descripciï¿½n:");
 
         jLabel3.setText("Fecha:");
 
@@ -324,6 +324,9 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
                 .getModelo_abm_instanciaEvaluacion()
                 .agregaInstanciaEvaluacion(this.parcial_en_uso, instancia_evaluacion);
             this.modelo.recuperarInstanciasEvaluaciones(this.parcial_en_uso);
+            JOptionPane.showMessageDialog(this, "Instancia de Evaluacion guardada");
+            this.jList_parcialesValueChanged(null);
+            
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Fecha erronea");
         } catch (SQLException e) {
@@ -342,6 +345,8 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
             this.actualizar_jList_parciales();
             this.actualizar_jList_alumnos_cursadas();
             this.limpiaTextos();
+            this.listModel_alumnos_evaluados.clear();
+            
         }
         this.verificaEnabled();
     }//GEN-LAST:event_jList_asignaturasValueChanged
@@ -355,20 +360,21 @@ public class UI_Instancia_Evaluacion extends javax.swing.JInternalFrame {
             this.actualizar_jList_parciales();
             this.actualizar_jList_alumnos_cursadas();
             this.limpiaTextos();
+            this.listModel_alumnos_evaluados.clear();
         }
 
 
     }//GEN-LAST:event_jList_cursadasValueChanged
 
     private void jList_parcialesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_parcialesValueChanged
+     
         if (this.jList_parciales.getSelectedValue() != null) {
             this.parcial_en_uso = (Parcial) this.jList_parciales.getSelectedValue();
             this.jText_Parcial.setText(this.parcial_en_uso.toString());
             this.actualizar_jList_alumnos_cursadas();
+            this.listModel_alumnos_evaluados.clear();
         }
-        this.verificaEnabled(); //jList_asignaturasMouseClicked();
-
-        // TODO add your handling code here:
+        this.verificaEnabled(); 
     }//GEN-LAST:event_jList_parcialesValueChanged
     
 

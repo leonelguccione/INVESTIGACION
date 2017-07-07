@@ -601,6 +601,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame
             try
             {
                 ex.getArbol_podado_particular().procesar();
+                JOptionPane.showMessageDialog(this, "Se han guardado los cambios");
             } catch (NoCompletoException e)
             {
                 JOptionPane.showMessageDialog(this, e.getMessage());
@@ -650,10 +651,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_jButton1ActionPerformed
     
         UI_Arbol_Evaluable ui_arbol =
-            new UI_Arbol_Evaluable(this.examen_seleccionado
-                                                                   .getArbol_podado_particular()
-                                                                   .getNombre(),
-                                    this.examen_seleccionado.getArbol_podado_particular());  
+            new UI_Arbol_Evaluable(this.examen_seleccionado.getArbol_podado_particular());  
     
     
     

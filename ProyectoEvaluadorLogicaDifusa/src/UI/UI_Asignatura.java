@@ -6,7 +6,6 @@ import arbol_perturbacion_visual.ANoEvaluableVisual;
 import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 
-
 import arbolvisual.ArbolVisual;
 
 import java.awt.event.MouseAdapter;
@@ -202,17 +201,15 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         jTextField_nuevo = new javax.swing.JTextField();
         jButton_agregar_nuevo_nodo = new javax.swing.JButton();
         jButton_eliminar_nodo = new javax.swing.JButton();
-        jButton_ver_arbol = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton_ver_arbol = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton_eliminar_asignatura = new javax.swing.JButton();
         jButton_habilitar_modificacion_asignatura = new javax.swing.JButton();
         jButton_habilitar_nueva_asignatura = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Asignaturas");
@@ -329,24 +326,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
-        jButton_ver_arbol.setText("Ver Arbol");
-        jButton_ver_arbol.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton_ver_arbolActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Mirar Nodo");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -360,11 +339,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                     .addComponent(jTextField_padre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_ver_arbol)
-                .addGap(30, 30, 30)
-                .addComponent(jButton1)
-                .addGap(36, 36, 36)
+                .addGap(196, 196, 196)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton_agregar_nuevo_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_eliminar_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -377,9 +352,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_padre)
                     .addComponent(jTextField_padre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_agregar_nuevo_nodo)
-                    .addComponent(jButton_ver_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton_agregar_nuevo_nodo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_eliminar_nodo)
@@ -424,6 +397,15 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
+        jButton_ver_arbol.setText("Ver Arbol");
+        jButton_ver_arbol.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton_ver_arbolActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -437,17 +419,19 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jButton2)
-                .addGap(61, 61, 61)
+                .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addGap(44, 44, 44)
+                .addGap(26, 26, 26)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addComponent(jButton_ver_arbol)
+                .addGap(26, 26, 26)
                 .addComponent(jButton_cancelar)
                 .addGap(28, 28, 28)
                 .addComponent(jButton_aceptar)
-                .addGap(25, 25, 25))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,11 +441,13 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_aceptar)
-                    .addComponent(jButton_cancelar)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton_ver_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton_aceptar)
+                        .addComponent(jButton_cancelar)))
                 .addGap(110, 110, 110))
         );
 
@@ -520,15 +506,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addContainerGap())
         );
 
-        jButton5.setText("ToString");
-        jButton5.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -542,10 +519,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(421, 421, 421)
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,8 +534,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                         .addGap(116, 116, 116))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -571,11 +542,17 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
     private void jButton_ver_arbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ver_arbolActionPerformed
     {//GEN-HEADEREND:event_jButton_ver_arbolActionPerformed
-        UI_Arbol_Perturbacion ui_arbol =
-            new UI_Arbol_Perturbacion(this.asignatura_en_uso
-                                                                       .getArbol_dominio()
-                                                                       .getNombre(),
-                                      this.asignatura_en_uso.getArbol_dominio());
+        
+        ArbolPerturbacion a = null;
+        if (this.asignatura_en_uso!=null&& this.asignatura_en_uso.getArbol_dominio() != null)
+            a = this.asignatura_en_uso.getArbol_dominio();
+        else if (this.arbol_auxiliar != null)
+            a = this.arbol_auxiliar;
+
+        if (a != null)
+        {
+            UI_Arbol_Perturbacion ui_arbol = new UI_Arbol_Perturbacion(a);
+        }
     }//GEN-LAST:event_jButton_ver_arbolActionPerformed
 
     private void jButton_aceptarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_aceptarActionPerformed
@@ -633,6 +610,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         try
         {
             this.modelo_abm_asignatura.borrar_asignatura(this.asignatura_en_uso);
+            JOptionPane.showMessageDialog(this, "Asignatura eliminada");
         } catch (SQLException e)
         {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -729,28 +707,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
      
     }//GEN-LAST:event_jList_asignaturasValueChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        NodoPerturbacion nodito = (NodoPerturbacion) this.jtree_arbol.getNodoSeleccionado();
-        if (nodito != null)
-        {
-            System.out.println(nodito);
-            Iterator<RelacionImpacto> it = nodito.iteratorImpactos();
-            if(it.hasNext())
-            {
-                System.out.println("Relaciones de impactos:");
-                while(it.hasNext())
-                {
-                    RelacionImpacto r=it.next();
-                    System.out.println("Nodo: "+r.getNodo()+"   Valor: "+r.getValor());
-                    }
-                
-                }
-            else 
-            System.out.println("sin relaciones de impactos");
-            
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (this.jtree_arbol.getNodoSeleccionado() != null)
             ;
@@ -768,24 +724,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
         this.jtree_arbol.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton5ActionPerformed
-    {//GEN-HEADEREND:event_jButton5ActionPerformed
-System.out.println(this.asignatura_en_uso.getArbol_dominio().detalleCompleto());
-
-ArbolPerturbacion evaluable=this.asignatura_en_uso.getArbol_dominio().toEvaluable();
-        System.out.println(evaluable.detalleCompleto());
-
-
-
-    }//GEN-LAST:event_jButton5ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton_aceptar;
     private javax.swing.JButton jButton_agregar_nuevo_nodo;
     private javax.swing.JButton jButton_cancelar;

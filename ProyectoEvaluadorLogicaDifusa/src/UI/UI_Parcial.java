@@ -357,8 +357,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     {//GEN-HEADEREND:event_jButtonVerArbolActionPerformed
         
            UI_Arbol_Evaluable ui_arbol =
-            new UI_Arbol_Evaluable(this.arbolPodado.getNombre(),
-                                      this.arbolPodado);  
+            new UI_Arbol_Evaluable(this.arbolPodado);  
         
        
        
@@ -398,6 +397,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.modelo.recuperarParciales(this.cursada_en_uso);
         this.modo_edicion = false;
         limpiar();
+        JOptionPane.showMessageDialog(this, "Parcial agregado");
     } catch (SQLException e)
     {
         JOptionPane.showMessageDialog(this, e.getMessage());
