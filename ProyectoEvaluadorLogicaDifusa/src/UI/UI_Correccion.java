@@ -4,10 +4,12 @@ package UI;
 import Excepciones.NoCompletoException;
 import Excepciones.RaizNulaException;
 
-import arbol_perturbacion_visual.ArbolPerturbacionVisual;
+import arbol_perturbacion_visual.AEvaluableVisual;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 import java.sql.SQLException;
 
@@ -25,14 +27,15 @@ import modelo.EtiquetaBean;
 import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
-import modelo.Nodo_Perturbacion;
+import modelo.NodoPerturbacionEvaluable;
 import modelo.Parcial;
 
 /**
  *
  * @author leonel
  */
-public class UI_Correccion extends javax.swing.JInternalFrame {
+public class UI_Correccion extends javax.swing.JInternalFrame
+{
     private Modelo modelo;
 
     private DefaultComboBoxModel<Asignatura> comboBoxModelAsignatura = new DefaultComboBoxModel<Asignatura>();
@@ -41,19 +44,21 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstEvaluacion =
         new DefaultComboBoxModel<Instancia_Evaluacion>();
     private DefaultListModel listModelexamenes = new DefaultListModel();
-    private Nodo_Perturbacion nodo_seleccionado = null;
+    private NodoPerturbacionEvaluable nodo_seleccionado = null;
     private Asignatura asignatura_seleccionada = null;
     private Cursada cursada_seleccionada = null;
     private Parcial parcial_seleccionado = null;
     private Instancia_Evaluacion instancia_seleccionada = null;
     private Examen examen_seleccionado = null;
-    private ArbolPerturbacionVisual jTree_Arbol_Perturbacion = null;
-    private MouseAdapter mouseA;
+    private AEvaluableVisual jTree_Arbol_Perturbacion = null;
+    private ActionListener actionL;
 
     /** Creates new form UI_Correccion */
-    public UI_Correccion(Modelo modelo) {
+    public UI_Correccion(Modelo modelo)
+    {
         initComponents();
-        jTree_Arbol_Perturbacion = (ArbolPerturbacionVisual) this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion = (AEvaluableVisual) this.jScrollPane_arbol;
+        jTree_Arbol_Perturbacion.setMuestraNodosOcultos(true);
         this.modelo = modelo;
 
         this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
@@ -62,31 +67,37 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         this.jComboBox_Inst_Evaluacion.setModel((ComboBoxModel) this.comboBoxModelInstEvaluacion);
         this.jLista_Examenes.setModel(listModelexamenes);
         this.actualizar_combo_asignatura();
-
-        this.mouseA = new MouseAdapter() {
-            public void mouseClicked(MouseEvent me) {
-                jtree_arbolMouseClicked();
+        this.actionL = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (e.getActionCommand().equals(AEvaluableVisual.NODO_SELECCIONADO))
+                    jtree_arbolActionPerformed();
             }
         };
-        this.jTree_Arbol_Perturbacion.addMouseListener(mouseA);
+        this.jTree_Arbol_Perturbacion.addActionListener(this.actionL);
         this.jTree_Arbol_Perturbacion.setLineasRectas(true);
     }
 
-    private void actualizar_combo_asignatura() {
+    private void actualizar_combo_asignatura()
+    {
         limpiar_zona_correccion();
         this.comboBoxModelAsignatura.removeAllElements();
         Iterator iterator_asignaturas = modelo.getAsignaturas()
                                               .values()
                                               .iterator();
         //Recorrer el contenido del Iterator
-        while (iterator_asignaturas.hasNext()) {
+        while (iterator_asignaturas.hasNext())
+        {
             Asignatura asignatura = (Asignatura) iterator_asignaturas.next();
             this.comboBoxModelAsignatura.addElement(asignatura);
         }
 
     }
 
-    private void actualizar_combo_cursadas() {
+    private void actualizar_combo_cursadas()
+    {
 
         this.comboBoxModelCursada.removeAllElements();
         ArrayList<Cursada> cursadas;
@@ -102,11 +113,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_combo_parciales() {
+    private void actualizar_combo_parciales()
+    {
 
         this.comboBoxModelParciales.removeAllElements();
         ArrayList<Parcial> parciales;
-        if (this.cursada_seleccionada != null) {
+        if (this.cursada_seleccionada != null)
+        {
             limpiar_zona_correccion();
             parciales = this.cursada_seleccionada.getParciales();
             for (int i = 0; i < parciales.size(); i++)
@@ -116,11 +129,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_combo_instancias() {
+    private void actualizar_combo_instancias()
+    {
 
         this.comboBoxModelInstEvaluacion.removeAllElements();
         ArrayList<Instancia_Evaluacion> instancias;
-        if (this.parcial_seleccionado != null) {
+        if (this.parcial_seleccionado != null)
+        {
             limpiar_zona_correccion();
             instancias = this.parcial_seleccionado.getInstancias_evaluaciones();
             for (int i = 0; i < instancias.size(); i++)
@@ -129,11 +144,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizar_lista_examenes() {
+    private void actualizar_lista_examenes()
+    {
         this.listModelexamenes.clear();
 
         ArrayList<Examen> examenes;
-        if (this.instancia_seleccionada != null) {
+        if (this.instancia_seleccionada != null)
+        {
             limpiar_zona_correccion();
             examenes = this.instancia_seleccionada.getExamenes();
             for (int i = 0; i < examenes.size(); i++)
@@ -163,9 +180,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jBAceptar = new javax.swing.JButton();
         jB_Guardar = new javax.swing.JButton();
-        jScrollPane_arbol = new ArbolPerturbacionVisual();
+        jScrollPane_arbol = new AEvaluableVisual();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel_porcentaje_corregido = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jComboBox_Asignatura = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -314,6 +332,15 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         jCheckBox1.setText("Modificado");
         jCheckBox1.setFocusable(false);
 
+        jButton1.setText("Ver Arbol");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -321,7 +348,10 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane_arbol, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -355,9 +385,13 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jT_descripcion_arbol_perturbacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de Evaluaciones"));
@@ -496,7 +530,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     private void jTextKeyRelease(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextKeyRelease
         // TODO add your handling code here:
-        this.jBAceptar.setEnabled(this.nodo_seleccionado != null && this.construyeEtiqueta().isValid());
+        this.jBAceptar.setEnabled(this.nodo_seleccionado != null && this.valoresValidos());
         
     }//GEN-LAST:event_jTextKeyRelease
 
@@ -510,7 +544,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     private void jComboBox_AsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_AsignaturaActionPerformed
         
-        if (this.jComboBox_Asignatura.getSelectedItem() != null) {
+        if (this.jComboBox_Asignatura.getSelectedItem() != null)
+        {
             this.asignatura_seleccionada = (Asignatura) this.jComboBox_Asignatura.getSelectedItem();
             this.cursada_seleccionada = null;
             this.parcial_seleccionado = null;
@@ -524,7 +559,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     private void jComboBox_CursadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_CursadaActionPerformed
 
-        if (this.jComboBox_Cursada.getSelectedItem() != null) {
+        if (this.jComboBox_Cursada.getSelectedItem() != null)
+        {
             this.cursada_seleccionada = (Cursada) this.jComboBox_Cursada.getSelectedItem();
             this.parcial_seleccionado = null;
             this.instancia_seleccionada = null;
@@ -558,55 +594,74 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     private void jB_GuardarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jB_GuardarActionPerformed
     {//GEN-HEADEREND:event_jB_GuardarActionPerformed
-    Examen ex = this.examen_seleccionado;
-    if (ex != null && ex.isModificado()) {
+        Examen ex = this.examen_seleccionado;
+        if (ex != null && ex.isModificado())
+        {
 
-        try {
-            ex.getArbol_podado_particular().procesar();
-        } catch (NoCompletoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            try
+            {
+                ex.getArbol_podado_particular().procesar();
+                JOptionPane.showMessageDialog(this, "Se han guardado los cambios");
+            } catch (NoCompletoException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            this.actualiza_jtree();
+
+            try
+            {
+                modelo.getModelo_abm_evaluacion().actualizar_examen(ex);
+                ex.setModificado(false);
+                this.verifica_modificado();
+            } catch (SQLException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+
         }
-        this.actualiza_jtree();
-
-        try {
-            modelo.getModelo_abm_evaluacion().actualizar_examen(ex);
-            ex.setModificado(false);
-            this.verifica_modificado();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-
-    }
        
     }//GEN-LAST:event_jB_GuardarActionPerformed
 
     private void jLista_ExamenesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLista_ExamenesValueChanged
     {//GEN-HEADEREND:event_jLista_ExamenesValueChanged
-    this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
-    if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled()) {
-        limpiar_zona_correccion();
-        this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
-                                                   .getArbol_podado_particular()
-                                                   .getTreeModel());
-        this.actualiza_jtree();
-        this.jT_Alumno.setText(this.examen_seleccionado
-                                   .getAlumno()
-                                   .toString());
-        this.nodo_seleccionado = null;
-        jT_id_arbol_perturbacion.setText(this.examen_seleccionado
-                                             .getArbol_podado_particular()
-                                             .getNombre());
-        jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado
-                                                      .getArbol_podado_particular()
-                                                      .getDescripcion());
-        this.verifica_modificado();
-    }
+        this.examen_seleccionado = (Examen) this.jLista_Examenes.getSelectedValue();
+        if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled())
+        {
+            limpiar_zona_correccion();
+            System.out.println(this.examen_seleccionado.getArbol_podado_particular());
+            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
+                                                       .getArbol_podado_particular()
+                                                       .getTreeModel());
+            this.actualiza_jtree();
+            this.jT_Alumno.setText(this.examen_seleccionado
+                                       .getAlumno()
+                                       .toString());
+            this.nodo_seleccionado = null;
+            jT_id_arbol_perturbacion.setText(this.examen_seleccionado
+                                                 .getArbol_podado_particular()
+                                                 .getNombre());
+            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado
+                                                          .getArbol_podado_particular()
+                                                          .getDescripcion());
+            this.verifica_modificado();
+        }
     }//GEN-LAST:event_jLista_ExamenesValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+    
+        UI_Arbol_Evaluable ui_arbol =
+            new UI_Arbol_Evaluable(this.examen_seleccionado.getArbol_podado_particular());  
+    
+    
+    
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAceptar;
     private javax.swing.JButton jB_Guardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<Asignatura> jComboBox_Asignatura;
     private javax.swing.JComboBox<Cursada> jComboBox_Cursada;
@@ -639,30 +694,34 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextParcialmente;
     // End of variables declaration//GEN-END:variables
 
-    private void jtree_arbolMouseClicked() {
-        nodo_seleccionado = (Nodo_Perturbacion) jTree_Arbol_Perturbacion.getLastSelectedPathComponent();
-        if (nodo_seleccionado != null && this.jTree_Arbol_Perturbacion.isEnabled()) {
-            EtiquetaBean etiqueta;
-            etiqueta = nodo_seleccionado.getDato().getEtiquetaBean();
+    private void jtree_arbolActionPerformed()
+    {
+        nodo_seleccionado = (NodoPerturbacionEvaluable) this.jTree_Arbol_Perturbacion.getNodoSeleccionado();
+        if (nodo_seleccionado != null && this.jTree_Arbol_Perturbacion.isEnabled())
+        {
 
-            if (nodo_seleccionado.esHoja()) {
+            if ((!nodo_seleccionado.tieneHijoEvaluable() && nodo_seleccionado.isEvaluado()))
+            {
                 this.setModoEdicion(true);
-                jTextDesconocido.setText(String.valueOf(etiqueta.getDesconocido()));
-                jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
-                jTextConocido.setText(String.valueOf(etiqueta.getConocido()));
-                jTextAprendido.setText(String.valueOf(etiqueta.getAprendido()));
-            } else {
+                jTextDesconocido.setText(String.valueOf(nodo_seleccionado.getDesconocido()));
+                jTextParcialmente.setText(String.valueOf(nodo_seleccionado.getParcialmenteConocido()));
+                jTextConocido.setText(String.valueOf(nodo_seleccionado.getConocido()));
+                jTextAprendido.setText(String.valueOf(nodo_seleccionado.getAprendido()));
+            } else
+            {
                 this.setModoEdicion(false);
-                if (etiqueta.isCero()) {
+                if (nodo_seleccionado.isCero())
+                {
                     jTextDesconocido.setText("");
                     jTextParcialmente.setText("");
                     jTextConocido.setText("");
                     jTextAprendido.setText("");
-                } else {
-                    jTextDesconocido.setText(String.valueOf(etiqueta.getDesconocido()));
-                    jTextParcialmente.setText(String.valueOf(etiqueta.getParcialmenteConocido()));
-                    jTextConocido.setText(String.valueOf(etiqueta.getConocido()));
-                    jTextAprendido.setText(String.valueOf(etiqueta.getAprendido()));
+                } else
+                {
+                    jTextDesconocido.setText(String.valueOf(nodo_seleccionado.getDesconocido()));
+                    jTextParcialmente.setText(String.valueOf(nodo_seleccionado.getParcialmenteConocido()));
+                    jTextConocido.setText(String.valueOf(nodo_seleccionado.getConocido()));
+                    jTextAprendido.setText(String.valueOf(nodo_seleccionado.getAprendido()));
 
                 }
             }
@@ -671,7 +730,8 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
 
     }
 
-    private void setModoEdicion(boolean param) {
+    private void setModoEdicion(boolean param)
+    {
         jTextDesconocido.setEditable(param);
         jTextParcialmente.setEditable(param);
         jTextConocido.setEditable(param);
@@ -679,35 +739,62 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
     }
 
 
-    private void actualizaEtiqueta() {
-        this.nodo_seleccionado
-            .getDato()
-            .setEtiquetaBean(this.construyeEtiqueta());
+    private void actualizaEtiqueta()
+    {
+        this.construyeEtiqueta();
         this.examen_seleccionado.setModificado(true);
         this.verifica_modificado();
 
     }
 
-    private EtiquetaBean construyeEtiqueta() {
+    private void construyeEtiqueta()
+    {
         double aprendido = 0, conocido = 0, parcialmente = 0, desconocido = 0;
-        EtiquetaBean etiqueta = new EtiquetaBean();
-        try {
+
+        try
+        {
             aprendido = Double.parseDouble(jTextAprendido.getText());
             conocido = Double.parseDouble(jTextConocido.getText());
             desconocido = Double.parseDouble(jTextDesconocido.getText());
             parcialmente = Double.parseDouble(jTextParcialmente.getText());
-
-            etiqueta.setAprendido(aprendido);
-            etiqueta.setConocido(conocido);
-            etiqueta.setDesconocido(desconocido);
-            etiqueta.setParcialmenteConocido(parcialmente);
-        } catch (Exception e) {
-            etiqueta.inicializar();
+            this.nodo_seleccionado.setAprendido(aprendido);
+            this.nodo_seleccionado.setConocido(conocido);
+            this.nodo_seleccionado.setDesconocido(desconocido);
+            this.nodo_seleccionado.setParcialmenteConocido(parcialmente);
+        } catch (Exception e)
+        {
+            this.nodo_seleccionado.inicializar();
         }
-        return etiqueta;
+
     }
 
-    private void limpiar_zona_correccion() {
+    private boolean valoresValidos()
+    {
+        EtiquetaBean e = new EtiquetaBean();
+        double aprendido = 0, conocido = 0, parcialmente = 0, desconocido = 0;
+
+        try
+        {
+            aprendido = Double.parseDouble(jTextAprendido.getText());
+            conocido = Double.parseDouble(jTextConocido.getText());
+            desconocido = Double.parseDouble(jTextDesconocido.getText());
+            parcialmente = Double.parseDouble(jTextParcialmente.getText());
+            e.setAprendido(aprendido);
+            e.setConocido(conocido);
+            e.setDesconocido(desconocido);
+            e.setParcialmenteConocido(parcialmente);
+        } catch (Exception exception)
+        {
+            e.inicializar();
+        }
+
+
+        return e.isValid();
+
+    }
+
+    private void limpiar_zona_correccion()
+    {
         jT_Alumno.setText("");
         jT_id_arbol_perturbacion.setText("");
         jT_descripcion_arbol_perturbacion.setText("");
@@ -721,26 +808,32 @@ public class UI_Correccion extends javax.swing.JInternalFrame {
         this.jBAceptar.setEnabled(false);
     }
 
-    private void verifica_modificado() {
-        if (this.examen_seleccionado != null) {
+    private void verifica_modificado()
+    {
+        if (this.examen_seleccionado != null)
+        {
             this.jCheckBox1.setSelected(this.examen_seleccionado.isModificado());
             this.jB_Guardar.setEnabled(this.examen_seleccionado.isModificado());
-        } else {
+        } else
+        {
             this.jCheckBox1.setSelected(false);
             this.jB_Guardar.setEnabled(false);
         }
     }
+
     private void actualiza_jtree()
     {
         this.jTree_Arbol_Perturbacion.repaint();
-        if(this.examen_seleccionado!=null&&this.examen_seleccionado.getArbol_podado_particular()!=null)
-            try {
+        if (this.examen_seleccionado != null && this.examen_seleccionado.getArbol_podado_particular() != null)
+            try
+            {
                 this.jLabel_porcentaje_corregido.setText("Porcentaje de correccion: " +
                                                          String.format("%.2f",
                                                                        this.examen_seleccionado
                                                                                                                   .getArbol_podado_particular()
                                                                                                                   .getPorcentajeCorreccion()));
-            } catch (RaizNulaException e) {
+            } catch (RaizNulaException e)
+            {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
     }

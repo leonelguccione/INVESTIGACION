@@ -15,7 +15,10 @@ import java.util.Iterator;
 import javax.sql.rowset.serial.SerialException;
 
 import modelo.Alumno;
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
+
+
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Examen;
@@ -68,19 +71,19 @@ public class BaseDeDatos
     }
 
 
-    private Arbol_Perturbacion blobToArbol(Blob unBlob) throws SQLException
+    private ArbolPerturbacion blobToArbol(Blob unBlob) throws SQLException
     {
         int blobLength;
-        Arbol_Perturbacion arbol = null;
+        ArbolPerturbacion arbol = null;
 
         blobLength = (int) unBlob.length();
         byte[] arbolSerializado = unBlob.getBytes(1, blobLength);
-        arbol = Arbol_Perturbacion.deserializar(arbolSerializado);
+        arbol = ArbolPerturbacion.deserializar(arbolSerializado);
         return arbol;
     }
 
 
-    public void borrar_arbol_perturbacion(Arbol_Perturbacion arbol) throws SQLException
+    public void borrar_arbol_perturbacion(ArbolPerturbacion arbol) throws SQLException
     {
         PreparedStatement borrar;
 
@@ -94,7 +97,7 @@ public class BaseDeDatos
     {
         String codigo_asignatura = asignatura.getCodigo();
         String nombre_asignatura = asignatura.getNombre();
-        Arbol_Perturbacion arbol_dominio = asignatura.getArbol_dominio();
+        ArbolPerturbacion arbol_dominio = asignatura.getArbol_dominio();
         Blob blob_arbol_dominio_serializado;
         if (arbol_dominio != null)
         {
@@ -117,7 +120,7 @@ public class BaseDeDatos
     {
         String codigo_asignatura = asignatura_en_uso.getCodigo();
         String nombre_asignatura = asignatura_en_uso.getNombre();
-        Arbol_Perturbacion arbol_dominio = asignatura_en_uso.getArbol_dominio();
+        ArbolPerturbacion arbol_dominio = asignatura_en_uso.getArbol_dominio();
         byte[] arbol_dominio_serializado = arbol_dominio.serializar();
         Statement stmt;
         //borro arbol vacío, que se grabó para verlo en la lista de arboles
@@ -130,6 +133,31 @@ public class BaseDeDatos
         agregar.setBlob(3, blob_arbol_dominio_serializado);
         agregar.executeUpdate();
     }
+    
+    
+    /////
+    
+    public void ACTUALIZAR________(Asignatura asignatura_en_uso,ArbolPerturbacion nuevoArbol) throws SerialException, SQLException
+    {
+        String codigo_asignatura = asignatura_en_uso.getCodigo();
+        String nombre_asignatura = asignatura_en_uso.getNombre();
+        
+        byte[] arbol_dominio_serializado = nuevoArbol.serializar();
+        Statement stmt;
+        //borro arbol vacío, que se grabó para verlo en la lista de arboles
+        this.borrar_asignatura(asignatura_en_uso);
+        Blob blob_arbol_dominio_serializado = new javax.sql.rowset.serial.SerialBlob(arbol_dominio_serializado);
+        PreparedStatement agregar =
+            conexion.prepareStatement("INSERT INTO asignaturas(codigo, nombre, arbol_dominio)VALUES(?,?,?)");
+        agregar.setString(1, codigo_asignatura);
+        agregar.setString(2, nombre_asignatura);
+        agregar.setBlob(3, blob_arbol_dominio_serializado);
+        agregar.executeUpdate();
+    }
+    
+    
+    
+    
 
     public void borrar_asignatura(Asignatura asignatura) throws SQLException
     {
@@ -156,14 +184,14 @@ public class BaseDeDatos
              */
         while (resultado.next())
         {
-            Arbol_Perturbacion arbol_dominio = null;
+            ArbolPerturbacion arbol_dominio = null;
             //se recupera el arbol_dominio de la asignatura
             Blob arbolDominio_blob = resultado.getBlob("arbol_dominio");
             if (arbolDominio_blob != null)
             {
                 int blobLength = (int) arbolDominio_blob.length();
                 byte[] arbolDominio_byte = arbolDominio_blob.getBytes(1, blobLength);
-                arbol_dominio = Arbol_Perturbacion.deserializar(arbolDominio_byte);
+                arbol_dominio = ArbolPerturbacion.deserializar(arbolDominio_byte);
                 arbolDominio_blob.free();
             }
             //se recuperan codigo y nombre
@@ -479,7 +507,7 @@ public class BaseDeDatos
         int id_cursada = cur.getId();
 
         String nombre_parcial = parcial.getNombre();
-        Arbol_Perturbacion arbol_podado = parcial.getArbol_podado();
+        ArbolPerturbacion arbol_podado = parcial.getArbol_podado();
         Statement stmt;
         byte[] arbol_dominio_serializado = arbol_podado.serializar();
 
@@ -509,7 +537,7 @@ public class BaseDeDatos
         String sentencia_SQL = "SELECT * FROM parciales WHERE id_cursada=" + id_cursada;
         sentencia = conexion.createStatement();
         ResultSet resultado = sentencia.executeQuery(sentencia_SQL);
-        Arbol_Perturbacion arbol_podado = null;
+        ArbolPerturbacion arbol_podado = null;
         //se recupera el arbol_dominio de la asignatura
 
         while (resultado.next())
@@ -521,7 +549,7 @@ public class BaseDeDatos
             {
                 int blobLength = (int) arbolPodado_blob.length();
                 byte[] arbolPodado_byte = arbolPodado_blob.getBytes(1, blobLength);
-                arbol_podado = Arbol_Perturbacion.deserializar(arbolPodado_byte);
+                arbol_podado = ArbolPerturbacion.deserializar(arbolPodado_byte);
                 arbolPodado_blob.free();
             }
             parcial_actual = new Parcial(id, nombre, arbol_podado);

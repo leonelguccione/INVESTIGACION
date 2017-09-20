@@ -2,7 +2,11 @@
 package UI;
 
 
-import arbolVisual.ArbolVisual;
+import arbol_perturbacion_visual.ANoEvaluableVisual;
+import arbol_perturbacion_visual.ArbolPerturbacionVisual;
+
+
+import arbolvisual.ArbolVisual;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,11 +22,14 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
 import modelo.Asignatura;
 import modelo.Modelo;
 import modelo.Modelo_ABM_Asignatura;
-import modelo.Nodo_Perturbacion;
+import modelo.NodoPerturbacion;
+import modelo.RelacionImpacto;
+
 
 //TODO: falta el tema de agregar el listener para que escuche cuando se toca un nodo y actualice
 //el jTextFiel del nodo padre y esas cosas.
@@ -33,7 +40,8 @@ import modelo.Nodo_Perturbacion;
  *
  * @author leonel
  */
-public class UI_Asignatura extends javax.swing.JInternalFrame {
+public class UI_Asignatura extends javax.swing.JInternalFrame
+{
     Modelo modelo;
     Modelo_ABM_Asignatura modelo_abm_asignatura;
 
@@ -43,20 +51,23 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
      */
     DefaultListModel listModel_asignaturas = new DefaultListModel();
     Asignatura asignatura_en_uso = null;
-    Arbol_Perturbacion arbol_auxiliar = null;
-    ArbolVisual jtree_arbol;
+    ArbolPerturbacion arbol_auxiliar = null;
+    ArbolPerturbacionVisual jtree_arbol;
+    NodoPerturbacion nodoOrigen = null;
+    NodoPerturbacion nodoDestino = null;
 
     /**modificar es true: si se habilita para modificar datos de una asignatura previamente ingresada
      * modificar es false: si se habilita para crear una nueva asignaturar
      * */
     private boolean modificar = false;
-    private boolean modoEdicion=false;
+    private boolean modoEdicion = false;
     private MouseAdapter mouseA;
 
     /** Creates new form UI_Asignatura
      * Se referencia al objeto modelo
      * */
-    public UI_Asignatura(Modelo modelo) {
+    public UI_Asignatura(Modelo modelo)
+    {
 
         initComponents();
         this.modelo = modelo;
@@ -78,9 +89,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                 jButton_eliminar_nodo.setEnabled(dmtn != null && modoEdicion);
             }
 
-            
+
         };
-        jtree_arbol = (ArbolVisual) jScrollPane_jTreeVisual;
+        jtree_arbol = (ArbolPerturbacionVisual) jScrollPane_jTreeVisual;
         this.asignatura_en_uso = null;
         listModel_asignaturas.clear();
         this.cargar_jList_asignaturas();
@@ -91,8 +102,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
     }
 
 
-    public void setModoEdicion(boolean v) {
-        this.modoEdicion=v;
+    public void setModoEdicion(boolean v)
+    {
+        this.modoEdicion = v;
         this.jTextField_codigo_asignatura.setEnabled(v);
         this.jTextField_nombre_asignatura.setEnabled(v);
         this.jTextField_nombre_arbol_dominio.setEnabled(v);
@@ -105,25 +117,24 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         this.jButton_habilitar_nueva_asignatura.setEnabled(!v);
         this.jButton_eliminar_asignatura.setEnabled(!v);
         this.jList_asignaturas.setEnabled(!v);
-        
+
 
     }
 
 
-   
-
-    private void eliminar_arbol_completo() {
+    private void eliminar_arbol_completo()
+    {
         this.asignatura_en_uso.setArbol_dominio(null);
         this.jtree_arbol.setModel(null);
         jtree_arbol.repaint();
 
     }
 
-    private void bt_raizActionPerformed() // se crea el Ã¡rbol de dominio para una asignatura nueva.
+    private void bt_raizActionPerformed() // se crea el ÃƒÂ¡rbol de dominio para una asignatura nueva.
     {
 
         this.arbol_auxiliar =
-            new Arbol_Perturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripciÃ³n >");
+            new ArbolPerturbacion(jTextField_nombre_arbol_dominio.getText().trim(), "< sin descripción >");
         this.arbol_auxiliar.setRaiz(jTextField_nuevo.getText().trim());
         jtree_arbol.setModel(this.arbol_auxiliar.getTreeModel());
         //TODO: probar esto en el constructor
@@ -132,11 +143,14 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         this.jTextField_padre.setText("");
     }
 
-    private void bt_nuevo_nodoActionPerformed() {
+    private void bt_nuevo_nodoActionPerformed()
+    {
         String id_nuevo_nodo = jTextField_nuevo.getText().trim();
-        Nodo_Perturbacion nodo_seleccionado_padre = (Nodo_Perturbacion) this.jtree_arbol.getNodoSeleccionado();
-        String idNodo_padre = (nodo_seleccionado_padre.getDato()).getIdDato();
-        this.arbol_auxiliar.agregarNodo(nodo_seleccionado_padre, this.jTextField_nuevo.getText().trim());
+        NodoPerturbacion nodo_seleccionado_padre = (NodoPerturbacion) this.jtree_arbol.getNodoSeleccionado();
+        String idNodo_padre = nodo_seleccionado_padre.getIdDato();
+        this.arbol_auxiliar.agregarNodo(nodo_seleccionado_padre, this.jTextField_nuevo
+                                                                     .getText()
+                                                                     .trim());
         jtree_arbol.repaint();
         //jtree_arbol.expandPath(this.jtree_arbol.getSelectionPath());
         this.jTextField_nuevo.setText("");
@@ -144,17 +158,19 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
     }
 
 
-    public void cargar_jList_asignaturas() {
+    public void cargar_jList_asignaturas()
+    {
 
-        Iterator iterator_asignaturas = this.modelo.getAsignaturas().values().iterator();
+        Iterator iterator_asignaturas = this.modelo
+                                            .getAsignaturas()
+                                            .values()
+                                            .iterator();
         while (iterator_asignaturas.hasNext())
         {
             Asignatura asignatura_ste = (Asignatura) iterator_asignaturas.next();
             listModel_asignaturas.addElement(asignatura_ste);
         }
     }
-
-   
 
 
     /** This method is called from within the constructor to
@@ -176,7 +192,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextField_nombre_arbol_dominio = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane_jTreeVisual = new ArbolVisual();
+        jScrollPane_jTreeVisual = new ANoEvaluableVisual();
         jButton_aceptar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel_padre = new javax.swing.JLabel();
@@ -185,8 +201,11 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
         jTextField_nuevo = new javax.swing.JTextField();
         jButton_agregar_nuevo_nodo = new javax.swing.JButton();
         jButton_eliminar_nodo = new javax.swing.JButton();
-        jButton_ver_arbol = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton_ver_arbol = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton_eliminar_asignatura = new javax.swing.JButton();
         jButton_habilitar_modificacion_asignatura = new javax.swing.JButton();
@@ -307,15 +326,6 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton_ver_arbol.setText("Ver Arbol");
-        jButton_ver_arbol.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton_ver_arbolActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -329,9 +339,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                     .addComponent(jTextField_padre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_ver_arbol)
-                .addGap(121, 121, 121)
+                .addGap(196, 196, 196)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton_agregar_nuevo_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_eliminar_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -344,8 +352,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_padre)
                     .addComponent(jTextField_padre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_agregar_nuevo_nodo)
-                    .addComponent(jButton_ver_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton_agregar_nuevo_nodo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_eliminar_nodo)
@@ -363,6 +370,42 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton2.setText("Origen");
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Destino");
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Crear Relacion");
+        jButton4.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton_ver_arbol.setText("Ver Arbol");
+        jButton_ver_arbol.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton_ver_arbolActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -376,11 +419,19 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(26, 26, 26)
+                .addComponent(jButton4)
+                .addGap(28, 28, 28)
+                .addComponent(jButton_ver_arbol)
+                .addGap(26, 26, 26)
                 .addComponent(jButton_cancelar)
                 .addGap(28, 28, 28)
                 .addComponent(jButton_aceptar)
-                .addGap(25, 25, 25))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,8 +441,13 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_aceptar)
-                    .addComponent(jButton_cancelar))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton_ver_arbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton_aceptar)
+                        .addComponent(jButton_cancelar)))
                 .addGap(110, 110, 110))
         );
 
@@ -486,46 +542,56 @@ public class UI_Asignatura extends javax.swing.JInternalFrame {
 
     private void jButton_ver_arbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ver_arbolActionPerformed
     {//GEN-HEADEREND:event_jButton_ver_arbolActionPerformed
-UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.getArbol_dominio().getNombre(),this.asignatura_en_uso.getArbol_dominio());
+        
+        ArbolPerturbacion a = null;
+        if (this.asignatura_en_uso!=null&& this.asignatura_en_uso.getArbol_dominio() != null)
+            a = this.asignatura_en_uso.getArbol_dominio();
+        else if (this.arbol_auxiliar != null)
+            a = this.arbol_auxiliar;
+
+        if (a != null)
+        {
+            UI_Arbol_Perturbacion ui_arbol = new UI_Arbol_Perturbacion(a);
+        }
     }//GEN-LAST:event_jButton_ver_arbolActionPerformed
 
     private void jButton_aceptarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_aceptarActionPerformed
     {//GEN-HEADEREND:event_jButton_aceptarActionPerformed
-    if (this.modificar)
-    {
-        this.asignatura_en_uso.setArbol_dominio(this.arbol_auxiliar);
+        if (this.modificar)
+        {
+            this.asignatura_en_uso.setArbol_dominio(this.arbol_auxiliar);
 
-        try
+            try
+            {
+                this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
+                JOptionPane.showMessageDialog(this, "Asignatura actualizada");
+            } catch (SerialException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            } catch (SQLException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            this.modificar = false;
+        } else
         {
-            this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
-            JOptionPane.showMessageDialog(this, "Asignatura actualizada");
-        } catch (SerialException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.modificar = false;
-    } else
-    {
-        String codigo_asignatura = jTextField_codigo_asignatura.getText().trim();
-        String nombre_asignatura = jTextField_nombre_asignatura.getText().trim();
-        String nombre_arbol_dominio = jTextField_nombre_arbol_dominio.getText().trim();
-        this.asignatura_en_uso = new Asignatura(nombre_asignatura, codigo_asignatura, this.arbol_auxiliar);
-        JOptionPane.showMessageDialog(this, "Asignatura guardada");
-        try
-        {
-            this.modelo.agrega_asignatura(this.asignatura_en_uso);
-        } catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        this.limpiar_campos();
+            String codigo_asignatura = jTextField_codigo_asignatura.getText().trim();
+            String nombre_asignatura = jTextField_nombre_asignatura.getText().trim();
+            String nombre_arbol_dominio = jTextField_nombre_arbol_dominio.getText().trim();
+            this.asignatura_en_uso = new Asignatura(nombre_asignatura, codigo_asignatura, this.arbol_auxiliar);
+            JOptionPane.showMessageDialog(this, "Asignatura guardada");
+            try
+            {
+                this.modelo.agrega_asignatura(this.asignatura_en_uso);
+            } catch (SQLException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            this.limpiar_campos();
 
-    }
-    this.setModoEdicion(false);
-    this.arbol_auxiliar = null;
+        }
+        this.setModoEdicion(false);
+        this.arbol_auxiliar = null;
        
     }//GEN-LAST:event_jButton_aceptarActionPerformed
 
@@ -533,38 +599,41 @@ UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.
     {//GEN-HEADEREND:event_jButton_cancelarActionPerformed
        
         this.limpiar_campos();
-               this.arbol_auxiliar = null;
-               this.setModoEdicion(false);
-               this.modificar = false;
+        this.arbol_auxiliar = null;
+        this.setModoEdicion(false);
+        this.modificar = false;
              
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
     private void jButton_eliminar_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_eliminar_asignaturaActionPerformed
     {//GEN-HEADEREND:event_jButton_eliminar_asignaturaActionPerformed
-    try
-    {
-        this.modelo_abm_asignatura.borrar_asignatura(this.asignatura_en_uso);
-    } catch (SQLException e)
-    {
-        JOptionPane.showMessageDialog(this, e.getMessage());
-    }
-    this.modelo.getAsignaturas().remove(this.asignatura_en_uso.getCodigo());
-    this.limpiar_campos();
+        try
+        {
+            this.modelo_abm_asignatura.borrar_asignatura(this.asignatura_en_uso);
+            JOptionPane.showMessageDialog(this, "Asignatura eliminada");
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        this.modelo
+            .getAsignaturas()
+            .remove(this.asignatura_en_uso.getCodigo());
+        this.limpiar_campos();
 
-    if (jList_asignaturas.getModel().getSize() > 0)
-    {
-        jList_asignaturas.setSelectedIndex(0);
-    }
-    this.asignatura_en_uso = null;
+        if (jList_asignaturas.getModel().getSize() > 0)
+        {
+            jList_asignaturas.setSelectedIndex(0);
+        }
+        this.asignatura_en_uso = null;
     }//GEN-LAST:event_jButton_eliminar_asignaturaActionPerformed
 
     private void jButton_habilitar_nueva_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_habilitar_nueva_asignaturaActionPerformed
     {//GEN-HEADEREND:event_jButton_habilitar_nueva_asignaturaActionPerformed
-    this.setModoEdicion(true);
-    this.limpiar_campos();
-    this.asignatura_en_uso = null;
-    this.jTextField_codigo_asignatura.requestFocus();
-    this.modificar = false;
+        this.setModoEdicion(true);
+        this.limpiar_campos();
+        this.asignatura_en_uso = null;
+        this.jTextField_codigo_asignatura.requestFocus();
+        this.modificar = false;
     }//GEN-LAST:event_jButton_habilitar_nueva_asignaturaActionPerformed
 
     private void jButton_habilitar_modificacion_asignaturaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_habilitar_modificacion_asignaturaActionPerformed
@@ -576,7 +645,9 @@ UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.
 
             if (this.asignatura_en_uso.getArbol_dominio() != null)
             {
-                this.arbol_auxiliar = this.asignatura_en_uso.getArbol_dominio().clone();
+                this.arbol_auxiliar = this.asignatura_en_uso
+                                          .getArbol_dominio()
+                                          .clone();
                 this.jtree_arbol.setModel(arbol_auxiliar.getTreeModel());
                 this.jtree_arbol.repaint();
 
@@ -613,27 +684,51 @@ UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.
 
     private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
     {//GEN-HEADEREND:event_jList_asignaturasValueChanged
-    DefaultTreeModel treeModelSeleccionado = null;
-    //this.limpiar_jTree();
-    if (jList_asignaturas.getSelectedValue() != null)
-    {
-        this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-        if (this.asignatura_en_uso.getArbol_dominio() != null)
-
+        DefaultTreeModel treeModelSeleccionado = null;
+        //this.limpiar_jTree();
+        if (jList_asignaturas.getSelectedValue() != null)
         {
-            treeModelSeleccionado = this.asignatura_en_uso.getArbol_dominio().getTreeModel();
-            this.jTextField_nombre_arbol_dominio.setText(this.asignatura_en_uso.getArbol_dominio().getNombre());
-        }
-        jtree_arbol.setModel(treeModelSeleccionado);
-        this.jTextField_codigo_asignatura.setText(this.asignatura_en_uso.getCodigo());
-        this.jTextField_nombre_asignatura.setText(this.asignatura_en_uso.getNombre());
+            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+            if (this.asignatura_en_uso.getArbol_dominio() != null)
 
-    }
+            {
+                treeModelSeleccionado = this.asignatura_en_uso
+                                            .getArbol_dominio()
+                                            .getTreeModel();
+                this.jTextField_nombre_arbol_dominio.setText(this.asignatura_en_uso
+                                                                 .getArbol_dominio()
+                                                                 .getNombre());
+            }
+            jtree_arbol.setModel(treeModelSeleccionado);
+            this.jTextField_codigo_asignatura.setText(this.asignatura_en_uso.getCodigo());
+            this.jTextField_nombre_asignatura.setText(this.asignatura_en_uso.getNombre());
+
+        }
      
     }//GEN-LAST:event_jList_asignaturasValueChanged
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (this.jtree_arbol.getNodoSeleccionado() != null)
+            ;
+        this.nodoOrigen = (NodoPerturbacion) this.jtree_arbol.getNodoSeleccionado();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.nodoDestino = (NodoPerturbacion) this.jtree_arbol.getNodoSeleccionado();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (this.nodoOrigen != null)
+            this.nodoOrigen.addImpacta(this.nodoDestino);
+        this.jtree_arbol.repaint();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_aceptar;
     private javax.swing.JButton jButton_agregar_nuevo_nodo;
     private javax.swing.JButton jButton_cancelar;
@@ -660,7 +755,8 @@ UI_Arbol_Perturbacion ui_arbol=new UI_Arbol_Perturbacion(this.asignatura_en_uso.
     private javax.swing.JTextField jTextField_nuevo;
     private javax.swing.JTextField jTextField_padre;
     // End of variables declaration//GEN-END:variables
-    private void limpiar_campos() {
+    private void limpiar_campos()
+    {
         listModel_asignaturas.clear();
         this.cargar_jList_asignaturas();
         this.jtree_arbol.setModel(null);

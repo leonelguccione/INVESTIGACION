@@ -18,11 +18,11 @@ public class Examen
      * al cual pertenece la instancia-->Examen
      * @aggregation shared
      */
-    private Arbol_Perturbacion arbol_podado_particular;
+    private ArbolPerturbacion arbol_podado_particular;
     private boolean modificado;
   
 
-    public Examen(Alumno alumno, Arbol_Perturbacion arbol)
+    public Examen(Alumno alumno, ArbolPerturbacion arbol)
     {
         super();
         this.alumno = alumno;
@@ -30,7 +30,7 @@ public class Examen
         modificado = false;
     }
 
-    public Examen(int id, Alumno alumno, Arbol_Perturbacion arbol_podado_particular, boolean modificado)
+    public Examen(int id, Alumno alumno, ArbolPerturbacion arbol_podado_particular, boolean modificado)
     {
         this.id = id;
         this.alumno = alumno;
@@ -71,12 +71,12 @@ public class Examen
         return alumno;
     }
 
-    public void setArbol_podado_particular(Arbol_Perturbacion arbol)
+    public void setArbol_podado_particular(ArbolPerturbacion arbol)
     {
         this.arbol_podado_particular = arbol;
     }
 
-    public Arbol_Perturbacion getArbol_podado_particular()
+    public ArbolPerturbacion getArbol_podado_particular()
     {
         return arbol_podado_particular;
     }

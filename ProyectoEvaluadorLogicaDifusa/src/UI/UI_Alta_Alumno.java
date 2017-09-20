@@ -375,6 +375,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame {
             this.modelo
                 .getModelo_abm_alumno()
                 .borrarAlumno(this.alumno_seleccionado);
+            JOptionPane.showMessageDialog(this, "Alumno eliminado");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             
@@ -399,6 +400,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame {
             Alumno al = new Alumno(legajo, apellido, nombre, dni);
 
             this.modelo.agrega_alumno(al);
+            JOptionPane.showMessageDialog(this, "Alumno agregado");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (NumberFormatException e) {
@@ -418,6 +420,7 @@ public class UI_Alta_Alumno extends javax.swing.JInternalFrame {
             this.modelo
                 .getModelo_abm_alumno()
                 .modificarAlumno(this.alumno_seleccionado);
+            JOptionPane.showMessageDialog(this, "Alumno modificado");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (NumberFormatException e) {

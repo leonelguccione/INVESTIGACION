@@ -4,6 +4,7 @@ package UI;
 import Excepciones.NotSemejanteException;
 
 
+import arbol_perturbacion_visual.AEvaluableVisual;
 import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import java.util.ArrayList;
@@ -15,13 +16,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import modelo.Arbol_Perturbacion;
+import modelo.ArbolPerturbacion;
+
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Examen;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
-import modelo.Nodo_Perturbacion;
+import modelo.NodoPerturbacion;
+
 import modelo.Parcial;
 
 /**
@@ -41,20 +44,24 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     private DefaultListModel listModelexamenes = new DefaultListModel();
     private DefaultListModel listModelexamenespromediadios = new DefaultListModel();
 
-    private Nodo_Perturbacion nodo_seleccionado = null;
+    private NodoPerturbacion nodo_seleccionado = null;
     private Asignatura asignatura_seleccionada = null;
     private Cursada cursada_seleccionada = null;
     private Parcial parcial_seleccionado = null;
     private Instancia_Evaluacion instancia_seleccionada = null;
     private Examen examen_seleccionado = null;
     private ArbolPerturbacionVisual jTree_Arbol_Perturbacion = null;
+    private ArbolPerturbacion arbol_promedio = null;
 
 
     /** Creates new form UI_Correccion */
     public UI_Promedio(Modelo modelo)
     {
         initComponents();
-        jTree_Arbol_Perturbacion = (ArbolPerturbacionVisual) this.jScrollPane_arbol;
+        this.jTree_Arbol_Perturbacion = (ArbolPerturbacionVisual) this.jScrollPane_arbol;
+        this.jTree_Arbol_Perturbacion.setLineasRectas(true);
+        this.jTree_Arbol_Perturbacion.setMuestraNodosOcultos(true);
+        
         this.modelo = modelo;
 
         this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
@@ -71,7 +78,9 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     {
         verificar_enabled();
         this.comboBoxModelAsignatura.removeAllElements();
-        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
+        Iterator iterator_asignaturas = modelo.getAsignaturas()
+                                              .values()
+                                              .iterator();
         //Recorrer el contenido del Iterator
         while (iterator_asignaturas.hasNext())
         {
@@ -168,8 +177,9 @@ public class UI_Promedio extends javax.swing.JInternalFrame
         jLista_Examenes = new javax.swing.JList();
         jLabel7 = new javax.swing.JLabel();
         jButton_Promedio = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane_arbol = new ArbolPerturbacionVisual();
+        jScrollPane_arbol = new AEvaluableVisual();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList_examenes_promediados = new javax.swing.JList();
 
@@ -208,7 +218,7 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             }
         });
 
-        jLabel9.setText("Inst. Evaluación:");
+        jLabel9.setText("Inst. EvaluaciÃ³n:");
 
         jLabel12.setText("Parcial:");
 
@@ -243,6 +253,15 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             }
         });
 
+        jButton1.setText("Ver Arbol");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -253,7 +272,9 @@ public class UI_Promedio extends javax.swing.JInternalFrame
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addComponent(jButton_Promedio))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_Promedio, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -303,6 +324,8 @@ public class UI_Promedio extends javax.swing.JInternalFrame
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton_Promedio)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -403,9 +426,10 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     }//GEN-LAST:event_jComboBox_ParcialActionPerformed
 
     private void jButton_PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PromedioActionPerformed
+        String titulo="Alumnos promediados: ";
         List<Examen> seleccionados = this.jLista_Examenes.getSelectedValuesList();
-        Arbol_Perturbacion arbol_actual;
-        ArrayList<Arbol_Perturbacion> arboles = new ArrayList<Arbol_Perturbacion>();
+        ArbolPerturbacion arbol_actual;
+        ArrayList<ArbolPerturbacion> arboles = new ArrayList<ArbolPerturbacion>();
         this.listModelexamenespromediadios.clear();
         this.jTree_Arbol_Perturbacion.setModel(null);
         for (int i = 0; i < seleccionados.size(); i++)
@@ -415,30 +439,31 @@ public class UI_Promedio extends javax.swing.JInternalFrame
             {
                 arboles.add(arbol_actual);
                 this.listModelexamenespromediadios.addElement(seleccionados.get(i));
+                titulo=titulo+" - "+seleccionados.get(i).getAlumno().getApellido();
 
-            }
-            else
+            } else
             {
                 JOptionPane.showMessageDialog(this,
-                                              "El examen de " + seleccionados.get(i).getAlumno().toString() +
-                                              " no esta totalmente corregido");
+                                              "El examen de " + seleccionados.get(i)
+                                                                                   .getAlumno()
+                                                                                   .toString() +
+                                        " no esta totalmente corregido");
             }
         }
         if (arboles.size() > 0)
             try
             {
-                Arbol_Perturbacion arbol_promedio = Arbol_Perturbacion.promedio(arboles);
+                arbol_promedio = ArbolPerturbacion.promedio(arboles);
+                this.arbol_promedio.setNombre(titulo);
                 this.jTree_Arbol_Perturbacion.setModel(arbol_promedio.getTreeModel());
                 this.jTree_Arbol_Perturbacion.repaint();
-                
-            }
-            catch (ArithmeticException e)
+
+            } catch (ArithmeticException e)
             {
-                JOptionPane.showMessageDialog(this,e.getMessage());
-            }
-            catch(NotSemejanteException e)
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            } catch (NotSemejanteException e)
             {
-                JOptionPane.showMessageDialog(this,e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
             
 
@@ -450,11 +475,24 @@ public class UI_Promedio extends javax.swing.JInternalFrame
 
     private void jLista_ExamenesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLista_ExamenesValueChanged
     {//GEN-HEADEREND:event_jLista_ExamenesValueChanged
-    this.verificar_enabled();     
+        this.verificar_enabled();     
+    
     }//GEN-LAST:event_jLista_ExamenesValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+
+        if (this.arbol_promedio != null)
+        {
+            UI_Arbol_Evaluable ui_arbol =
+
+                new UI_Arbol_Evaluable(this.arbol_promedio);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_Promedio;
     private javax.swing.JComboBox<Asignatura> jComboBox_Asignatura;
     private javax.swing.JComboBox<Cursada> jComboBox_Cursada;
@@ -478,7 +516,9 @@ public class UI_Promedio extends javax.swing.JInternalFrame
     private void verificar_enabled()
     {
         boolean habilitado;
-        habilitado = this.parcial_seleccionado != null && this.jLista_Examenes.getSelectedValuesList().size() > 1;
+        habilitado = this.parcial_seleccionado != null && this.jLista_Examenes
+                                                              .getSelectedValuesList()
+                                                              .size() > 1;
 
         this.jButton_Promedio.setEnabled(habilitado);
     }

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author leonel
  */
-public class EtiquetaBean implements Cloneable, Serializable
+public class EtiquetaBean implements Cloneable, Serializable, IConjuntoDifuso
 {
     @SuppressWarnings("compatibility:-6277143836951072233")
     private static final long serialVersionUID = -5711517413450138642L;

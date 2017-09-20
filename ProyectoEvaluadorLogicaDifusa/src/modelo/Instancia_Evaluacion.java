@@ -45,7 +45,7 @@ public class Instancia_Evaluacion
         return fecha;
     }
 
-    public Instancia_Evaluacion(Arbol_Perturbacion arbol_perturbacion, Date fecha, String descripcion,
+    public Instancia_Evaluacion(ArbolPerturbacion arbol_perturbacion, Date fecha, String descripcion,
                       ArrayList<Alumno> alumnos_evaluados)
     {
         super();

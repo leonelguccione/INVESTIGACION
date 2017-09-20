@@ -199,7 +199,16 @@
             <value n="name" v="Default"/>
             <url n="targetURL" path="src/UI/UI_Principal.java"/>
          </hash>
+         <hash n="Modelo del Estudiante">
+            <value n="custom" v="false"/>
+            <value n="name" v="Modelo del Estudiante"/>
+            <url n="targetURL" path="src/UI/UI_Principal.java"/>
+         </hash>
       </hash>
+      <list n="runConfigurationList">
+         <string v="Default"/>
+         <string v="Modelo del Estudiante"/>
+      </list>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">
