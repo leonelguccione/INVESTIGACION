@@ -28,7 +28,7 @@
       <string v="oracle.jdeveloper.model.PathsConfiguration/ResourceBundlesContentSet"/>
    </list>
    <list n="listOfChildren">
-      <hash><url n="URL" path="ProyectoEvaluadorLogicaDifusa/ProyectoEvaluadorLogicaDifusa.jpr"/></hash>
+      <hash><url n="URL" path="GEMP/GEMP.jpr"/></hash>
    </list>
    <hash n="oracle.jdeveloper.model.ApplicationLibraries">
       <hash n="internalDefinitions">
