@@ -1,6 +1,8 @@
 
 package UI;
 
+import arbol_perturbacion_visual.AEvaluableVisual;
+
 /**
  *
  * @author Guille
