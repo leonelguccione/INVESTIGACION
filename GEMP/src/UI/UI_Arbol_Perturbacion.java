@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
@@ -151,15 +153,26 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
                 else
                     imagen = getScreenShot(jtree_tradicional);
 
-
-                try
-                {
-                    File archivo = new File("screenshot.png");
-                    ImageIO.write(imagen, "png", archivo);
-                } catch (IOException e)
-                {
-                    System.out.println(e.getMessage());
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes PNG", "png");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showSaveDialog(UI_Arbol_Perturbacion.this);
+                if (returnVal == JFileChooser.APPROVE_OPTION)
+                {String nombreArch= chooser.getSelectedFile().getAbsolutePath();
+                 
+                    try
+                    {
+                        File archivo = new File( nombreArch+".png");
+                        ImageIO.write(imagen, "png", archivo);
+                    } catch (IOException e)
+                    {
+                        System.out.println(e.getMessage());
+                    }
                 }
+
+
+
+               
             }
 
         };

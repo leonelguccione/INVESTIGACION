@@ -628,7 +628,7 @@ public class UI_Correccion extends javax.swing.JInternalFrame
         if (this.examen_seleccionado != null && this.jLista_Examenes.isEnabled())
         {
             limpiar_zona_correccion();
-            System.out.println(this.examen_seleccionado.getArbol_podado_particular());
+          
             this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
                                                        .getArbol_podado_particular()
                                                        .getTreeModel());
