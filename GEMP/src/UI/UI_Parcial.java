@@ -8,6 +8,7 @@ import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 
 import arbolvisual.ArbolVisual;
 
+import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -44,6 +45,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private Asignatura asignatura_en_uso = null;
     private Cursada cursada_en_uso = null;
     private boolean modo_edicion = false;
+    private UI_Panel_Parcial ui_panel_parcial=new UI_Panel_Parcial();
 
     /** Creates new form UI_Parcial */
     public UI_Parcial(Modelo m)
@@ -51,13 +53,18 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
         this.modelo = m;
         initComponents();
+        this.jPanel3.removeAll();
+        this.jPanel3.setLayout(new BorderLayout());
+        this.jPanel3.add(this.ui_panel_parcial);
+     
+        this.ui_panel_parcial = new UI_Panel_Parcial();
         this.jList_asignaturas.setModel(listModel_asignaturas);
         this.jList_cursadas.setModel(listModel_cursadas);
 
 
         this.jList_parciales.setModel(listModel_parciales);
         this.actualizar_jList_asignaturas();
-        this.jtree_arbol = (AEvaluableVisual) this.jScrollPane_jTreeVisual;
+        this.jtree_arbol = this.ui_panel_parcial.getJtree_arbol();
         this.jButton_ocultar_nodo.setEnabled(false);
 
         this.jtree_arbol.setLineasRectas(true);
@@ -85,7 +92,6 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jScrollPane_jTreeVisual = new AEvaluableVisual();
         jButton_guardar_ap = new javax.swing.JButton();
         jButton_ocultar_nodo = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
@@ -106,14 +112,14 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         jButtonCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButtonVerArbol = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
 
         setClosable(true);
         setTitle("Gestión de Parciales");
         setNormalBounds(new java.awt.Rectangle(0, 0, 950, 700));
         setPreferredSize(new java.awt.Dimension(950, 700));
-
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("Árbol Evaluado"));
 
         jButton_guardar_ap.setText("Guardar Parcial");
         jButton_guardar_ap.setEnabled(false);
@@ -276,13 +282,27 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonVerArbol)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonVerArbol))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jButton1)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -290,6 +310,8 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonVerArbol)
+                .addGap(28, 28, 28)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -303,6 +325,17 @@ public class UI_Parcial extends javax.swing.JInternalFrame
             }
         });
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,17 +348,17 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane_jTreeVisual, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jButton_ocultar_nodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_ocultar_nodo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox1)
                         .addGap(29, 29, 29)
                         .addComponent(jButtonCancelar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton_guardar_ap)))
+                        .addComponent(jButton_guardar_ap))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -340,7 +373,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane_jTreeVisual)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_guardar_ap)
@@ -475,8 +508,20 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         this.jtree_arbol.setMuestraNodosOcultos(this.jCheckBox1.isSelected());
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+
+Class1 c1=new Class1("hola");
+
+
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonVerArbol;
     private javax.swing.JButton jButton_Agregar_nuevo;
@@ -492,10 +537,10 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane_jTreeVisual;
     private javax.swing.JTextField jText_Asignatura;
     private javax.swing.JTextField jText_Nombre;
     private javax.swing.JTextField jText_Nombre_Cursada;

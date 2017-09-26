@@ -1,17 +1,32 @@
 
 package UI;
 
+import arbol_perturbacion_visual.AEvaluableVisual;
+
 /**
  *
  * @author Guille
  */
 public class UI_Panel_Parcial extends javax.swing.JPanel
 {
+    private AEvaluableVisual jtree_arbol;
 
     /** Creates new form UI_Panel_Parcial */
     public UI_Panel_Parcial()
     {
         initComponents();
+        this.jtree_arbol = (AEvaluableVisual) this.jScrollPane_TreeVisual;
+        System.out.println("Creamos el panel");
+    }
+
+    public void setJtree_arbol(AEvaluableVisual jtree_arbol)
+    {
+        this.jtree_arbol = jtree_arbol;
+    }
+
+    public AEvaluableVisual getJtree_arbol()
+    {
+        return jtree_arbol;
     }
 
     /** This method is called from within the constructor to
