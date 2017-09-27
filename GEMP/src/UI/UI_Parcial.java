@@ -9,6 +9,8 @@ import arbol_perturbacion_visual.ArbolPerturbacionVisual;
 import arbolvisual.ArbolVisual;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -32,10 +34,10 @@ import modelo.Parcial;
  *
  * @author guille
  */
-public class UI_Parcial extends javax.swing.JInternalFrame
+public class UI_Parcial extends javax.swing.JInternalFrame implements ActionListener
 {
     private Modelo modelo;
-    private AEvaluableVisual jtree_arbol;
+    //  private AEvaluableVisual jtree_arbol;
     private ArbolPerturbacion arbolPodado;
 
     private DefaultListModel listModel_cursadas = new DefaultListModel();
@@ -45,7 +47,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private Asignatura asignatura_en_uso = null;
     private Cursada cursada_en_uso = null;
     private boolean modo_edicion = false;
-    private UI_Panel_Parcial ui_panel_parcial=new UI_Panel_Parcial();
+    private UI_JPanel_Parcial ui_panel_parcial;
 
     /** Creates new form UI_Parcial */
     public UI_Parcial(Modelo m)
@@ -55,21 +57,24 @@ public class UI_Parcial extends javax.swing.JInternalFrame
         initComponents();
         this.jPanel3.removeAll();
         this.jPanel3.setLayout(new BorderLayout());
+
+
+        this.ui_panel_parcial = new UI_JPanel_Parcial(null);
+        this.ui_panel_parcial.addActionListener(this);
         this.jPanel3.add(this.ui_panel_parcial);
-     
-        this.ui_panel_parcial = new UI_Panel_Parcial();
         this.jList_asignaturas.setModel(listModel_asignaturas);
         this.jList_cursadas.setModel(listModel_cursadas);
 
 
         this.jList_parciales.setModel(listModel_parciales);
         this.actualizar_jList_asignaturas();
-        this.jtree_arbol = this.ui_panel_parcial.getJtree_arbol();
+        //     this.jtree_arbol = this.ui_panel_parcial.getJtree_arbol();
         this.jButton_ocultar_nodo.setEnabled(false);
 
-        this.jtree_arbol.setLineasRectas(true);
+        /*
+
         this.jtree_arbol.addMouseListener(new MouseAdapter()
-                                          
+
         {
             @Override
             public void mouseClicked(MouseEvent e)
@@ -79,7 +84,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
                                                                  null && UI_Parcial.this.cursada_en_uso != null);
             }
         });
-        this.jtree_arbol.setMuestraNodosOcultos(true);
+         */
     }
 
     /** This method is called from within the constructor to
@@ -389,8 +394,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame
     private void jButtonVerArbolActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVerArbolActionPerformed
     {//GEN-HEADEREND:event_jButtonVerArbolActionPerformed
         
-           UI_Arbol_Evaluable ui_arbol =
-            new UI_Arbol_Evaluable(this.arbolPodado);  
+        UI_Arbol_Evaluable ui_arbol = new UI_Arbol_Evaluable(this.arbolPodado);  
         
        
        
@@ -402,12 +406,14 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
     private void jButton_Agregar_nuevoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_Agregar_nuevoActionPerformed
     {//GEN-HEADEREND:event_jButton_Agregar_nuevoActionPerformed
-    if (this.asignatura_en_uso.getArbol_dominio() != null)
-    {
-        this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
+        if (this.asignatura_en_uso.getArbol_dominio() != null)
+        {
+            this.arbolPodado = this.asignatura_en_uso
+                                   .getArbol_dominio()
+                                   .toEvaluable();
+            this.ui_panel_parcial.setArbol(this.arbolPodado);
 
-        jtree_arbol.setModel(this.arbolPodado.getTreeModel());
-    }
+        }
         this.modo_edicion = true;
         this.verificaEnabled();
     }//GEN-LAST:event_jButton_Agregar_nuevoActionPerformed
@@ -421,99 +427,94 @@ public class UI_Parcial extends javax.swing.JInternalFrame
 
     private void jButton_guardar_apActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_guardar_apActionPerformed
     {//GEN-HEADEREND:event_jButton_guardar_apActionPerformed
-    try
-    {
-        this.modelo.getModelo_abm_parcial().AgregarParcial(this.cursada_en_uso,
-                                                           new Parcial(0, this.jText_Nombre.getText(),
-                                                                       this.arbolPodado));
+        try
+        {
+            this.modelo
+                .getModelo_abm_parcial()
+                .AgregarParcial(this.cursada_en_uso, new Parcial(0, this.jText_Nombre.getText(), this.arbolPodado));
 
-        this.modelo.recuperarParciales(this.cursada_en_uso);
-        this.modo_edicion = false;
-        limpiar();
-        JOptionPane.showMessageDialog(this, "Parcial agregado");
-    } catch (SQLException e)
-    {
-        JOptionPane.showMessageDialog(this, e.getMessage());
-    }
+            this.modelo.recuperarParciales(this.cursada_en_uso);
+            this.modo_edicion = false;
+            limpiar();
+            JOptionPane.showMessageDialog(this, "Parcial agregado");
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     
     }//GEN-LAST:event_jButton_guardar_apActionPerformed
 
     private void jButton_ocultar_nodoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton_ocultar_nodoActionPerformed
     {//GEN-HEADEREND:event_jButton_ocultar_nodoActionPerformed
-        NodoPerturbacionEvaluable nodoSeleccionado = (NodoPerturbacionEvaluable) jtree_arbol.getNodoSeleccionado();
-        DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol.getModel();
-        if (nodoSeleccionado != null&& !nodoSeleccionado.isRoot())
-        {
-                this.jtree_arbol.setOculto(nodoSeleccionado,nodoSeleccionado.isEvaluado());
-             this.jtree_arbol.repaint();
-             //   this.jtree_arbol.verificaOcultos();
-            }
-        
+        /*
+         */
         
         
     }//GEN-LAST:event_jButton_ocultar_nodoActionPerformed
 
     private void jList_asignaturasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_asignaturasValueChanged
     {//GEN-HEADEREND:event_jList_asignaturasValueChanged
-    if (this.jList_asignaturas.getSelectedValue() != null&&!this.modo_edicion)
-    {
-        this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
-        this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
-        this.cursada_en_uso = null;
-        this.actualizar_jList_cursadas();
-        this.actualizar_jList_parciales();
-        this.jButton_ocultar_nodo.setEnabled(false);
-
-        if (this.asignatura_en_uso.getArbol_dominio() != null)
+        if (this.jList_asignaturas.getSelectedValue() != null && !this.modo_edicion)
         {
-            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
+            this.asignatura_en_uso = (Asignatura) jList_asignaturas.getSelectedValue();
+            this.jText_Asignatura.setText(this.asignatura_en_uso.toString());
+            this.cursada_en_uso = null;
+            this.actualizar_jList_cursadas();
+            this.actualizar_jList_parciales();
+            this.jButton_ocultar_nodo.setEnabled(false);
 
-            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+            if (this.asignatura_en_uso.getArbol_dominio() != null)
+            {
+                this.arbolPodado = this.asignatura_en_uso
+                                       .getArbol_dominio()
+                                       .toEvaluable();
+                this.ui_panel_parcial.setArbol(this.arbolPodado);
+
+            }
+            this.verificaEnabled();
         }
-        this.verificaEnabled();
-    }
     }//GEN-LAST:event_jList_asignaturasValueChanged
 
     private void jList_cursadasValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_cursadasValueChanged
     {//GEN-HEADEREND:event_jList_cursadasValueChanged
-    if (this.jList_cursadas.getSelectedValue() != null&&!this.modo_edicion)
-    {
-        this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
-        this.jText_Nombre_Cursada.setText(String.valueOf(this.cursada_en_uso.getNombreCursada()));
-        this.actualizar_jList_parciales();
-        if (this.asignatura_en_uso.getArbol_dominio() != null)
+        if (this.jList_cursadas.getSelectedValue() != null && !this.modo_edicion)
         {
-            this.arbolPodado = this.asignatura_en_uso.getArbol_dominio().toEvaluable();
+            this.cursada_en_uso = (Cursada) this.jList_cursadas.getSelectedValue();
+            this.jText_Nombre_Cursada.setText(String.valueOf(this.cursada_en_uso.getNombreCursada()));
+            this.actualizar_jList_parciales();
+            if (this.asignatura_en_uso.getArbol_dominio() != null)
+            {
+                this.arbolPodado = this.asignatura_en_uso
+                                       .getArbol_dominio()
+                                       .toEvaluable();
 
-            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+                this.ui_panel_parcial.setArbol(this.arbolPodado);
+            }
+            this.verificaEnabled();
+            this.jButton_ocultar_nodo.setEnabled(false);
         }
-        this.verificaEnabled();
-        this.jButton_ocultar_nodo.setEnabled(false);
-    }
     }//GEN-LAST:event_jList_cursadasValueChanged
 
     private void jList_parcialesValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jList_parcialesValueChanged
     {//GEN-HEADEREND:event_jList_parcialesValueChanged
-    if(this.jList_parciales.getSelectedValue()!=null&&!this.modo_edicion)      
-    {
+        if (this.jList_parciales.getSelectedValue() != null && !this.modo_edicion)
+        {
             Parcial parcial = (Parcial) this.jList_parciales.getSelectedValue();
             this.arbolPodado = parcial.getArbol_podado();
-            jtree_arbol.setModel(this.arbolPodado.getTreeModel());
+            this.ui_panel_parcial.setArbol(this.arbolPodado);
         }
     
     }//GEN-LAST:event_jList_parcialesValueChanged
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBox1ActionPerformed
     {//GEN-HEADEREND:event_jCheckBox1ActionPerformed
-        this.jtree_arbol.setMuestraNodosOcultos(this.jCheckBox1.isSelected());
+        //    this.jtree_arbol.setMuestraNodosOcultos(this.jCheckBox1.isSelected());
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
 
-Class1 c1=new Class1("hola");
-
-
+        Class1 c1 = new Class1("hola", this.arbolPodado);
 
 
         // TODO add your handling code here:
@@ -548,7 +549,9 @@ Class1 c1=new Class1("hola");
     private void actualizar_jList_asignaturas()
     {
         listModel_asignaturas.clear();
-        Iterator iterator_asignaturas = modelo.getAsignaturas().values().iterator();
+        Iterator iterator_asignaturas = modelo.getAsignaturas()
+                                              .values()
+                                              .iterator();
         //Recorrer el contenido del Iterator
         while (iterator_asignaturas.hasNext())
         {
@@ -587,12 +590,12 @@ Class1 c1=new Class1("hola");
     private void verificaEnabled()
     {
         boolean valida =
-            (this.cursada_en_uso != null && this.asignatura_en_uso != null && this.jtree_arbol.getModel() != null);
+            (this.cursada_en_uso != null && this.asignatura_en_uso != null && this.ui_panel_parcial.getArbol() != null);
         this.jButton_Agregar_nuevo.setEnabled(valida);
         this.jText_Nombre.setEnabled(valida && this.modo_edicion);
         this.jButton_guardar_ap.setEnabled(valida && this.modo_edicion);
         this.jButtonCancelar.setEnabled(valida && this.modo_edicion);
-        this.jButtonVerArbol.setEnabled(this.jtree_arbol.getModel() != null);
+        this.jButtonVerArbol.setEnabled(this.ui_panel_parcial.getArbol() != null);
         this.jList_asignaturas.setEnabled(!this.modo_edicion);
         this.jList_cursadas.setEnabled(!this.modo_edicion);
         this.jList_parciales.setEnabled(!this.modo_edicion);
@@ -611,7 +614,7 @@ Class1 c1=new Class1("hola");
     {
         this.asignatura_en_uso = null;
         this.cursada_en_uso = null;
-        this.jtree_arbol.setModel(null);
+        this.ui_panel_parcial.setArbol(null);
         this.jText_Asignatura.setText("");
         this.jText_Nombre.setText("");
         this.jText_Nombre_Cursada.setText("");
@@ -623,4 +626,26 @@ Class1 c1=new Class1("hola");
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getActionCommand().equals(UI_JPanel_Parcial.OCULTAR))
+        {
+            NodoPerturbacionEvaluable nodoSeleccionado =
+                (NodoPerturbacionEvaluable) this.ui_panel_parcial.getNodoSeleccionado();
+
+            if (nodoSeleccionado != null && !nodoSeleccionado.isRoot())
+            {
+            
+                this.ui_panel_parcial.setOculto(nodoSeleccionado, nodoSeleccionado.isEvaluado());
+            }
+            
+
+            // TODO Implement this method
+        }
+        if (e.getActionCommand().equals(UI_JPanel_Parcial.VEROCULTOS))
+        {
+          this.ui_panel_parcial.setMuestraOcultos();
+        }
+    }
 }

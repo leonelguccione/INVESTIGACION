@@ -82,8 +82,8 @@ public class UI_Arbol_Perturbacion extends JFrame implements ActionListener
         jPanel_sur.add(jPanel_grilla);
         this.jPanel_grilla.setLayout(new GridLayout(2, 2));
         jPanel_grilla.add(jr_Personalizado);
-        jPanel_grilla.add(jButton_capturar);
         jPanel_grilla.add(jr_Tradicional);
+        jPanel_grilla.add(jButton_capturar);
         jPanel_grilla.add(this.jbutton_oculta);
         this.jbutton_oculta.setActionCommand("OCULTA");
         this.jbutton_oculta.addActionListener(this);
