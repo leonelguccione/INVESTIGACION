@@ -64,10 +64,10 @@ public class UI_Promedio extends javax.swing.JInternalFrame
         
         this.modelo = modelo;
 
-        this.jComboBox_Asignatura.setModel((ComboBoxModel) comboBoxModelAsignatura);
-        this.jComboBox_Cursada.setModel((ComboBoxModel) this.comboBoxModelCursada);
-        this.jComboBox_Parcial.setModel((ComboBoxModel) this.comboBoxModelParciales);
-        this.jComboBox_Inst_Evaluacion.setModel((ComboBoxModel) this.comboBoxModelInstEvaluacion);
+        this.jComboBox_Asignatura.setModel( comboBoxModelAsignatura);
+        this.jComboBox_Cursada.setModel(this.comboBoxModelCursada);
+        this.jComboBox_Parcial.setModel( this.comboBoxModelParciales);
+        this.jComboBox_Inst_Evaluacion.setModel( this.comboBoxModelInstEvaluacion);
         this.jLista_Examenes.setModel(listModelexamenes);
         this.actualizar_combo_asignatura();
 

@@ -47,22 +47,7 @@ public class UI_JPanel_Parcial extends JPanel
         this.iniciaGeometria();
 
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
-        /*thisjPanel_sur.add(jPanel_grilla);
-        this.jPanel_grilla.setLayout(new GridLayout(2, 2));
-        jPanel_grilla.add(jr_Personalizado);
-        jPanel_grilla.add(jButton_capturar);
-        jPanel_grilla.add(jr_Tradicional);
-        jPanel_grilla.add(this.jbutton_oculta);
-        this.jbutton_oculta.setActionCommand("OCULTA");
-        this.jbutton_oculta.addActionListener(this);
-        jPanel_grilla.add(this.jbutton_muestraOcultos);
-        this.jbutton_muestraOcultos.setActionCommand("MUESTRA");
-        this.jbutton_muestraOcultos.addActionListener(this);
-        this.jr_Personalizado.setSelected(true);
-        this.jtree_arbol_visual.setMuestraNodosOcultos(true);
-        this.inicia_visual(this.jtree_arbol_visual); */
-
-    }
+     }
 
 
     public void setArbol(ArbolPerturbacion arbol)
@@ -149,8 +134,7 @@ public class UI_JPanel_Parcial extends JPanel
         this.jbCancelar.setEnabled(valor);
         this.jbGuardar.setEnabled(valor);
         this.jbOcultar.setEnabled(valor);
-
-
+        this.jchVerOcultos.setEnabled(valor);
     }
 
 
