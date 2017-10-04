@@ -2,17 +2,9 @@
 package UI;
 
 
-import arbol_perturbacion_visual.AEvaluableVisual;
-import arbol_perturbacion_visual.ArbolPerturbacionVisual;
-
-
-import arbolvisual.ArbolVisual;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import java.sql.SQLException;
 
@@ -21,7 +13,6 @@ import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.tree.DefaultTreeModel;
 
 import modelo.ArbolPerturbacion;
 import modelo.Asignatura;
@@ -637,7 +628,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame implements ActionList
             if (nodoSeleccionado != null && !nodoSeleccionado.isRoot())
             {
             
-                this.ui_panel_parcial.setOculto(nodoSeleccionado, nodoSeleccionado.isEvaluado());
+             //   this.ui_panel_parcial.setOculto(nodoSeleccionado, nodoSeleccionado.isEvaluado());
             }
             
 
@@ -645,7 +636,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame implements ActionList
         }
         if (e.getActionCommand().equals(UI_JPanel_Parcial.VEROCULTOS))
         {
-          this.ui_panel_parcial.setMuestraOcultos();
+         /// this.ui_panel_parcial.setMuestraOcultos();
         }
     }
 }

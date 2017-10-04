@@ -2,25 +2,20 @@ package UI;
 
 import arbol_perturbacion_visual.AEvaluableVisual;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import arbolvisual.NodoVisual;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-
-import javax.swing.JScrollPane;
-
-import javax.swing.border.BevelBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
 
-public class UI_JPanel_Parcial extends JPanel
+public class UI_JPanel_Parcial extends JPanel implements ActionListener
 {
     private AEvaluableVisual jtree_arbol_visual = new AEvaluableVisual();
     private JButton jbGuardar = new JButton("Guardar");
@@ -45,9 +40,11 @@ public class UI_JPanel_Parcial extends JPanel
         this.jtree_arbol_visual.setLineasRectas(true);
         this.setActionCommands();
         this.iniciaGeometria();
-
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
-     }
+        this.jchVerOcultos.addActionListener(this);
+        this.jbOcultar.addActionListener(this);
+
+    }
 
 
     public void setArbol(ArbolPerturbacion arbol)
@@ -71,11 +68,6 @@ public class UI_JPanel_Parcial extends JPanel
         return this.jtree_arbol_visual.getNodoSeleccionado();
     }
 
-    public void setOculto(DefaultMutableTreeNode nodo, boolean valor)
-    {
-        this.jtree_arbol_visual.setOculto(nodo, valor);
-        this.jtree_arbol_visual.repaint();
-    }
 
     public void addActionListener(ActionListener listener)
     {
@@ -83,8 +75,6 @@ public class UI_JPanel_Parcial extends JPanel
         this.jbGuardar.addActionListener(listener);
         this.jbCancelar.addActionListener(listener);
         this.jchVerOcultos.addActionListener(listener);
-
-
     }
 
     private void setActionCommands()
@@ -108,25 +98,11 @@ public class UI_JPanel_Parcial extends JPanel
         this.panelIzquierda.add(this.jchVerOcultos);
         this.panelDerecha.add(jbGuardar);
         this.panelDerecha.add(jbCancelar);
-        this.panelDerecha.setBorder(javax.swing
-                                         .BorderFactory
-                                         .createBevelBorder(javax.swing
-                                                                 .border
-                                                                 .BevelBorder
-                                                                 .RAISED));
-        this.panelIzquierda.setBorder(javax.swing
-                                           .BorderFactory
-                                           .createBevelBorder(javax.swing
-                                                                   .border
-                                                                   .BevelBorder
-                                                                   .RAISED));
+        this.panelDerecha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        this.panelIzquierda.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        this.setModoEdicion(false);
 
 
-    }
-
-    public void setMuestraOcultos()
-    {
-        this.jtree_arbol_visual.setMuestraNodosOcultos(this.jchVerOcultos.isSelected());
     }
 
     public void setModoEdicion(boolean valor)
@@ -134,8 +110,22 @@ public class UI_JPanel_Parcial extends JPanel
         this.jbCancelar.setEnabled(valor);
         this.jbGuardar.setEnabled(valor);
         this.jbOcultar.setEnabled(valor);
-        this.jchVerOcultos.setEnabled(valor);
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getActionCommand().equals(UI_JPanel_Parcial.VEROCULTOS))
+            this.jtree_arbol_visual.setMuestraNodosOcultos(this.jchVerOcultos.isSelected());
+        if (e.getActionCommand().equals(UI_JPanel_Parcial.OCULTAR) &&
+            this.jtree_arbol_visual.getNodoSeleccionado() != null)
+        {
+             NodoVisual nv=this.jtree_arbol_visual.getNodoVisual(this.jtree_arbol_visual.getNodoSeleccionado());
+             
+            this.jtree_arbol_visual.setOculto(this.jtree_arbol_visual.getNodoSeleccionado(),
+                                              !nv.isOculto());
+         
+         }
+    }
 }

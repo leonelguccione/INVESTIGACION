@@ -5,7 +5,6 @@ import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import modelo.NodoPerturbacion;
 import modelo.NodoPerturbacionEvaluable;
 
 public class AEvaluableVisual extends ArbolPerturbacionVisual
@@ -50,6 +49,7 @@ public class AEvaluableVisual extends ArbolPerturbacionVisual
         NodoPerturbacionEvaluable npe = (NodoPerturbacionEvaluable) nodo;
         npe.setEvaluado(!valor);
         super.setOculto(nodo, valor);
+        
 
     }
 

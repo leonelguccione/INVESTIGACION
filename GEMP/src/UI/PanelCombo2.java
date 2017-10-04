@@ -1,8 +1,6 @@
 package UI;
 
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,9 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import modelo.Asignatura;
 import modelo.Cursada;
-
 import modelo.Modelo;
-import modelo.Parcial;
 
 public class PanelCombo2 extends JPanel implements ActionListener
 {
@@ -47,8 +43,9 @@ public class PanelCombo2 extends JPanel implements ActionListener
     protected Asignatura asignatura_seleccionada=null;
 
 
-    private static final String ACCION_ASIGNATURA = "ACCION_ASIGNATURA";
+    private  static final String ACCION_ASIGNATURA = "ACCION_ASIGNATURA";
     private static final String ACCION_CURSADA = "ACCION_CURSADA";
+    public static final String CAMBIOS_PANEL_COMBO = "CAMBIOS_PANEL_COMBO";
 
     private boolean valida=false;
     private ActionListener actionLister;
@@ -94,31 +91,24 @@ public class PanelCombo2 extends JPanel implements ActionListener
 
         this.panel_derecha = new JPanel();
         GroupLayout groupLayout = new GroupLayout(this);
-        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                       .addGroup(groupLayout.createSequentialGroup()
-                                                                                                              .addContainerGap()
-                                                                                                              .addComponent(this.panel_izquierda,
-                                                                                                                            GroupLayout.PREFERRED_SIZE,
-                                                                                                                            87, GroupLayout.PREFERRED_SIZE)
-                                                            .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                            .addComponent(this.panel_derecha, GroupLayout.DEFAULT_SIZE,
-                                                                          319, Short.MAX_VALUE)
-                                                            .addContainerGap()));
-        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                     .addGroup(Alignment.TRAILING,
-                                               groupLayout.createSequentialGroup()
-                                                                                                                                .addContainerGap()
-                                                                                                                                .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                                                                                                                                                     .addComponent(this.panel_derecha,
-                                                                                                                                                                   Alignment.LEADING,
-                                                                                                                                                                   GroupLayout.DEFAULT_SIZE,
-                                                                                                                                                                   278,
-                                                                                                                                                                   Short.MAX_VALUE)
-                                                                                                                                                     .addComponent(this.panel_izquierda,
-                                                                                                                                                                   Alignment.LEADING,
-                                                                                                                                                                   GroupLayout.DEFAULT_SIZE,
-                                                                                                                                                                   278, Short.MAX_VALUE))
-                                                          .addContainerGap()));
+        groupLayout.setHorizontalGroup(
+        	groupLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(this.panel_izquierda, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(this.panel_derecha, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+        			.addContainerGap())
+        );
+        groupLayout.setVerticalGroup(
+        	groupLayout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(this.panel_derecha, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+        				.addComponent(this.panel_izquierda, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+        			.addContainerGap())
+        );
         this.panel_derecha.setLayout(new GridLayout(0, 1, 0, 0));
 
         this.panel_Combo_Asignatura = new JPanel();
@@ -167,43 +157,45 @@ public class PanelCombo2 extends JPanel implements ActionListener
 
         this.panel_izquierda.setLayout(new GridLayout(0, 1, 0, 0));
 
-        this.panel_Label_Asignatura = new JPanel();
-        this.panel_izquierda.add(this.panel_Label_Asignatura);
-
-        this.label_Asignatura = new JLabel("Asignatura:");
-        GroupLayout gl_panel_Label_Asignatura = new GroupLayout(this.panel_Label_Asignatura);
-        gl_panel_Label_Asignatura.setHorizontalGroup(gl_panel_Label_Asignatura.createParallelGroup(Alignment.LEADING)
-                                                     .addGroup(gl_panel_Label_Asignatura.createSequentialGroup()
-                                                                                                                                                        .addContainerGap()
-                                                                                                                                                        .addComponent(this.label_Asignatura)
-                                                                                                                                                        .addContainerGap(65,
-                                                                                                                                                                         Short.MAX_VALUE)));
-        gl_panel_Label_Asignatura.setVerticalGroup(gl_panel_Label_Asignatura.createParallelGroup(Alignment.LEADING)
-                                                   .addGroup(gl_panel_Label_Asignatura.createSequentialGroup()
-                                                                                                                                                      .addContainerGap()
-                                                                                                                                                      .addComponent(this.label_Asignatura)
-                                                                                                                                                      .addContainerGap(52,
-                                                                                                                                                                       Short.MAX_VALUE)));
-        this.panel_Label_Asignatura.setLayout(gl_panel_Label_Asignatura);
-
         this.panel_Label_Cursada = new JPanel();
         this.panel_izquierda.add(this.panel_Label_Cursada);
 
         this.label_Cursada = new JLabel("Cursada:");
         GroupLayout gl_panel_Label_Cursada = new GroupLayout(this.panel_Label_Cursada);
-        gl_panel_Label_Cursada.setHorizontalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
-                                                  .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
-                                                                                                                                               .addContainerGap()
-                                                                                                                                               .addComponent(this.label_Cursada)
-                                                                                                                                               .addContainerGap(77,
-                                                                                                                                                                Short.MAX_VALUE)));
-        gl_panel_Label_Cursada.setVerticalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
-                                                .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
-                                                                                                                                             .addContainerGap()
-                                                                                                                                             .addComponent(this.label_Cursada)
-                                                                                                                                             .addContainerGap(52,
-                                                                                                                                                              Short.MAX_VALUE)));
+        gl_panel_Label_Cursada.setHorizontalGroup(
+        	gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel_Label_Cursada.createSequentialGroup()
+        			.addComponent(this.label_Cursada)
+        			.addContainerGap(23, Short.MAX_VALUE))
+        );
+        gl_panel_Label_Cursada.setVerticalGroup(
+        	gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel_Label_Cursada.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(this.label_Cursada)
+        			.addContainerGap(113, Short.MAX_VALUE))
+        );
         this.panel_Label_Cursada.setLayout(gl_panel_Label_Cursada);
+        
+                this.panel_Label_Asignatura = new JPanel();
+                this.panel_izquierda.add(this.panel_Label_Asignatura);
+                
+                        this.label_Asignatura = new JLabel("Asignatura:");
+                        GroupLayout gl_panel_Label_Asignatura = new GroupLayout(this.panel_Label_Asignatura);
+                        gl_panel_Label_Asignatura.setHorizontalGroup(
+                        	gl_panel_Label_Asignatura.createParallelGroup(Alignment.LEADING)
+                        		.addGroup(gl_panel_Label_Asignatura.createSequentialGroup()
+                        			.addComponent(this.label_Asignatura)
+                        			.addContainerGap(31, Short.MAX_VALUE))
+                        );
+                        gl_panel_Label_Asignatura.setVerticalGroup(
+                        	gl_panel_Label_Asignatura.createParallelGroup(Alignment.LEADING)
+                        		.addGroup(gl_panel_Label_Asignatura.createSequentialGroup()
+                        			.addContainerGap()
+                        			.addComponent(this.label_Asignatura)
+                        			.addContainerGap(113, Short.MAX_VALUE))
+                        );
+                        this.panel_Label_Asignatura.setLayout(gl_panel_Label_Asignatura);
 
 
         setLayout(groupLayout);
@@ -241,13 +233,13 @@ public class PanelCombo2 extends JPanel implements ActionListener
     private void verificar_enabled()
     {
             this.valida=(this.asignatura_seleccionada != null && this.cursada_seleccionada != null );
-    this.actionLister.actionPerformed(new ActionEvent(this,0,"CAMBIOS"));
+    this.actionLister.actionPerformed(new ActionEvent(this,0,PanelCombo2.CAMBIOS_PANEL_COMBO));
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e)
-    {this.verificar_enabled();
+    {
         if (e.getActionCommand().equals(PanelCombo2.ACCION_ASIGNATURA))
         {
 
@@ -266,6 +258,7 @@ public class PanelCombo2 extends JPanel implements ActionListener
                 this.cursada_seleccionada = (Cursada) this.comboBox_Cursada.getSelectedItem();
             }
         }
+        this.verificar_enabled();
     }
 
 

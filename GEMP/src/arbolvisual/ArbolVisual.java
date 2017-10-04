@@ -1,7 +1,5 @@
 package arbolvisual;
 
-import arbol_perturbacion_visual.ArbolPerturbacionVisual;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -27,8 +25,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
-import modelo.NodoPerturbacionEvaluable;
 
 /**
  * Clase que representa un arbol visualmente, la logica del arbol se maneja desde un DefaultTreeModel
@@ -1060,6 +1056,7 @@ public class ArbolVisual extends JScrollPane
             
             }
         this.recalcular();
+        this.repaint();
     }
 
 }
