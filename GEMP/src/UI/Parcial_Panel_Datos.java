@@ -203,6 +203,10 @@ public class Parcial_Panel_Datos extends JPanel
     {
         return this.jtfNombre.getText();
     }
+    public void clearTextoNombre()
+    {
+       this.jtfNombre.setText("");
+    }
 
 
 }

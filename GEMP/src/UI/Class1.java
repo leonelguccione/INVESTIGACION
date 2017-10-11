@@ -5,6 +5,8 @@ import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -16,14 +18,14 @@ public class Class1 extends JFrame
     
   
    
-    public Class1(String string,ArbolPerturbacion arbol) throws HeadlessException
+    public Class1(String string,ArbolPerturbacion arbol,ActionListener actionlistener) throws HeadlessException
     {
         super(string);
         this.setVisible(true);
         setExtendedState(java.awt
                              .Frame
                              .MAXIMIZED_BOTH);
-        panelCentro=new UI_JPanel_Parcial(arbol);
+        panelCentro=new UI_JPanel_Parcial(arbol,actionlistener,false);
         this.inicia_visual();
         
     }

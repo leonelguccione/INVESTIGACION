@@ -5,6 +5,7 @@ import arbol_perturbacion_visual.AEvaluableVisual;
 import arbolvisual.NodoVisual;
 
 import java.awt.BorderLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,7 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
     private JButton jbGuardar = new JButton("Guardar");
     private JButton jbCancelar = new JButton("Cancelar");
     private JButton jbOcultar = new JButton("Ocultar Nodo");
+    private JButton jbMaximizar = null;
     private JCheckBox jchVerOcultos = new JCheckBox("Ver Nodos Ocultos", true);
     private JPanel panelSur = new JPanel();
     private JPanel panelIzquierda = new JPanel();
@@ -29,13 +31,16 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
     public static final String CANCELAR = "CANCELAR";
     public static final String OCULTAR = "OCULTAR";
     public static final String VEROCULTOS = "VEROCULTOS";
+    public static final String MAXIMIZAR = "MAXIMIZAR";
     private ArbolPerturbacion arbol;
+    private ActionListener actionListener;
 
 
-    public UI_JPanel_Parcial(ArbolPerturbacion arbol)
+    public UI_JPanel_Parcial(ArbolPerturbacion arbol, ActionListener actionListener, boolean valor)
     {
         super();
         this.setArbol(arbol);
+        this.actionListener = actionListener;
 
         this.jtree_arbol_visual.setLineasRectas(true);
         this.setActionCommands();
@@ -43,7 +48,9 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
         this.jchVerOcultos.addActionListener(this);
         this.jbOcultar.addActionListener(this);
-
+        this.addActionListener(this.actionListener);
+        if (valor)
+            this.agregaBotonMaximizar();
     }
 
 
@@ -98,9 +105,20 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
         this.panelIzquierda.add(this.jchVerOcultos);
         this.panelDerecha.add(jbGuardar);
         this.panelDerecha.add(jbCancelar);
-        this.panelDerecha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        this.panelIzquierda.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        this.panelDerecha.setBorder(javax.swing
+                                         .BorderFactory
+                                         .createBevelBorder(javax.swing
+                                                                 .border
+                                                                 .BevelBorder
+                                                                 .RAISED));
+        this.panelIzquierda.setBorder(javax.swing
+                                           .BorderFactory
+                                           .createBevelBorder(javax.swing
+                                                                   .border
+                                                                   .BevelBorder
+                                                                   .RAISED));
         this.setModoEdicion(false);
+        this.jtree_arbol_visual.setInheritsPopupMenu(true);
 
 
     }
@@ -110,6 +128,8 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
         this.jbCancelar.setEnabled(valor);
         this.jbGuardar.setEnabled(valor);
         this.jbOcultar.setEnabled(valor);
+        if (this.jbMaximizar != null)
+            this.jbMaximizar.setEnabled(valor);
     }
 
 
@@ -121,11 +141,20 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
         if (e.getActionCommand().equals(UI_JPanel_Parcial.OCULTAR) &&
             this.jtree_arbol_visual.getNodoSeleccionado() != null)
         {
-             NodoVisual nv=this.jtree_arbol_visual.getNodoVisual(this.jtree_arbol_visual.getNodoSeleccionado());
-             
-            this.jtree_arbol_visual.setOculto(this.jtree_arbol_visual.getNodoSeleccionado(),
-                                              !nv.isOculto());
-         
-         }
+            NodoVisual nv = this.jtree_arbol_visual.getNodoVisual(this.jtree_arbol_visual.getNodoSeleccionado());
+
+            this.jtree_arbol_visual.setOculto(this.jtree_arbol_visual.getNodoSeleccionado(), !nv.isOculto());
+
+        }
+    }
+
+
+    private void agregaBotonMaximizar()
+    {
+        this.jbMaximizar = new JButton("Maximizar Árbol");
+        jbMaximizar.addActionListener(this.actionListener);
+        jbMaximizar.setActionCommand(UI_JPanel_Parcial.MAXIMIZAR);
+        this.panelSur.add(jbMaximizar);
+        this.jbMaximizar.setEnabled(false);
     }
 }

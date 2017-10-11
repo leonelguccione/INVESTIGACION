@@ -50,7 +50,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame implements ActionList
         this.jPanel3.setLayout(new BorderLayout());
 
 
-        this.ui_panel_parcial = new UI_JPanel_Parcial(null);
+        this.ui_panel_parcial = new UI_JPanel_Parcial(null,this,false);
         this.ui_panel_parcial.addActionListener(this);
         this.jPanel3.add(this.ui_panel_parcial);
         this.jList_asignaturas.setModel(listModel_asignaturas);
@@ -505,7 +505,7 @@ public class UI_Parcial extends javax.swing.JInternalFrame implements ActionList
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
 
-        Class1 c1 = new Class1("hola", this.arbolPodado);
+        Class1 c1 = new Class1("hola", this.arbolPodado,null);
 
 
         // TODO add your handling code here:
