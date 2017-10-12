@@ -7,6 +7,9 @@ import java.awt.event.MouseAdapter;
 
 import java.awt.event.MouseEvent;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -34,11 +37,11 @@ import javax.swing.event.PopupMenuListener;
 import modelo.Modelo;
 import modelo.Parcial;
 
-public class Ventana_Pru extends JInternalFrame implements ActionListener, ListSelectionListener
+public class Parcial_Ventana extends JInternalFrame implements ActionListener, ListSelectionListener
 {
 
     private JPanel contentPane;
-    private UI_JPanel_Parcial panel_derecha;
+    private Parcial_Panel_Arbol panel_derecha;
     private DefaultListModel<Parcial> listModel_parciales = new DefaultListModel<Parcial>();
     private JPanel panel_izquierda;
     private Modelo modelo;
@@ -46,37 +49,37 @@ public class Ventana_Pru extends JInternalFrame implements ActionListener, ListS
     private Parcial_Panel_Datos panel_iz_inf;
     private JScrollPane scrollPane;
     private JList jList_parciales;
+    private Parcial_Arbol_Modal ventanaModal = null;
 
 
     /**
      * Create the frame.
      */
-    public Ventana_Pru(Modelo modelo)
+    public Parcial_Ventana(Modelo modelo)
     {
         this.modelo = modelo;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.iniciaGeometria();
     }
 
-   
 
     class MyPopupMenuListener implements PopupMenuListener
-            {
-                    public void popupMenuCanceled(PopupMenuEvent popupMenuEvent)
-                    {
-                            System.out.println("Canceled");
-                    }
+    {
+        public void popupMenuCanceled(PopupMenuEvent popupMenuEvent)
+        {
+            System.out.println("Canceled");
+        }
 
-                    public void popupMenuWillBecomeInvisible(PopupMenuEvent popupMenuEvent)
-                    {
-                            System.out.println("Becoming Invisible");
-                    }
+        public void popupMenuWillBecomeInvisible(PopupMenuEvent popupMenuEvent)
+        {
+            System.out.println("Becoming Invisible");
+        }
 
-                    public void popupMenuWillBecomeVisible(PopupMenuEvent popupMenuEvent)
-                    {
-                            System.out.println("Becoming Visible");
-                    }
-            }
+        public void popupMenuWillBecomeVisible(PopupMenuEvent popupMenuEvent)
+        {
+            System.out.println("Becoming Visible");
+        }
+    }
 
     private void iniciaGeometria()
     {
@@ -128,7 +131,7 @@ public class Ventana_Pru extends JInternalFrame implements ActionListener, ListS
                                                                         .addGap(5)));
         this.panel_izquierda.setLayout(gl_panel_izquierda);
 
-        this.panel_derecha = new UI_JPanel_Parcial(null, this,true);
+        this.panel_derecha = new Parcial_Panel_Arbol(null, this, true);
         GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
         gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                           .addGroup(gl_contentPane.createSequentialGroup()
@@ -158,7 +161,7 @@ public class Ventana_Pru extends JInternalFrame implements ActionListener, ListS
         this.jList_parciales.setModel(this.listModel_parciales);
         this.contentPane.setLayout(gl_contentPane);
         jList_parciales.addListSelectionListener(this);
-        this.creaPopup();
+
     }
 
     @Override
@@ -210,11 +213,11 @@ null);
 
         }
 
-        if (e.getActionCommand().equals(UI_JPanel_Parcial.CANCELAR))
+        if (e.getActionCommand().equals(Parcial_Panel_Arbol.CANCELAR))
         {
             this.limpiar();
         }
-        if (e.getActionCommand().equals(UI_JPanel_Parcial.GUARDAR))
+        if (e.getActionCommand().equals(Parcial_Panel_Arbol.GUARDAR))
         {
             if (this.panel_iz_inf
                     .getTextoNombre()
@@ -234,7 +237,6 @@ null);
                     this.modelo.recuperarParciales(this.panel_iz_sup.getCursada_seleccionada());
                     this.listModel_parciales.clear();
                     this.actualizaListadoParciales();
-
                     this.limpiar();
                     JOptionPane.showMessageDialog(this, "Parcial agregado");
                 } catch (SQLException f)
@@ -244,12 +246,38 @@ null);
 
 
         }
-        
-        if(e.getActionCommand().equals(UI_JPanel_Parcial.MAXIMIZAR))
-        {
-            Class1 c1=new Class1("",this.panel_derecha.getArbol(),this);
-            }
 
+        if (e.getActionCommand().equals(Parcial_Panel_Arbol.MAXIMIZAR))
+        {
+            if (this.panel_iz_inf
+                    .getTextoNombre()
+                    .isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "El nuevo parcial debe tener un nombre");
+            } else
+            {
+                this.ventanaModal = new Parcial_Arbol_Modal("", this.panel_derecha.getArbol(), this);
+                this.ventanaModal.addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowDeactivated(WindowEvent arg0)
+                    {
+
+                        Parcial_Ventana.this.ventanaModal.requestFocus();
+                        Parcial_Ventana.this.ventanaModal.toFront();
+                    }
+
+                    @Override
+                    public void windowClosing(WindowEvent e)
+                    {
+                        // TODO Implement this method
+                        Parcial_Ventana.this.panel_derecha.setArbol( Parcial_Ventana.this.ventanaModal.getArbol());
+                        Parcial_Ventana.this.panel_derecha.setVisible(true);
+                    }
+                });
+                this.panel_derecha.setVisible(false);
+            }
+        }
     }
 
 
@@ -262,6 +290,11 @@ null);
         this.panel_iz_inf.setTextNombreEnabled(false);
         this.panel_iz_inf.setTextoAsignatura("");
         this.panel_iz_inf.setTextoCursada("");
+        this.panel_iz_inf.setBotonNuevoEnabled(true);
+        if (this.ventanaModal != null)
+        {
+            this.ventanaModal.dispatchEvent(new WindowEvent(this.ventanaModal, WindowEvent.WINDOW_CLOSING));
+        }
 
     }
 
@@ -287,37 +320,5 @@ null);
         }
     }
 
-    private void creaPopup()
-    {System.out.println("Cree el popup");
-        //this.panel_derecha.addMouseListener(new MiMouseListener());
-        JPopupMenu popupMenu = new JPopupMenu("Title");
-                PopupMenuListener popupMenuListener = new MyPopupMenuListener();
 
-                popupMenu.addPopupMenuListener(popupMenuListener);
-
-                JMenuItem cutMenuItem = new JMenuItem("Cut");
-                popupMenu.add(cutMenuItem);
-
-                JMenuItem copyMenuItem = new JMenuItem("Copy");
-                popupMenu.add(copyMenuItem);
-
-                JMenuItem pasteMenuItem = new JMenuItem("Paste");
-                pasteMenuItem.setEnabled(false);
-                popupMenu.add(pasteMenuItem);
-
-                popupMenu.addSeparator();
-
-                JMenuItem findMenuItem = new JMenuItem("Find");
-                popupMenu.add(findMenuItem);
-                
-                this.panel_derecha.setComponentPopupMenu(popupMenu);
-                this.panel_derecha.setInheritsPopupMenu(true);
-                
-                
-                
-                
-                        
-                        
-
-    }
 }

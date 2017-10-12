@@ -16,7 +16,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
 
-public class UI_JPanel_Parcial extends JPanel implements ActionListener
+public class Parcial_Panel_Arbol extends JPanel implements ActionListener
 {
     private AEvaluableVisual jtree_arbol_visual = new AEvaluableVisual();
     private JButton jbGuardar = new JButton("Guardar");
@@ -36,7 +36,7 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
     private ActionListener actionListener;
 
 
-    public UI_JPanel_Parcial(ArbolPerturbacion arbol, ActionListener actionListener, boolean valor)
+    public Parcial_Panel_Arbol(ArbolPerturbacion arbol, ActionListener actionListener, boolean valor)
     {
         super();
         this.setArbol(arbol);
@@ -86,10 +86,10 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
 
     private void setActionCommands()
     {
-        this.jbGuardar.setActionCommand(UI_JPanel_Parcial.GUARDAR);
-        this.jbCancelar.setActionCommand(UI_JPanel_Parcial.CANCELAR);
-        this.jbOcultar.setActionCommand(UI_JPanel_Parcial.OCULTAR);
-        this.jchVerOcultos.setActionCommand(UI_JPanel_Parcial.VEROCULTOS);
+        this.jbGuardar.setActionCommand(Parcial_Panel_Arbol.GUARDAR);
+        this.jbCancelar.setActionCommand(Parcial_Panel_Arbol.CANCELAR);
+        this.jbOcultar.setActionCommand(Parcial_Panel_Arbol.OCULTAR);
+        this.jchVerOcultos.setActionCommand(Parcial_Panel_Arbol.VEROCULTOS);
     }
 
     private void iniciaGeometria()
@@ -136,9 +136,9 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getActionCommand().equals(UI_JPanel_Parcial.VEROCULTOS))
+        if (e.getActionCommand().equals(Parcial_Panel_Arbol.VEROCULTOS))
             this.jtree_arbol_visual.setMuestraNodosOcultos(this.jchVerOcultos.isSelected());
-        if (e.getActionCommand().equals(UI_JPanel_Parcial.OCULTAR) &&
+        if (e.getActionCommand().equals(Parcial_Panel_Arbol.OCULTAR) &&
             this.jtree_arbol_visual.getNodoSeleccionado() != null)
         {
             NodoVisual nv = this.jtree_arbol_visual.getNodoVisual(this.jtree_arbol_visual.getNodoSeleccionado());
@@ -151,9 +151,9 @@ public class UI_JPanel_Parcial extends JPanel implements ActionListener
 
     private void agregaBotonMaximizar()
     {
-        this.jbMaximizar = new JButton("Maximizar √Årbol");
+        this.jbMaximizar = new JButton("Maximizar √?rbol");
         jbMaximizar.addActionListener(this.actionListener);
-        jbMaximizar.setActionCommand(UI_JPanel_Parcial.MAXIMIZAR);
+        jbMaximizar.setActionCommand(Parcial_Panel_Arbol.MAXIMIZAR);
         this.panelSur.add(jbMaximizar);
         this.jbMaximizar.setEnabled(false);
     }

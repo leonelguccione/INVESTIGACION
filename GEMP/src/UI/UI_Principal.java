@@ -227,7 +227,7 @@ public class UI_Principal extends javax.swing.JFrame
         /* UI_Parcial ui_par = new UI_Parcial(modelo);
         this.jPanel_ppal.add(ui_par);
         this.agregaVentana(ui_par); */
-        Ventana_Pru vp= new Ventana_Pru(this.modelo);
+        Parcial_Ventana vp= new Parcial_Ventana(this.modelo);
         this.jPanel_ppal.add(vp);
         this.agregaVentana(vp);
             
