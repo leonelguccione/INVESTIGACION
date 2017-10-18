@@ -63,23 +63,7 @@ public class Parcial_Ventana extends JInternalFrame implements ActionListener, L
     }
 
 
-    class MyPopupMenuListener implements PopupMenuListener
-    {
-        public void popupMenuCanceled(PopupMenuEvent popupMenuEvent)
-        {
-            System.out.println("Canceled");
-        }
-
-        public void popupMenuWillBecomeInvisible(PopupMenuEvent popupMenuEvent)
-        {
-            System.out.println("Becoming Invisible");
-        }
-
-        public void popupMenuWillBecomeVisible(PopupMenuEvent popupMenuEvent)
-        {
-            System.out.println("Becoming Visible");
-        }
-    }
+    
 
     private void iniciaGeometria()
     {
@@ -168,7 +152,7 @@ public class Parcial_Ventana extends JInternalFrame implements ActionListener, L
     public void actionPerformed(ActionEvent e)
     {
 
-        if (e.getActionCommand().equals(PanelCombo2.CAMBIOS_PANEL_COMBO))
+        if (e.getActionCommand().equals(PanelCombo2.CAMBIOS_PANEL_COMBO2))
 
             if (this.panel_derecha != null && this.panel_iz_sup != null &&
                 this.panel_iz_sup.getAsignatura_seleccionada() != null)

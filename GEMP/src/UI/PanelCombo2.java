@@ -33,7 +33,7 @@ public class PanelCombo2 extends JPanel implements ActionListener
     private JPanel panel_Combo_Asignatura;
     private JComboBox comboBox_Asignatura;
     private JPanel panel_Combo_Cursada;
-    private JComboBox comboBox_Cursada;
+    protected JComboBox comboBox_Cursada;
     protected Modelo modelo;
 
     protected DefaultComboBoxModel<Asignatura> comboBoxModelAsignatura = new DefaultComboBoxModel<Asignatura>();
@@ -43,12 +43,12 @@ public class PanelCombo2 extends JPanel implements ActionListener
     protected Asignatura asignatura_seleccionada = null;
 
 
-    private static final String ACCION_ASIGNATURA = "ACCION_ASIGNATURA";
-    private static final String ACCION_CURSADA = "ACCION_CURSADA";
-    public static final String CAMBIOS_PANEL_COMBO = "CAMBIOS_PANEL_COMBO";
+    protected static final String ACCION_ASIGNATURA = "ACCION_ASIGNATURA";
+    protected static final String ACCION_CURSADA = "ACCION_CURSADA";
+    public static final String CAMBIOS_PANEL_COMBO2 = "CAMBIOS_PANEL_COMBO2";
 
-    private boolean valida = false;
-    private ActionListener actionLister;
+
+    protected ActionListener actionLister;
 
 
     /**
@@ -163,24 +163,6 @@ public class PanelCombo2 extends JPanel implements ActionListener
 
         this.panel_izquierda.setLayout(new GridLayout(0, 1, 0, 0));
 
-        this.panel_Label_Cursada = new JPanel();
-        this.panel_izquierda.add(this.panel_Label_Cursada);
-
-        this.label_Cursada = new JLabel("Cursada:");
-        GroupLayout gl_panel_Label_Cursada = new GroupLayout(this.panel_Label_Cursada);
-        gl_panel_Label_Cursada.setHorizontalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
-                                                  .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
-                                                                                                                                               .addComponent(this.label_Cursada)
-                                                                                                                                               .addContainerGap(23,
-                                                                                                                                                                Short.MAX_VALUE)));
-        gl_panel_Label_Cursada.setVerticalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
-                                                .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
-                                                                                                                                             .addContainerGap()
-                                                                                                                                             .addComponent(this.label_Cursada)
-                                                                                                                                             .addContainerGap(113,
-                                                                                                                                                              Short.MAX_VALUE)));
-        this.panel_Label_Cursada.setLayout(gl_panel_Label_Cursada);
-
         this.panel_Label_Asignatura = new JPanel();
         this.panel_izquierda.add(this.panel_Label_Asignatura);
 
@@ -200,6 +182,25 @@ public class PanelCombo2 extends JPanel implements ActionListener
         this.panel_Label_Asignatura.setLayout(gl_panel_Label_Asignatura);
 
 
+        this.panel_Label_Cursada = new JPanel();
+        this.panel_izquierda.add(this.panel_Label_Cursada);
+
+        this.label_Cursada = new JLabel("Cursada:");
+        GroupLayout gl_panel_Label_Cursada = new GroupLayout(this.panel_Label_Cursada);
+        gl_panel_Label_Cursada.setHorizontalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
+                                                  .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
+                                                                                                                                               .addComponent(this.label_Cursada)
+                                                                                                                                               .addContainerGap(23,
+                                                                                                                                                                Short.MAX_VALUE)));
+        gl_panel_Label_Cursada.setVerticalGroup(gl_panel_Label_Cursada.createParallelGroup(Alignment.LEADING)
+                                                .addGroup(gl_panel_Label_Cursada.createSequentialGroup()
+                                                                                                                                             .addContainerGap()
+                                                                                                                                             .addComponent(this.label_Cursada)
+                                                                                                                                             .addContainerGap(113,
+                                                                                                                                                              Short.MAX_VALUE)));
+        this.panel_Label_Cursada.setLayout(gl_panel_Label_Cursada);
+
+
         setLayout(groupLayout);
         this.comboBox_Asignatura.setModel(this.comboBoxModelAsignatura);
         this.comboBox_Cursada.setModel(comboBoxModelCursada);
@@ -208,7 +209,7 @@ public class PanelCombo2 extends JPanel implements ActionListener
     }
 
 
-    private void actualizar_combo_cursadas()
+    protected void actualizar_combo_cursadas()
     {
 
         this.comboBoxModelCursada.removeAllElements();
@@ -232,10 +233,10 @@ public class PanelCombo2 extends JPanel implements ActionListener
         this.comboBox_Cursada.addActionListener(this);
     }
 
-    private void verificar_enabled()
+    protected void notificarListener(String s)
     {
-        this.valida = (this.asignatura_seleccionada != null && this.cursada_seleccionada != null);
-        this.actionLister.actionPerformed(new ActionEvent(this, 0, PanelCombo2.CAMBIOS_PANEL_COMBO));
+
+        this.actionLister.actionPerformed(new ActionEvent(this, 0,s));
     }
 
 
@@ -243,24 +244,11 @@ public class PanelCombo2 extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         if (e.getActionCommand().equals(PanelCombo2.ACCION_ASIGNATURA))
-        {
-
-            if (this.comboBox_Asignatura.getSelectedItem() != null)
-            {
-                this.asignatura_seleccionada = (Asignatura) this.comboBox_Asignatura.getSelectedItem();
-                this.cursada_seleccionada = null;
-                this.actualizar_combo_cursadas();
-            }
-
-        }
-        if (e.getActionCommand().equals(PanelCombo2.ACCION_CURSADA))
-        {
-            if (this.comboBox_Cursada.getSelectedItem() != null)
-            {
-                this.cursada_seleccionada = (Cursada) this.comboBox_Cursada.getSelectedItem();
-            }
-        }
-        this.verificar_enabled();
+        
+            this.actualizar_combo_cursadas();
+      
+        this.actualizaSeleccionados();
+        this.notificarListener( PanelCombo2.CAMBIOS_PANEL_COMBO2);
     }
 
 
@@ -274,20 +262,23 @@ public class PanelCombo2 extends JPanel implements ActionListener
         return asignatura_seleccionada;
     }
 
-    public boolean isValida()
-    {
-        return valida;
-    }
 
     @Override
     public void setEnabled(boolean valor)
     {
         super.setEnabled(valor);
-        
+
         this.comboBox_Asignatura.setEnabled(valor);
         this.comboBox_Cursada.setEnabled(valor);
         this.label_Asignatura.setEnabled(valor);
         this.label_Cursada.setEnabled(valor);
-        
     }
+    protected void actualizaSeleccionados()
+    {
+            
+                this.asignatura_seleccionada = (Asignatura) this.comboBox_Asignatura.getSelectedItem();
+            this.cursada_seleccionada = (Cursada) this.comboBox_Cursada.getSelectedItem();
+        
+        }
+    
 }

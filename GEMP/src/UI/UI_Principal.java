@@ -173,7 +173,7 @@ public class UI_Principal extends javax.swing.JFrame
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Op. √?rboles");
+        jMenu4.setText("Op. √Årboles");
 
         jMenuItem6.setText("Promedio");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener()
@@ -243,9 +243,14 @@ public class UI_Principal extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        UI_Correccion ui_correccion = new UI_Correccion(modelo);
+Correccion_Ventana v=new Correccion_Ventana(modelo);
+        this.agregaVentana(v);
+/*Ventana ventana=new Ventana(modelo);
+        this.agregaVentana(ventana);
+*/
+/*        UI_Correccion ui_correccion = new UI_Correccion(modelo);
         this.agregaVentana(ui_correccion);
-
+*/
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 

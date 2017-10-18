@@ -151,7 +151,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
 
     private void agregaBotonMaximizar()
     {
-        this.jbMaximizar = new JButton("Maximizar Ã?rbol");
+        this.jbMaximizar = new JButton("Maximizar Ã¡rbol");
         jbMaximizar.addActionListener(this.actionListener);
         jbMaximizar.setActionCommand(Parcial_Panel_Arbol.MAXIMIZAR);
         this.panelSur.add(jbMaximizar);
