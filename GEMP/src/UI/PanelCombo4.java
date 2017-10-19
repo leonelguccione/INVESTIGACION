@@ -24,7 +24,7 @@ public class PanelCombo4 extends PanelCombo3
     private JPanel panel_Combo_Instancia;
     private JComboBox comboBox_Instancia;
     protected DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstancia;
-    private Instancia_Evaluacion instancia_seleccionada;
+ 
     private static final String ACCION_INSTANCIA = "ACCION_INSTANCIA";
     public static final String CAMBIOS_PANEL_COMBO4 = "CAMBIOS_PANEL_COMBO4";
 
@@ -36,7 +36,7 @@ public class PanelCombo4 extends PanelCombo3
 
     public Instancia_Evaluacion getInstancia_seleccionada()
     {
-        return instancia_seleccionada;
+        return (Instancia_Evaluacion) this.comboBoxModelInstancia.getSelectedItem();
     }
 
     @Override
@@ -114,7 +114,6 @@ public class PanelCombo4 extends PanelCombo3
             this.actualizar_combo_instancias();
         }
 
-        this.actualizaSeleccionados();
 
         this.notificarListener(PanelCombo4.CAMBIOS_PANEL_COMBO4);
         
@@ -144,12 +143,6 @@ public class PanelCombo4 extends PanelCombo3
 
     }
 
-    @Override
-    protected void actualizaSeleccionados()
-    {
-        // TODO Implement this method
-        super.actualizaSeleccionados();
-        this.instancia_seleccionada = (Instancia_Evaluacion) this.comboBox_Instancia.getSelectedItem();
-    }
+  
 
 }

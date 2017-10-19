@@ -39,8 +39,7 @@ public class PanelCombo2 extends JPanel implements ActionListener
     protected DefaultComboBoxModel<Asignatura> comboBoxModelAsignatura = new DefaultComboBoxModel<Asignatura>();
     protected DefaultComboBoxModel<Cursada> comboBoxModelCursada = new DefaultComboBoxModel<Cursada>();
 
-    protected Cursada cursada_seleccionada = null;
-    protected Asignatura asignatura_seleccionada = null;
+  
 
 
     protected static final String ACCION_ASIGNATURA = "ACCION_ASIGNATURA";
@@ -214,11 +213,11 @@ public class PanelCombo2 extends JPanel implements ActionListener
 
         this.comboBoxModelCursada.removeAllElements();
         ArrayList<Cursada> cursadas;
-        if (this.asignatura_seleccionada != null)
+        if (this.getAsignatura_seleccionada() != null)
 
         {
 
-            cursadas = this.asignatura_seleccionada.getCursadas();
+            cursadas = this.getAsignatura_seleccionada().getCursadas();
             for (int i = 0; i < cursadas.size(); i++)
                 this.comboBoxModelCursada.addElement(cursadas.get(i));
 
@@ -247,19 +246,21 @@ public class PanelCombo2 extends JPanel implements ActionListener
         
             this.actualizar_combo_cursadas();
       
-        this.actualizaSeleccionados();
+        
         this.notificarListener( PanelCombo2.CAMBIOS_PANEL_COMBO2);
     }
 
 
     public Cursada getCursada_seleccionada()
     {
-        return cursada_seleccionada;
+        return (Cursada) this.comboBox_Cursada.getSelectedItem();
+           
     }
 
     public Asignatura getAsignatura_seleccionada()
     {
-        return asignatura_seleccionada;
+        return (Asignatura) this.comboBox_Asignatura.getSelectedItem();
+        
     }
 
 
@@ -273,12 +274,5 @@ public class PanelCombo2 extends JPanel implements ActionListener
         this.label_Asignatura.setEnabled(valor);
         this.label_Cursada.setEnabled(valor);
     }
-    protected void actualizaSeleccionados()
-    {
-            
-                this.asignatura_seleccionada = (Asignatura) this.comboBox_Asignatura.getSelectedItem();
-            this.cursada_seleccionada = (Cursada) this.comboBox_Cursada.getSelectedItem();
-        
-        }
     
 }
