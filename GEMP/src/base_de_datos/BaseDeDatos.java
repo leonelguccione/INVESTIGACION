@@ -31,18 +31,18 @@ public class BaseDeDatos
     Statement sentencia;
     ResultSet resultado;
 
-    public BaseDeDatos() throws SQLException
+    public BaseDeDatos(String servidor, String user, String password) throws SQLException
     {
         super();
-        inic();
+        inic(servidor, user,password);
     }
 
-    void inic() throws SQLException
+    void inic(String servidor, String user, String password) throws SQLException
     {
         System.out.println("Iniciando programa.");
 
         // Se carga el driver JDBC-ODBC
-        try
+        /*  try
         {
             Class.forName("com.mysql.jdbc.Driver");
         }
@@ -66,7 +66,32 @@ public class BaseDeDatos
           
             System.out.println(e);
             
+        } */
+        try
+               {
+                   Class.forName("com.mysql.jdbc.Driver");
+               }
+               catch (ClassNotFoundException e)
+               {
+                   System.out.println("No se pudo cargar el puente JDBC-ODBC.");
+                   return;
+               }
+        try
+        {
+            // Se establece la conexión con la base de datos
+            
+            conexion = DriverManager.getConnection(servidor, user,password);
         }
+        catch (SQLException e)
+        {
+           
+                
+             
+          
+            System.out.println(e.getMessage());
+            
+        } 
+        
         System.out.println("Creación finalizada.");
     }
 

@@ -29,7 +29,7 @@ public class UI_Principal extends javax.swing.JFrame
         } catch (SQLException e)
         {
             JOptionPane.showMessageDialog(this, e.getMessage());
-           System.exit(1);
+            System.exit(1);
         }
 
 
@@ -227,7 +227,7 @@ public class UI_Principal extends javax.swing.JFrame
         /* UI_Parcial ui_par = new UI_Parcial(modelo);
         this.jPanel_ppal.add(ui_par);
         this.agregaVentana(ui_par); */
-        Parcial_Ventana vp= new Parcial_Ventana(this.modelo);
+        Parcial_Ventana vp = new Parcial_Ventana(this.modelo);
         this.jPanel_ppal.add(vp);
         this.agregaVentana(vp);
             
@@ -243,14 +243,12 @@ public class UI_Principal extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-Correccion_Ventana v=new Correccion_Ventana(modelo);
+        /*Correccion_Ventana v = new Correccion_Ventana(modelo);
         this.agregaVentana(v);
-/*Ventana ventana=new Ventana(modelo);
-        this.agregaVentana(ventana);
 */
-/*        UI_Correccion ui_correccion = new UI_Correccion(modelo);
+          UI_Correccion ui_correccion = new UI_Correccion(modelo);
         this.agregaVentana(ui_correccion);
-*/
+
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 

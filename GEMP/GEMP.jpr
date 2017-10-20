@@ -86,6 +86,101 @@
    </hash>
    <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
       <hash n="profileDefinitions">
+         <hash n="archive1">
+            <hash n="archiveOptions">
+               <value n="hasManifest" v="true"/>
+               <value n="mainClass" v="UI.UI_Principal"/>
+            </hash>
+            <hash n="dependencies">
+               <list n="dependencyList"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                        <hash>
+                           <url n="location" path="mysql-connector-java-5.1.40-bin.jar" jar-entry=""/>
+                           <value n="type" v="1"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                              <value n="type" v="0"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/archive1.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="archive1"/>
+         </hash>
+         <hash n="archive2">
+            <hash n="archiveOptions">
+               <value n="hasManifest" v="true"/>
+               <value n="mainClass" v="UI.UI_Principal"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="hola.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="pepito.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="screenshot.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="una captura de prueba.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="zx.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="**"/>
+                              <value n="type" v="0"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/archive2.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="archive2"/>
+         </hash>
          <hash n="Archivo">
             <hash n="archiveOptions">
                <list n="additionalManifests">
@@ -143,6 +238,11 @@
                      <url n="ownerURL" path="ProyectoEvaluadorLogicaDifusa.jpr"/>
                      <url n="sourceURL" path="mysql-connector-java-5.1.40-bin.jar"/>
                   </hash>
+                  <hash>
+                     <value n="adapterClass" v="oracle.jdevimpl.deploy.common.DataContainerNodeDependable"/>
+                     <url n="ownerURL" path="GEMP.jpr"/>
+                     <url n="sourceURL" path="mysql-connector-java-5.1.40-bin.jar"/>
+                  </hash>
                </list>
             </hash>
             <hash n="fileGroups">
@@ -160,6 +260,26 @@
                      <hash n="filters">
                         <list n="rules">
                            <hash>
+                              <value n="pattern" v="zx.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="una captura de prueba.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="screenshot.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="pepito.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="pattern" v="hola.png"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
                               <value n="pattern" v="**"/>
                               <value n="type" v="0"/>
                            </hash>
@@ -171,13 +291,20 @@
                </list>
             </hash>
             <url n="jarURL" path="deploy/Modelo_Del_Estudiante.jar"/>
+            <hash n="libraryDependencies">
+               <list n="unselectedLibraries">
+                  <string v="JTreeVisual.jar"/>
+               </list>
+            </hash>
             <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
             <value n="profileName" v="Modelo_Del_Estudiante"/>
          </hash>
       </hash>
       <list n="profileList">
-         <string v="Modelo_Del_Estudiante"/>
+         <string v="archive1"/>
+         <string v="archive2"/>
          <string v="Archivo"/>
+         <string v="Modelo_Del_Estudiante"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
@@ -225,7 +352,7 @@
          <list n="libraryDefinitions">
             <hash>
                <list n="classPath">
-                  <url path="mysql-connector-java-5.1.40-bin.jar" jar-entry=""/>
+                  <url path="lib/mysql-connector-java-5.1.40-bin.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Mysql-connector-java-5.1.40-bin.jar"/>
