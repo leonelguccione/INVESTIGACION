@@ -18,7 +18,6 @@ import modelo.Alumno;
 import modelo.ArbolPerturbacion;
 
 
-
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Examen;
@@ -27,19 +26,27 @@ import modelo.Parcial;
 
 public class BaseDeDatos
 {
-    Connection conexion;
-    Statement sentencia;
-    ResultSet resultado;
+    private Connection conexion;
+    private Statement sentencia;
+    private String url;
+    private String user;
+    private String password;
+    private String nombreDB;
 
-    public BaseDeDatos(String servidor, String user, String password) throws SQLException
+
+    public BaseDeDatos(String url, String nombreDB, String user, String password) throws SQLException
     {
         super();
-        inic(servidor, user,password);
+        this.url = url;
+        this.user = user;
+        this.password = password;
+        this.nombreDB = nombreDB;
+        init();
     }
 
-    void inic(String servidor, String user, String password) throws SQLException
+    private void init() throws SQLException
     {
-        System.out.println("Iniciando programa.");
+
 
         // Se carga el driver JDBC-ODBC
         /*  try
@@ -59,42 +66,46 @@ public class BaseDeDatos
         }
         catch (SQLException e)
         {
-           
+
                 // Se establece la conexión con la base de datos
                 conexion =
                     DriverManager.getConnection("jdbc:mysql://localhost:3306/modelo_del_estudiante", "root", "leonel");
-          
+
             System.out.println(e);
-            
+
         } */
         try
-               {
-                   Class.forName("com.mysql.jdbc.Driver");
-               }
-               catch (ClassNotFoundException e)
-               {
-                   System.out.println("No se pudo cargar el puente JDBC-ODBC.");
-                   return;
-               }
-        try
         {
-            // Se establece la conexión con la base de datos
-            
-            conexion = DriverManager.getConnection(servidor, user,password);
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e)
+        {
+            System.out.println("No se pudo cargar el puente JDBC-ODBC.");
+            return;
         }
-        catch (SQLException e)
-        {
-           
-                
-             
-          
-            System.out.println(e.getMessage());
-            
-        } 
-        
-        System.out.println("Creación finalizada.");
+        this.conectar();
+
+
     }
 
+
+    public void verificaConexion(int timeout) throws SQLException
+    {
+
+        if (!this.conexion.isValid(timeout))
+            this.conectar();
+
+
+    }
+
+    public void conectar() throws SQLException
+    {
+        System.out.println("Iniciando conexion.");
+        String urlynombre = this.url + "/" + this.nombreDB;
+        conexion = DriverManager.getConnection(urlynombre, this.user, this.password);
+        conexion.setAutoCommit(true);
+        System.out.println("Conexion establecida.");
+
+    }
 
     private ArbolPerturbacion blobToArbol(Blob unBlob) throws SQLException
     {
@@ -110,8 +121,8 @@ public class BaseDeDatos
 
     public void borrar_arbol_perturbacion(ArbolPerturbacion arbol) throws SQLException
     {
+        this.verificaConexion(5000);
         PreparedStatement borrar;
-
         borrar = conexion.prepareStatement("DELETE FROM ARBOL where nombre = ?");
         borrar.setString(1, arbol.getNombre());
         borrar.executeUpdate();
@@ -120,6 +131,7 @@ public class BaseDeDatos
 
     public void almacenar_asignatura_nueva(Asignatura asignatura) throws SQLException
     {
+        this.verificaConexion(5000);
         String codigo_asignatura = asignatura.getCodigo();
         String nombre_asignatura = asignatura.getNombre();
         ArbolPerturbacion arbol_dominio = asignatura.getArbol_dominio();
@@ -128,8 +140,7 @@ public class BaseDeDatos
         {
             byte[] arbol_dominio_serializado = arbol_dominio.serializar();
             blob_arbol_dominio_serializado = new javax.sql.rowset.serial.SerialBlob(arbol_dominio_serializado);
-        }
-        else
+        } else
             blob_arbol_dominio_serializado = null;
 
         PreparedStatement agregar =
@@ -143,6 +154,7 @@ public class BaseDeDatos
     //TODO: mejorar esto. Podría traer problemas si cada asignatura tuviera un identificador automático
     public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
     {
+        this.verificaConexion(5000);
         String codigo_asignatura = asignatura_en_uso.getCodigo();
         String nombre_asignatura = asignatura_en_uso.getNombre();
         ArbolPerturbacion arbol_dominio = asignatura_en_uso.getArbol_dominio();
@@ -158,15 +170,17 @@ public class BaseDeDatos
         agregar.setBlob(3, blob_arbol_dominio_serializado);
         agregar.executeUpdate();
     }
-    
-    
+
+
     /////
-    
-    public void ACTUALIZAR________(Asignatura asignatura_en_uso,ArbolPerturbacion nuevoArbol) throws SerialException, SQLException
+
+    public void ACTUALIZAR________(Asignatura asignatura_en_uso, ArbolPerturbacion nuevoArbol) throws SerialException,
+                                                                                                      SQLException
     {
+        this.verificaConexion(5000);
         String codigo_asignatura = asignatura_en_uso.getCodigo();
         String nombre_asignatura = asignatura_en_uso.getNombre();
-        
+
         byte[] arbol_dominio_serializado = nuevoArbol.serializar();
         Statement stmt;
         //borro arbol vacío, que se grabó para verlo en la lista de arboles
@@ -179,13 +193,11 @@ public class BaseDeDatos
         agregar.setBlob(3, blob_arbol_dominio_serializado);
         agregar.executeUpdate();
     }
-    
-    
-    
-    
+
 
     public void borrar_asignatura(Asignatura asignatura) throws SQLException
     {
+        this.verificaConexion(5000);
         PreparedStatement borrar;
         borrar = conexion.prepareStatement("DELETE FROM asignaturas WHERE codigo = ?");
         borrar.setString(1, asignatura.getCodigo());
@@ -195,6 +207,7 @@ public class BaseDeDatos
 
     public Iterator recuperar_asignaturas() throws SQLException
     {
+        this.verificaConexion(5000);
         Statement sentencia;
         ArrayList<Asignatura> listado_asignaturas = new ArrayList<Asignatura>();
 
@@ -236,6 +249,7 @@ public class BaseDeDatos
 
     public void almacenar_alumno(Alumno alumno) throws SQLException
     {
+        this.verificaConexion(5000);
         String nombre = alumno.getNombre();
         String apellido = alumno.getApellido();
         long dni = alumno.getDni();
@@ -252,7 +266,7 @@ public class BaseDeDatos
 
     public void borrar_alumno(Alumno alumno) throws SQLException
     {
-
+        this.verificaConexion(5000);
         PreparedStatement borrar = conexion.prepareStatement("DELETE FROM alumnos WHERE dni = ?");
         borrar.setLong(1, alumno.getDni());
         borrar.executeUpdate();
@@ -261,6 +275,7 @@ public class BaseDeDatos
 
     public void modificar_alumno(Alumno alumno) throws SQLException
     {
+        this.verificaConexion(5000);
         String nombre = alumno.getNombre();
         String apellido = alumno.getApellido();
         long dni = alumno.getDni();
@@ -278,6 +293,7 @@ public class BaseDeDatos
 
     public Iterator recuperar_alumnos() throws SQLException
     {
+        this.verificaConexion(5000);
         Statement sentencia;
         ArrayList<Alumno> listado_alumnos = new ArrayList<Alumno>();
         long dni, legajo;
@@ -301,6 +317,7 @@ public class BaseDeDatos
 
     public void almacenar_evaluacion(Parcial parcial, Instancia_Evaluacion ev) throws SQLException
     {
+        this.verificaConexion(5000);
         Date fecha = ev.getFecha();
         String descripcion = ev.getDescripcion();
         int id_parcial = parcial.getId();
@@ -319,11 +336,15 @@ public class BaseDeDatos
 
         for (int i = 0; i < examenes.size(); i++)
         {
-            byte[] arbol_particular_serializado = examenes.get(i).getArbol_podado_particular().serializar();
+            byte[] arbol_particular_serializado = examenes.get(i)
+                                                          .getArbol_podado_particular()
+                                                          .serializar();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(arbol_particular_serializado);
             agregar =
                 conexion.prepareStatement("INSERT INTO examenes (dni_alumno,id_instancia_ev,arbol_particular) VALUES (?,?,?)");
-            agregar.setLong(1, examenes.get(i).getAlumno().getDni());
+            agregar.setLong(1, examenes.get(i)
+                                       .getAlumno()
+                                       .getDni());
             agregar.setInt(2, id_autoincrement);
             agregar.setBlob(3, blob);
             agregar.executeUpdate();
@@ -333,11 +354,13 @@ public class BaseDeDatos
 
     public int recupera_proxima_evaluacion() throws SQLException
     {
+        this.verificaConexion(5000);
         int id_autoincrement = 0;
 
         sentencia = conexion.createStatement();
+        String cadenaSQL="SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '"+this.nombreDB+"' AND TABLE_NAME = 'instancias_evaluaciones'";
         ResultSet resultado =
-            sentencia.executeQuery("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'modelo_del_estudiante' AND TABLE_NAME = 'instancias_evaluaciones'");
+            sentencia.executeQuery(cadenaSQL);
         resultado.next();
         id_autoincrement = resultado.getInt("auto_increment");
 
@@ -349,6 +372,7 @@ public class BaseDeDatos
 
     public void almacenar_cursada(Asignatura asignatura, Cursada cur) throws SQLException
     {
+        this.verificaConexion(5000);
         //   String asignatura = cur.getAsignatura();
         String codigo_asignatura = asignatura.getCodigo();
         int anio = cur.getAnio_fecha();
@@ -356,8 +380,9 @@ public class BaseDeDatos
         int id_autoincrement = 0;
         //Recupero el valor del proximo id autoincremental
         sentencia = conexion.createStatement();
+        String cadenaSQL="SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '"+this.nombreDB+"' AND TABLE_NAME = 'cursadas'";
         ResultSet resultado =
-            sentencia.executeQuery("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'modelo_del_estudiante' AND TABLE_NAME = 'cursadas'");
+            sentencia.executeQuery(cadenaSQL);
         resultado.next();
         id_autoincrement = resultado.getInt("auto_increment");
 
@@ -381,7 +406,9 @@ public class BaseDeDatos
                 agregar =
                     conexion.prepareStatement("INSERT INTO aux_cursada_alumno (dni_alumno,id_cursada) VALUES (?,?)");
 
-                agregar.setLong(1, cur.getAlumnos().get(i).getDni());
+                agregar.setLong(1, cur.getAlumnos()
+                                      .get(i)
+                                      .getDni());
                 agregar.setInt(2, id_autoincrement);
                 agregar.executeUpdate();
             }
@@ -393,6 +420,7 @@ public class BaseDeDatos
 
     public void actualizar_examen(Examen examen) throws SQLException
     {
+        this.verificaConexion(5000);
         byte[] arbol_serializado = examen.getArbol_podado_particular().serializar();
         Blob blob;
         PreparedStatement agregar;
@@ -406,6 +434,7 @@ public class BaseDeDatos
 
     public Iterator recuperar_cursadas(Asignatura asignatura) throws SQLException
     {
+        this.verificaConexion(5000);
         Statement sentencia;
         ArrayList<Cursada> listado_cursadas = new ArrayList<Cursada>();
         int id, anio, cuatrimestre;
@@ -432,6 +461,7 @@ public class BaseDeDatos
 
     public ArrayList<Long> recupera_DNI_Alumnos_Cursada(Cursada cursada) throws SQLException
     {
+        this.verificaConexion(5000);
         ArrayList<Long> listado_dni = new ArrayList<Long>();
         int id = cursada.getId();
         long dni, legajo;
@@ -449,6 +479,7 @@ public class BaseDeDatos
 
     public void borrar_cursada(Cursada cur) throws SQLException
     {
+        this.verificaConexion(5000);
         int id = cur.getId();
 
         PreparedStatement borrar = conexion.prepareStatement("DELETE FROM cursadas WHERE ID = ?");
@@ -464,6 +495,7 @@ public class BaseDeDatos
 
     public void borrar_evaluacion(int id_evaluacion) throws SQLException
     {
+        this.verificaConexion(5000);
         PreparedStatement borrar;
 
         borrar = conexion.prepareStatement("DELETE FROM evaluaciones where id_evaluacion = ?");
@@ -474,6 +506,7 @@ public class BaseDeDatos
 
     public Iterator recuperar_evaluaciones(Parcial parcial) throws SQLException
     {
+        this.verificaConexion(5000);
         Statement sentencia;
         ArrayList<Instancia_Evaluacion> listado_evaluaciones = new ArrayList<Instancia_Evaluacion>();
         int id_evaluacion;
@@ -504,6 +537,7 @@ public class BaseDeDatos
 
     private ArrayList<Examen> recuperaExamenes(int id) throws SQLException
     {
+        this.verificaConexion(5000);
         ArrayList<Examen> listado_examenes = new ArrayList<Examen>();
         long dni;
         int id_examen;
@@ -529,6 +563,7 @@ public class BaseDeDatos
 
     public void almacenar_Parcial(Cursada cur, Parcial parcial) throws SQLException
     {
+        this.verificaConexion(5000);
         int id_cursada = cur.getId();
 
         String nombre_parcial = parcial.getNombre();
@@ -552,6 +587,7 @@ public class BaseDeDatos
 
     public Iterator recuperar_parciales(Cursada cursada) throws SQLException
     {
+        this.verificaConexion(5000);
         int id_cursada = cursada.getId();
         Statement sentencia;
         Parcial parcial_actual;
@@ -590,6 +626,7 @@ public class BaseDeDatos
 
     public void borrar_parcial(Parcial parcial) throws SQLException
     {
+        this.verificaConexion(5000);
         PreparedStatement borrar;
 
         borrar = conexion.prepareStatement("DELETE FROM parciales where id = ?");

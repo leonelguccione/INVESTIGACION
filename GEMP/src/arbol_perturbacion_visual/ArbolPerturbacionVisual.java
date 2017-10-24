@@ -182,6 +182,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         // TODO Implement this method
         super.setModel(arbol);
         this.verificaOcultos();
+        this.recalcular();
     }
 
 

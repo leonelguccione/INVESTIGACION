@@ -243,12 +243,12 @@ public class UI_Principal extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        /*Correccion_Ventana v = new Correccion_Ventana(modelo);
+        Correccion_Ventana v = new Correccion_Ventana(modelo);
         this.agregaVentana(v);
-*/
-          UI_Correccion ui_correccion = new UI_Correccion(modelo);
-        this.agregaVentana(ui_correccion);
 
+/*             UI_Correccion ui_correccion = new UI_Correccion(modelo);
+        this.agregaVentana(ui_correccion); 
+*/
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -293,7 +293,7 @@ public class UI_Principal extends javax.swing.JFrame
             java.util.logging.Logger.getLogger(UI_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                  ex);
         }
-        //</editor-fold>
+      
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()

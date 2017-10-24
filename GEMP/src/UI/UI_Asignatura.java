@@ -145,9 +145,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
     private void bt_nuevo_nodoActionPerformed()
     {
-        String id_nuevo_nodo = jTextField_nuevo.getText().trim();
         NodoPerturbacion nodo_seleccionado_padre = (NodoPerturbacion) this.jtree_arbol.getNodoSeleccionado();
-        String idNodo_padre = nodo_seleccionado_padre.getIdDato();
         this.arbol_auxiliar.agregarNodo(nodo_seleccionado_padre, this.jTextField_nuevo
                                                                      .getText()
                                                                      .trim());

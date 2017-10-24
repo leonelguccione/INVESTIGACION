@@ -65,7 +65,6 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
 
     public ArbolPerturbacion getArbol()
     {
-
         return arbol;
     }
 
@@ -118,8 +117,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
                                                                    .BevelBorder
                                                                    .RAISED));
         this.setModoEdicion(false);
-        this.jtree_arbol_visual.setInheritsPopupMenu(true);
-
+      
 
     }
 

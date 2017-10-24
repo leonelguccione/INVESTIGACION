@@ -17,13 +17,15 @@ import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
+import javax.swing.JTextField;
+
 import modelo.Asignatura;
 import modelo.Cursada;
 import modelo.Instancia_Evaluacion;
 import modelo.Modelo;
 import modelo.Parcial;
 
-public class PanelComboBox extends JPanel
+public class Correccion_Panel_Valores extends JPanel
 {
     private JPanel panel;
     private JPanel panel_1;
@@ -35,36 +37,42 @@ public class PanelComboBox extends JPanel
     private JLabel label_1;
     private JPanel panel_5;
     private JLabel label_2;
-    private JComboBox comboBox_Parcial;
+    private JTextField desconocido=new JTextField();
+    private JTextField parcialmente=new JTextField();;
+    private JTextField conocido=new JTextField();;
+    private JTextField aprendido=new JTextField();;
+    
+   
     private JPanel panel_6;
     private JPanel panel_7;
-    private JComboBox comboBox_Instancia;
+   
     private JPanel panel_8;
-    private JComboBox comboBox_Asignatura;
-    private JPanel panel_9;
-    private JComboBox comboBox_Cursada;
-    private Modelo modelo;
-
-    private DefaultComboBoxModel<Asignatura> comboBoxModelAsignatura = new DefaultComboBoxModel<Asignatura>();
-    private DefaultComboBoxModel<Cursada> comboBoxModelCursada = new DefaultComboBoxModel<Cursada>();
-    private DefaultComboBoxModel<Parcial> comboBoxModelParciales = new DefaultComboBoxModel<Parcial>();
-    private DefaultComboBoxModel<Instancia_Evaluacion> comboBoxModelInstEvaluacion =
-        new DefaultComboBoxModel<Instancia_Evaluacion>();
-    private Cursada cursada_seleccionada;
-    private Asignatura asignatura_seleccionada;
-    private Parcial parcial_seleccionado;
     
+    private JPanel panel_9;
+  
+
+
 
 
     /**
      * Create the panel.
      */
-    public PanelComboBox(Modelo modelo)
+    public Correccion_Panel_Valores()
+    {
+        this.iniciaGeometria();
+
+
+     
+
+    }
+
+
+    private void iniciaGeometria()
     {
 
-
-        this.modelo = modelo;
+        
         this.panel = new JPanel();
+        
 
         this.panel_1 = new JPanel();
         GroupLayout groupLayout = new GroupLayout(this);
@@ -97,19 +105,19 @@ public class PanelComboBox extends JPanel
         this.panel_8 = new JPanel();
         this.panel_1.add(this.panel_8);
 
-        this.comboBox_Asignatura = new JComboBox();
+        
         GroupLayout gl_panel_8 = new GroupLayout(this.panel_8);
         gl_panel_8.setHorizontalGroup(gl_panel_8.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_8.createSequentialGroup()
                                                                                                            .addContainerGap()
-                                                                                                           .addComponent(this.comboBox_Asignatura,
+                                                                                                           .addComponent(this.desconocido,
                                                                                                                          0,
                                                                                                                          299, Short.MAX_VALUE)
                                                           .addContainerGap()));
         gl_panel_8.setVerticalGroup(gl_panel_8.createParallelGroup(Alignment.LEADING)
                                     .addGroup(gl_panel_8.createSequentialGroup()
                                                                                                          .addGap(5)
-                                                                                                         .addComponent(this.comboBox_Asignatura,
+                                                                                                         .addComponent(this.desconocido,
                                                                                                                        GroupLayout.PREFERRED_SIZE,
                                                                                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addContainerGap(50, Short.MAX_VALUE)));
@@ -118,19 +126,19 @@ public class PanelComboBox extends JPanel
         this.panel_9 = new JPanel();
         this.panel_1.add(this.panel_9);
 
-        this.comboBox_Cursada = new JComboBox();
+        
         GroupLayout gl_panel_9 = new GroupLayout(this.panel_9);
         gl_panel_9.setHorizontalGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_9.createSequentialGroup()
                                                                                                            .addContainerGap()
-                                                                                                           .addComponent(this.comboBox_Cursada,
+                                                                                                           .addComponent(this.parcialmente,
                                                                                                                          0,
                                                                                                                          299, Short.MAX_VALUE)
                                                           .addContainerGap()));
         gl_panel_9.setVerticalGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
                                     .addGroup(gl_panel_9.createSequentialGroup()
                                                                                                          .addGap(5)
-                                                                                                         .addComponent(this.comboBox_Cursada,
+                                                                                                         .addComponent(this.parcialmente,
                                                                                                                        GroupLayout.PREFERRED_SIZE,
                                                                                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addContainerGap(50, Short.MAX_VALUE)));
@@ -139,19 +147,19 @@ public class PanelComboBox extends JPanel
         this.panel_6 = new JPanel();
         this.panel_1.add(this.panel_6);
 
-        this.comboBox_Parcial = new JComboBox();
+
         GroupLayout gl_panel_6 = new GroupLayout(this.panel_6);
         gl_panel_6.setHorizontalGroup(gl_panel_6.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_6.createSequentialGroup()
                                                                                                            .addContainerGap()
-                                                                                                           .addComponent(this.comboBox_Parcial,
+                                                                                                           .addComponent(this.conocido,
                                                                                                                          0,
                                                                                                                          299, Short.MAX_VALUE)
                                                           .addContainerGap()));
         gl_panel_6.setVerticalGroup(gl_panel_6.createParallelGroup(Alignment.LEADING)
                                     .addGroup(gl_panel_6.createSequentialGroup()
                                                                                                          .addGap(5)
-                                                                                                         .addComponent(this.comboBox_Parcial,
+                                                                                                         .addComponent(this.conocido,
                                                                                                                        GroupLayout.PREFERRED_SIZE,
                                                                                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addContainerGap(50, Short.MAX_VALUE)));
@@ -160,19 +168,19 @@ public class PanelComboBox extends JPanel
         this.panel_7 = new JPanel();
         this.panel_1.add(this.panel_7);
 
-        this.comboBox_Instancia = new JComboBox();
+        
         GroupLayout gl_panel_7 = new GroupLayout(this.panel_7);
         gl_panel_7.setHorizontalGroup(gl_panel_7.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_7.createSequentialGroup()
                                                                                                            .addContainerGap()
-                                                                                                           .addComponent(this.comboBox_Instancia,
+                                                                                                           .addComponent(this.aprendido,
                                                                                                                          0,
                                                                                                                          299, Short.MAX_VALUE)
                                                           .addContainerGap()));
         gl_panel_7.setVerticalGroup(gl_panel_7.createParallelGroup(Alignment.LEADING)
                                     .addGroup(gl_panel_7.createSequentialGroup()
                                                                                                          .addGap(5)
-                                                                                                         .addComponent(this.comboBox_Instancia,
+                                                                                                         .addComponent(this.aprendido,
                                                                                                                        GroupLayout.PREFERRED_SIZE,
                                                                                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addContainerGap(50, Short.MAX_VALUE)));
@@ -182,7 +190,7 @@ public class PanelComboBox extends JPanel
         this.panel_4 = new JPanel();
         this.panel.add(this.panel_4);
 
-        this.label_1 = new JLabel("Asignatura:");
+        this.label_1 = new JLabel("Desconocido:");
         GroupLayout gl_panel_4 = new GroupLayout(this.panel_4);
         gl_panel_4.setHorizontalGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_4.createSequentialGroup()
@@ -201,7 +209,7 @@ public class PanelComboBox extends JPanel
         this.panel_5 = new JPanel();
         this.panel.add(this.panel_5);
 
-        this.label_2 = new JLabel("Cursada:");
+        this.label_2 = new JLabel("Parcialmente Conocido:");
         GroupLayout gl_panel_5 = new GroupLayout(this.panel_5);
         gl_panel_5.setHorizontalGroup(gl_panel_5.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_5.createSequentialGroup()
@@ -220,7 +228,7 @@ public class PanelComboBox extends JPanel
         this.panel_3 = new JPanel();
         this.panel.add(this.panel_3);
 
-        this.label = new JLabel("Parcial:");
+        this.label = new JLabel("Conocido:");
         GroupLayout gl_panel_3 = new GroupLayout(this.panel_3);
         gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_3.createSequentialGroup()
@@ -239,7 +247,7 @@ public class PanelComboBox extends JPanel
         this.panel_2 = new JPanel();
         this.panel.add(this.panel_2);
 
-        this.lblAsignatura = new JLabel("Instancia Ev.:");
+        this.lblAsignatura = new JLabel("Aprendido:");
         GroupLayout gl_panel_2 = new GroupLayout(this.panel_2);
         gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_2.createSequentialGroup()
@@ -255,81 +263,5 @@ public class PanelComboBox extends JPanel
                                                                                                                           Short.MAX_VALUE)));
         this.panel_2.setLayout(gl_panel_2);
         setLayout(groupLayout);
-        this.comboBox_Asignatura.setModel(this.comboBoxModelAsignatura);
-        this.comboBox_Cursada.setModel(comboBoxModelCursada);
-        this.comboBox_Parcial.setModel(comboBoxModelParciales);
-        this.comboBox_Instancia.setModel(comboBoxModelInstEvaluacion);
-this.actualizar_combo_asignatura();
-    }
-    
-    
-    
-    private void actualizar_combo_asignatura()
-    {
-      //  verificar_enabled();
-        this.comboBoxModelAsignatura.removeAllElements();
-        Iterator iterator_asignaturas = modelo.getAsignaturas()
-                                              .values()
-                                              .iterator();
-        //Recorrer el contenido del Iterator
-        while (iterator_asignaturas.hasNext())
-        {
-            Asignatura asignatura = (Asignatura) iterator_asignaturas.next();
-            this.comboBoxModelAsignatura.addElement(asignatura);
-        }
-
-    }
-
-
-    private void actualizar_combo_cursadas()
-    {
-
-        this.comboBoxModelCursada.removeAllElements();
-        ArrayList<Cursada> cursadas;
-        if (this.asignatura_seleccionada != null)
-
-        {
-            verificar_enabled();
-            cursadas = this.asignatura_seleccionada.getCursadas();
-            for (int i = 0; i < cursadas.size(); i++)
-                this.comboBoxModelCursada.addElement(cursadas.get(i));
-
-        }
-    }
-
-
-    private void actualizar_combo_parciales()
-    {
-
-        this.comboBoxModelParciales.removeAllElements();
-        ArrayList<Parcial> parciales;
-        if (this.cursada_seleccionada != null)
-        {
-            verificar_enabled();
-            parciales = this.cursada_seleccionada.getParciales();
-            for (int i = 0; i < parciales.size(); i++)
-                this.comboBoxModelParciales.addElement(parciales.get(i));
-
-        }
-    }
-
-
-    private void actualizar_combo_instancias()
-    {
-
-        this.comboBoxModelInstEvaluacion.removeAllElements();
-        ArrayList<Instancia_Evaluacion> instancias;
-        if (this.parcial_seleccionado != null)
-        {
-            verificar_enabled();
-            instancias = this.parcial_seleccionado.getInstancias_evaluaciones();
-            for (int i = 0; i < instancias.size(); i++)
-                this.comboBoxModelInstEvaluacion.addElement(instancias.get(i));
-        }
-    }
-
-
-    private void verificar_enabled()
-    {
     }
 }
