@@ -37,21 +37,18 @@ public class Correccion_Panel_Valores extends JPanel
     private JLabel label_1;
     private JPanel panel_5;
     private JLabel label_2;
-    private JTextField desconocido=new JTextField();
-    private JTextField parcialmente=new JTextField();;
-    private JTextField conocido=new JTextField();;
-    private JTextField aprendido=new JTextField();;
-    
-   
+    private JTextField desconocido = new JTextField();
+    private JTextField parcialmente = new JTextField(); ;
+    private JTextField conocido = new JTextField(); ;
+    private JTextField aprendido = new JTextField(); ;
+
+
     private JPanel panel_6;
     private JPanel panel_7;
-   
+
     private JPanel panel_8;
-    
+
     private JPanel panel_9;
-  
-
-
 
 
     /**
@@ -62,17 +59,15 @@ public class Correccion_Panel_Valores extends JPanel
         this.iniciaGeometria();
 
 
-     
-
     }
 
 
     private void iniciaGeometria()
     {
 
-        
+
         this.panel = new JPanel();
-        
+
 
         this.panel_1 = new JPanel();
         GroupLayout groupLayout = new GroupLayout(this);
@@ -105,7 +100,7 @@ public class Correccion_Panel_Valores extends JPanel
         this.panel_8 = new JPanel();
         this.panel_1.add(this.panel_8);
 
-        
+
         GroupLayout gl_panel_8 = new GroupLayout(this.panel_8);
         gl_panel_8.setHorizontalGroup(gl_panel_8.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_8.createSequentialGroup()
@@ -126,7 +121,7 @@ public class Correccion_Panel_Valores extends JPanel
         this.panel_9 = new JPanel();
         this.panel_1.add(this.panel_9);
 
-        
+
         GroupLayout gl_panel_9 = new GroupLayout(this.panel_9);
         gl_panel_9.setHorizontalGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_9.createSequentialGroup()
@@ -168,7 +163,7 @@ public class Correccion_Panel_Valores extends JPanel
         this.panel_7 = new JPanel();
         this.panel_1.add(this.panel_7);
 
-        
+
         GroupLayout gl_panel_7 = new GroupLayout(this.panel_7);
         gl_panel_7.setHorizontalGroup(gl_panel_7.createParallelGroup(Alignment.LEADING)
                                       .addGroup(gl_panel_7.createSequentialGroup()

@@ -4,12 +4,14 @@ package UI;
 import Excepciones.RaizNulaException;
 
 import arbol_perturbacion_visual.AEvaluableVisual;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+
 import modelo.ArbolPerturbacion;
 import modelo.EtiquetaBean;
 import modelo.Examen;
@@ -47,7 +50,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
     private final JPanel panel_3 = new JPanel();
     private final JButton btnAceptar = new JButton("Aceptar");
     private final JPanel panel_4 = new JPanel();
-    private final JButton btnMaximizar = new JButton("Maximizar");
+    private JButton btnMaximizar = null;
     private final JPanel panel_5 = new JPanel();
     private final JPanel panel_6 = new JPanel();
     private final JButton btnGuardar = new JButton("Guardar");
@@ -85,11 +88,12 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
             this.setArbol(examen.getArbol_podado_particular());
         else
             this.setArbol(null);
-        
+
         this.chckbxVerNodosOcultos.setEnabled(examen != null);
-        
-        ///VERIFICAR SI EXISTE
-        this.btnMaximizar.setEnabled(examen != null);
+
+        if (this.btnMaximizar != null)
+
+            this.btnMaximizar.setEnabled(examen != null);
     }
 
     private void habilitaDesahabilita(boolean b)
@@ -107,10 +111,12 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
     /**
      * Create the panel.
      */
-    public Correccion_Panel_Arbol(ActionListener padre)
+    public Correccion_Panel_Arbol(ArbolPerturbacion arbol,ActionListener padre, boolean valor)
     {
         this.listener = padre;
-
+        this.setArbol(arbol);
+        if (valor)
+            this.btnMaximizar = new JButton("Maximizar");
         this.iniciaGeometria();
         this.asignaListeners();
 
@@ -176,9 +182,11 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.textFieldConocido.setColumns(10);
 
         this.panelAbajoIzq.add(this.panel_5);
-        this.btnMaximizar.setEnabled(false);
-        this.panel_5.add(this.btnMaximizar);
-
+        if (this.btnMaximizar != null)
+        {
+            this.btnMaximizar.setEnabled(false);
+            this.panel_5.add(this.btnMaximizar);
+        }
         this.panelAbajoIzq.add(this.panel_9);
         this.progressBar.setStringPainted(true);
 
@@ -230,21 +238,23 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
     {
         this.btnAceptar.setActionCommand(Correccion_Panel_Arbol.ACEPTAR);
         this.btnGuardar.setActionCommand(Correccion_Panel_Arbol.GUARDAR);
-        this.btnMaximizar.setActionCommand(Correccion_Panel_Arbol.MAXIMIZAR);
+
         this.chckbxVerNodosOcultos.setActionCommand(Correccion_Panel_Arbol.OCULTAR);
-
-
         this.btnAceptar.addActionListener(this);
         this.btnGuardar.addActionListener(this);
         this.btnGuardar.addActionListener(this.listener);
-        this.btnMaximizar.addActionListener(this);
+
         this.chckbxVerNodosOcultos.addActionListener(this);
         this.textFieldDesconocido.addKeyListener(this);
         this.textFieldParcialmente.addKeyListener(this);
         this.textFieldConocido.addKeyListener(this);
         this.textFieldAprendido.addKeyListener(this);
         this.jtree_arbol_visual.addActionListener(this);
-
+        if (this.btnMaximizar != null)
+        {
+            this.btnMaximizar.setActionCommand(Correccion_Panel_Arbol.MAXIMIZAR);
+            this.btnMaximizar.addActionListener(this.listener);
+        }
 
     }
 
@@ -289,7 +299,8 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
 
         if (arg0.getActionCommand().equals(Correccion_Panel_Arbol.ACEPTAR))
             this.actualizaEtiqueta();
-        if(arg0.getActionCommand().equals(Correccion_Panel_Arbol.OCULTAR))this.jtree_arbol_visual.setMuestraNodosOcultos(this.chckbxVerNodosOcultos.isSelected());
+        if (arg0.getActionCommand().equals(Correccion_Panel_Arbol.OCULTAR))
+            this.jtree_arbol_visual.setMuestraNodosOcultos(this.chckbxVerNodosOcultos.isSelected());
 
 
     }
@@ -325,7 +336,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
 
     }
 
-    private void setArbol(ArbolPerturbacion arbol)
+    public void setArbol(ArbolPerturbacion arbol)
     {
         this.arbol = arbol;
         if (arbol != null)
@@ -336,6 +347,13 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.actualiza_jtree();
 
     }
+
+
+    public ArbolPerturbacion getArbol()
+    {
+        return arbol;
+    }
+
 
     public void verifica_modificado()
     {

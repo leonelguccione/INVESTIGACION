@@ -54,7 +54,7 @@ public class Modelo
 
     public Modelo() throws SQLException
     {
-      // db = new BaseDeDatos("jdbc:mysql://sql10.freemysqlhosting.net:3306","sql10200286","sql10200286","nRQNHLW1uX");
+     //  db = new BaseDeDatos("jdbc:mysql://sql10.freemysqlhosting.net:3306","sql10200286","sql10200286","nRQNHLW1uX");
         db = new BaseDeDatos("jdbc:mysql://localhost","modelo_del_estudiante","root","");
 
 

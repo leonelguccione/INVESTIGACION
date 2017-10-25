@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -45,7 +48,8 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
     private JScrollPane scrollPane;
     private JList jList_examenes;
     private Examen examen_seleccionado = null;
-    //private Parcial_Arbol_Modal ventanaModal = null;
+
+    private Correccion_Arbol_Modal ventanaModal = null;
 
 
     public Correccion_Ventana(Modelo modelo)
@@ -100,7 +104,7 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
                                                                         .addGap(5)));
         this.panel_izquierda.setLayout(gl_panel_izquierda);
 
-        this.panel_derecha = new Correccion_Panel_Arbol(this);
+        this.panel_derecha = new Correccion_Panel_Arbol(null, this, true);
         GroupLayout gl_contentPane = new GroupLayout(this.contentPane);
         gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                           .addGroup(gl_contentPane.createSequentialGroup()
@@ -140,10 +144,11 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
         if (e.getSource() == this.panel_iz_sup)
         {
             this.listModel_examenes.removeAllElements();
-            if (this.panel_derecha != null){
+            if (this.panel_derecha != null)
+            {
                 this.panel_derecha.setExamen(null);
-                    this.panel_derecha.setBorder(new TitledBorder("No hay examen seleccionado"));
-                }
+                this.panel_derecha.setBorder(new TitledBorder("No hay examen seleccionado"));
+            }
 
             if (this.panel_iz_sup != null && this.panel_iz_sup.getInstancia_seleccionada() != null)
             {
@@ -174,14 +179,21 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
                 {
                     JOptionPane.showMessageDialog(this, ee.getMessage());
                 }
-                this.panel_derecha.actualiza_jtree();
 
 
                 try
                 {
                     modelo.getModelo_abm_evaluacion().actualizar_examen(this.examen_seleccionado);
                     this.examen_seleccionado.setModificado(false);
+                    
+                    this.panel_derecha.actualiza_jtree();
                     this.panel_derecha.verifica_modificado();
+                    
+                    
+                    if(this.ventanaModal!=null)
+                    {
+                        this.ventanaModal.refresh();
+                        }
                     JOptionPane.showMessageDialog(this, "Se guardaron los cambios");
                 } catch (SQLException ee)
                 {
@@ -190,7 +202,32 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
 
             }
         }
+        if (e.getActionCommand().equals(Correccion_Panel_Arbol.MAXIMIZAR))
+        {
+         
+            this.ventanaModal = new Correccion_Arbol_Modal("", this.panel_derecha.getArbol(), this);
+            this.ventanaModal.setExamen(this.examen_seleccionado);
+            this.ventanaModal.addWindowListener(new WindowAdapter()
+            {
+                @Override
+                public void windowDeactivated(WindowEvent arg0)
+                {
 
+                    Correccion_Ventana.this.ventanaModal.requestFocus();
+                    Correccion_Ventana.this.ventanaModal.toFront();
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e)
+                {
+                    // TODO Implement this method
+                    Correccion_Ventana.this.panel_derecha.setArbol(Correccion_Ventana.this.ventanaModal.getArbol());
+                    Correccion_Ventana.this.panel_derecha.setVisible(true);
+                }
+            });
+            this.panel_derecha.setVisible(false);
+
+        }
     }
 
     @Override
@@ -202,10 +239,10 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
         {
             this.panel_derecha.limpiarZona();
             this.panel_derecha.setExamen(this.examen_seleccionado);
-            
-            this.panel_derecha.setBorder(new TitledBorder("Examen: "+this.examen_seleccionado.toString()));
-           
-            
+
+            this.panel_derecha.setBorder(new TitledBorder("Examen: " + this.examen_seleccionado.toString()));
+
+
             /*   limpiar_zona_correccion();
 
             this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
@@ -224,8 +261,6 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
                                                           .getDescripcion());
             this.verifica_modificado(); */
         }
-        
-        
 
 
         // TODO Implement this method
