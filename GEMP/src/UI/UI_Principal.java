@@ -211,9 +211,10 @@ public class UI_Principal extends javax.swing.JFrame
     private void jMenuItem_ABM_AsignatuasActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem_ABM_AsignatuasActionPerformed
     {//GEN-HEADEREND:event_jMenuItem_ABM_AsignatuasActionPerformed
         // TODO add your handling code here:
-        UI_Asignatura ui_asignatura = new UI_Asignatura(modelo);
-        this.agregaVentana(ui_asignatura);
-
+        /* UI_Asignatura ui_asignatura = new UI_Asignatura(modelo);
+        this.agregaVentana(ui_asignatura); */
+Asignatura_Ventana ventana=new Asignatura_Ventana(this.modelo);
+        this.agregaVentana(ventana);
     }//GEN-LAST:event_jMenuItem_ABM_AsignatuasActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenu1ActionPerformed

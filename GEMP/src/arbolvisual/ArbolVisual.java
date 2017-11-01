@@ -74,9 +74,22 @@ public class ArbolVisual extends JScrollPane
         return lienzo;
     }
 
-    protected void setNodoSeleccionado(DefaultMutableTreeNode nodoSeleccionado)
+    public void setNodoSeleccionado(DefaultMutableTreeNode nodoSeleccionado)
     {
+
+        if (this.nodoSeleccionado != null)
+        {
+            NodoVisual nv = this.hashmap.get(this.nodoSeleccionado);
+            if (nv != null)
+                nv.setSeleccionado(false);
+
+        }
+
         this.nodoSeleccionado = nodoSeleccionado;
+        if (nodoSeleccionado != null)
+            this.hashmap
+                .get(nodoSeleccionado)
+                .setSeleccionado(true);
         for (int i = 0; i < this.actionListeners.size(); i++)
         {
             ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, ArbolVisual.NODO_SELECCIONADO);
@@ -84,6 +97,7 @@ public class ArbolVisual extends JScrollPane
                 .get(i)
                 .actionPerformed(e);
         }
+        this.repaint();
     }
 
     protected class Lienzo extends JComponent
@@ -105,7 +119,7 @@ public class ArbolVisual extends JScrollPane
                     g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 }
 
-             //   ArbolVisual.this.dibujaLineas(g, (DefaultMutableTreeNode) ArbolVisual.this.arbol.getRoot());
+                //   ArbolVisual.this.dibujaLineas(g, (DefaultMutableTreeNode) ArbolVisual.this.arbol.getRoot());
 
                 ArbolVisual.this.dibujaImagenes(g);
 
@@ -186,7 +200,7 @@ public class ArbolVisual extends JScrollPane
         @Override
         public void treeNodesChanged(TreeModelEvent e)
         {
-      
+
         }
 
         @Override
@@ -296,11 +310,14 @@ public class ArbolVisual extends JScrollPane
                    .values()
                    .iterator();
     }
+
     protected Iterator<DefaultMutableTreeNode> iteratorDefaultMutableTreeNodes()
     {
-        return this.hashmap.keySet().iterator();
-                   
-                   
+        return this.hashmap
+                   .keySet()
+                   .iterator();
+
+
     }
 
     /**
@@ -362,9 +379,9 @@ public class ArbolVisual extends JScrollPane
      * @param g Objeto Graphics donde se dibujaran las lineas
      * @param nodo Objeto DefaultMutableTreeNode que indica el nodo a partir del cual se dibujaran las lineas. Para dibujar todas lineas, este nodo debe ser la raiz del arbol
      */
-    private void dibujaLineas(NodoVisual nodoVisualPadre ,Graphics g)
+    private void dibujaLineas(NodoVisual nodoVisualPadre, Graphics g)
     {
-        
+
 
         if (nodoVisualPadre.isExpandido())
         {
@@ -397,7 +414,6 @@ public class ArbolVisual extends JScrollPane
     }
 
 
-   
     /**
      * Metodo para indicar cual sera el DefaultTreeModel con el cualse emparejara el ArbolVisual<br>
      * <b>Pre: </b> arbol debe ser diferente de null <br>.
@@ -405,8 +421,9 @@ public class ArbolVisual extends JScrollPane
      */
     public void setModel(TreeModel arbol)
     {
-        this.hashmap.clear();
+
         this.setNodoSeleccionado(null);
+        this.hashmap.clear();
         if (this.arbol != null)
             this.arbol.removeTreeModelListener(this.arbolListener);
         this.arbol = arbol;
@@ -1041,20 +1058,24 @@ public class ArbolVisual extends JScrollPane
 
             }
         }
-       
-        
-        if(!valor)
+
+
+        if (!valor)
         {
-                TreeNode padre=nodo.getParent();
-            
-                while(padre!=null&& this.hashmap.get(padre).isOculto())
-                {
-                        this.hashmap.get(padre).setOculto(false);
-                    padre=padre.getParent();
-                    
-                    }
-            
+            TreeNode padre = nodo.getParent();
+
+            while (padre != null && this.hashmap
+                                        .get(padre)
+                                        .isOculto())
+            {
+                this.hashmap
+                    .get(padre)
+                    .setOculto(false);
+                padre = padre.getParent();
+
             }
+
+        }
         this.recalcular();
         this.repaint();
     }
