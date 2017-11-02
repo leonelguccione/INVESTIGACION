@@ -1,42 +1,29 @@
 package UI;
 
-import arbol_perturbacion_visual.AEvaluableVisual;
-
 import arbol_perturbacion_visual.ANoEvaluableVisual;
-
-import java.awt.event.ActionEvent;
-
-import java.awt.event.KeyEvent;
-
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
-import javax.swing.JLabel;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.border.EtchedBorder;
-
-import java.awt.GridLayout;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultTreeModel;
 
 import modelo.ArbolPerturbacion;
 import modelo.NodoPerturbacion;
-import modelo.NodoPerturbacionEvaluable;
 
 public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener
 {
@@ -336,7 +323,10 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.NUEVA_RELACION))
         
         {
-            
+                if (this.nodo_origen != null && this.nodo_destino!=null)
+                    this.nodo_origen.addImpacto(this.nodo_destino);
+                this.jtree_arbol_visual.repaint();
+
             
             
             }

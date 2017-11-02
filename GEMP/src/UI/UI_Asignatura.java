@@ -282,9 +282,9 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
                 .addGap(36, 36, 36))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Alta de √Årbol de Dominio"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Alta de √?rbol de Dominio"));
 
-        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("√Årbol de Dominio"));
+        jScrollPane_jTreeVisual.setBorder(javax.swing.BorderFactory.createTitledBorder("√?rbol de Dominio"));
 
         jButton_aceptar.setText("Aceptar");
         jButton_aceptar.setEnabled(false);
@@ -395,7 +395,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
             }
         });
 
-        jButton_ver_arbol.setText("Ver √Årbol");
+        jButton_ver_arbol.setText("Ver √?rbol");
         jButton_ver_arbol.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -719,7 +719,7 @@ public class UI_Asignatura extends javax.swing.JInternalFrame
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (this.nodoOrigen != null)
-            this.nodoOrigen.addImpacta(this.nodoDestino);
+            this.nodoOrigen.addImpacto(this.nodoDestino);
         this.jtree_arbol.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 

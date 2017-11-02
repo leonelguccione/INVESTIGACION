@@ -254,7 +254,7 @@ public class ArbolPerturbacion implements Serializable, Cloneable
          while(it_relaciones.hasNext()) 
          {
              RelacionImpacto rel=it_relaciones.next();
-             hashmap.get(n).addImpacta(hashmap.get(rel.getNodo()), rel.getValor());
+             hashmap.get(n).addImpacto(hashmap.get(rel.getNodo()), rel.getValor());
              
              }
         

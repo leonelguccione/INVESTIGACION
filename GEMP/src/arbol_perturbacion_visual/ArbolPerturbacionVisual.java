@@ -7,18 +7,14 @@ import arbolvisual.NodoVisual;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.util.Enumeration;
 import java.util.Iterator;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.DefaultTreeModel;
-
 import javax.swing.tree.TreeModel;
 
 import modelo.NodoPerturbacion;
-import modelo.NodoPerturbacionEvaluable;
 import modelo.RelacionImpacto;
 
 
@@ -34,6 +30,45 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
     private Color colorLineasRelacionalesOrigen = Color.cyan;
     private Color colorLineasRelacionalesDestino = Color.red;
 
+    private synchronized void  borraNodoDestinoEnRelaciones(NodoPerturbacion nodo_actual, NodoPerturbacion nodo_a_borrar)
+    {
+        Iterator<RelacionImpacto> it = nodo_actual.iteratorImpactos();
+        while (it.hasNext())
+        {
+            RelacionImpacto relacionActual=it.next();
+            
+            if (relacionActual.getNodo() == nodo_a_borrar)
+            {
+                nodo_actual.removeImpacto(relacionActual);
+                it=nodo_actual.iteratorImpactos();
+            }
+        }
+
+        Enumeration hijos = nodo_actual.children();
+
+        while (hijos.hasMoreElements())
+        {
+            NodoPerturbacion hijo = (NodoPerturbacion) hijos.nextElement();
+            this.borraNodoDestinoEnRelaciones(hijo, nodo_a_borrar);
+        }
+    }
+
+    public class ArbolPerturbacionListener extends ArbolVisual.ArbolListener
+    {
+
+        @Override
+        public void treeNodesRemoved(TreeModelEvent e)
+        {
+            NodoPerturbacion nodo_a_borrar = (NodoPerturbacion) e.getChildren()[0];
+            NodoPerturbacion raiz = (NodoPerturbacion) ArbolPerturbacionVisual.this.getModel().getRoot();
+            ArbolPerturbacionVisual.this.borraNodoDestinoEnRelaciones(raiz, nodo_a_borrar);
+
+
+            super.treeNodesRemoved(e);
+
+        }
+
+    };
 
     protected class LienzoRelacional extends Lienzo
     {
@@ -106,18 +141,21 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         // TODO Implement this method
         super(arbol, anchoNodo, altoNodo);
         this.setLienzo(new LienzoRelacional());
+        this.arbolListener = new ArbolPerturbacionListener();
     }
 
     public ArbolPerturbacionVisual(DefaultTreeModel defaultTreeModel)
     {
         super(defaultTreeModel);
         this.setLienzo(new LienzoRelacional());
+        this.arbolListener = new ArbolPerturbacionListener();
     }
 
     public ArbolPerturbacionVisual()
     {
         super();
         this.setLienzo(new LienzoRelacional());
+        this.arbolListener = new ArbolPerturbacionListener();
     }
 
     @Override
@@ -174,7 +212,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
     }
 
     public abstract void verificaOcultos();
-    
+
 
     @Override
     public void setModel(TreeModel arbol)

@@ -43,7 +43,7 @@ public class ArbolVisual extends JScrollPane
     private int margenDerecho = 50;
     private int margenInferior = 0;
     private Lienzo lienzo = new Lienzo();
-    private transient ArbolListener arbolListener = new ArbolListener();
+    protected transient ArbolListener arbolListener = new ArbolListener();
     private transient MiMouseListener miMouseListener = new MiMouseListener();
     private ArrayList<ActionListener> actionListeners = new ArrayList<ActionListener>();
     public static final String NODO_SELECCIONADO = "NODO_SELECCIONADO";
@@ -174,7 +174,7 @@ public class ArbolVisual extends JScrollPane
         }
     }
 
-    private class ArbolListener implements TreeModelListener
+    public class ArbolListener implements TreeModelListener
     {
         @Override
         public void treeNodesInserted(TreeModelEvent e)

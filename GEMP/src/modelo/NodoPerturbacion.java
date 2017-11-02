@@ -5,12 +5,7 @@
  */
 package modelo;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.ArrayList;
 import java.util.Enumeration;
-
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -29,24 +24,32 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     private LinkedHashSet<RelacionImpacto> impacta = new LinkedHashSet<RelacionImpacto>();
 
 
-    public void addImpacta(NodoPerturbacion np, double valor)
+    public void addImpacto(NodoPerturbacion np, double valor)
     {
 
         this.impacta.add(new RelacionImpacto(np, valor));
 
     }
 
-    public void addImpacta(NodoPerturbacion np)
+    public void addImpacto(NodoPerturbacion np)
     {
-        this.addImpacta(np, 0.0);
-
+        this.addImpacto(np, 0.0);
+        
     }
+
+    public void removeImpacto(RelacionImpacto r)
+    {
+       this.impacta.remove(r);
+        }
+    
 
     public Iterator<RelacionImpacto> iteratorImpactos()
     {
         return this.impacta.iterator();
+        
 
     }
+    
 
 
     public NodoPerturbacion(Object object, boolean b)
