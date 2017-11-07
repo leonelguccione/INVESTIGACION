@@ -1,4 +1,4 @@
-package UI;
+package vista;
 
 import arbol_perturbacion_visual.AEvaluableVisual;
 

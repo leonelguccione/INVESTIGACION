@@ -1,7 +1,7 @@
 
-package UI;
+package vista;
 
-import Excepciones.NotSemejanteException;
+import excepciones.NotSemejanteException;
 
 
 import arbol_perturbacion_visual.AEvaluableVisual;

@@ -1,4 +1,4 @@
-package UI;
+package vista;
 
 
 import java.awt.GridBagConstraints;
@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import java.sql.SQLException;
 
@@ -26,13 +28,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import modelo.ArbolPerturbacion;
 import modelo.Asignatura;
 import modelo.Modelo;
 import modelo.Modelo_ABM_Asignatura;
@@ -41,6 +41,7 @@ import util.VistaUtil;
 
 public class Asignatura_Ventana extends JInternalFrame implements ActionListener, ListSelectionListener
 {
+    private Asignatura_Arbol_Modal ventanaModal;
     DefaultListModel listModel_asignaturas = new DefaultListModel();
     Asignatura asignatura_en_uso = null;
     private JPanel contentPane;
@@ -70,7 +71,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
     private static final String NUEVA = "NUEVA";
     private static final String MODIFICAR = "MODIFICAR";
     private boolean modificar;
-   
+
 
     /**
      * Launch the application.
@@ -269,6 +270,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         this.textFieldNombre.setEnabled(false);
         this.textFieldDominio.setEnabled(false);
         this.habilitaModificarEliminar(false);
+        this.listAsignaturas.setEnabled(true);
 
     }
 
@@ -294,11 +296,44 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
             this.modoEdicion(false);
             this.btnNueva.setEnabled(true);
             this.actualizaAsignatura();
-            
+
         }
 
+        if (e.getActionCommand().equals(Asignatura_Ventana.MAXIMIZAR))
+        {
 
-        
+            this.ventanaModal = new Asignatura_Arbol_Modal("", this.panel_derecha.getArbol(), this);
+            this.ventanaModal.setModoEdicion(this.panel_derecha.isModoEdicion());
+            this.setVisible(false);
+            this.ventanaModal.addWindowListener(new WindowAdapter()
+            {
+                @Override
+                public void windowDeactivated(WindowEvent arg0)
+                {
+
+                    if (Asignatura_Ventana.this.ventanaModal != null)
+                    {
+                        Asignatura_Ventana.this.ventanaModal.requestFocus();
+                        Asignatura_Ventana.this.ventanaModal.toFront();
+                    }
+
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e)
+                {
+                    // TODO Implement this method
+                    Asignatura_Ventana.this.panel_derecha.setArbol(Asignatura_Ventana.this.ventanaModal.getArbol());
+                    Asignatura_Ventana.this.panel_derecha.setVisible(true);
+                    Asignatura_Ventana.this.setVisible(true);
+                    
+                    Asignatura_Ventana.this.ventanaModal = null;
+                }
+            });
+            this.panel_derecha.setVisible(false);
+
+        }
+
 
     }
 
@@ -332,6 +367,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
 
         this.btnEliminar_Asignatura.setEnabled(valor);
         this.btnModificar.setEnabled(valor);
+        this.listAsignaturas.setEnabled(valor);
 
 
     }
@@ -350,11 +386,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
             .getAsignaturas()
             .remove(this.asignatura_en_uso.getCodigo());
         this.cargar_jList_asignaturas();
-        /*
-            if (this.listModel_asignaturas.getSize() > 0)
-            {
-                this.listAsignaturas.setSelectedIndex(0);
-            }*/
+
         this.asignatura_en_uso = null;
         this.habilitaModificarEliminar(false);
         this.actualizaAsignatura();
@@ -397,9 +429,9 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
             if (this.asignatura_en_uso.getArbol_dominio() != null)
             {
                 this.panel_derecha.setArbol(this.asignatura_en_uso
-                                          .getArbol_dominio()
-                                          .clone());
-                
+                                                .getArbol_dominio()
+                                                .clone());
+
             }
 
         }
@@ -413,7 +445,9 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         if (this.modificar)
         {
             this.asignatura_en_uso.setNombre(this.textFieldNombre.getText());
-            this.panel_derecha.getArbol().setNombre(this.textFieldDominio.getText());
+            this.panel_derecha
+                .getArbol()
+                .setNombre(this.textFieldDominio.getText());
             this.asignatura_en_uso.setArbol_dominio(this.panel_derecha.getArbol());
             try
             {
@@ -432,14 +466,18 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         this.cargar_jList_asignaturas();
         this.modoEdicion(false);
         this.btnNueva.setEnabled(true);
-     
+
     }
 
     private void modoEdicion(boolean b)
     {
         this.textFieldDominio.setEnabled(b);
         this.textFieldNombre.setEnabled(b);
-        this.panel_derecha.setModoEdicion(b);
+        if (this.ventanaModal != null)
+            this.ventanaModal.setModoEdicion(b);
+      
+            this.panel_derecha.setModoEdicion(b);
+        this.listAsignaturas.setEnabled(!b);
     }
 
     public String getNombreDominio()

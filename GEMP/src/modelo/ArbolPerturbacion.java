@@ -5,11 +5,9 @@
  */
 package modelo;
 
-import Excepciones.NoCompletoException;
-import Excepciones.NotSemejanteException;
-import Excepciones.RaizNulaException;
-
-import arbolvisual.NodoVisual;
+import excepciones.NoCompletoException;
+import excepciones.NotSemejanteException;
+import excepciones.RaizNulaException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,12 +17,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
 import java.util.Iterator;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -254,7 +249,7 @@ public class ArbolPerturbacion implements Serializable, Cloneable
          while(it_relaciones.hasNext()) 
          {
              RelacionImpacto rel=it_relaciones.next();
-             hashmap.get(n).addImpacto(hashmap.get(rel.getNodo()), rel.getValor());
+             hashmap.get(n).addImpacto(new RelacionImpacto(hashmap.get(rel.getNodo()), rel.getValor()));
              
              }
         
@@ -350,4 +345,14 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         return detalle(this.getRaiz());
         }
 
+    public void borrarPostOrder(NodoPerturbacion nodo)
+    {
+        
+        while(nodo.getChildCount()>0)
+        {
+            this.borrarPostOrder((NodoPerturbacion) nodo.getChildAt(0));
+            }
+        this.getTreeModel().removeNodeFromParent(nodo);
+        
+        }
 }

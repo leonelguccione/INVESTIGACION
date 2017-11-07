@@ -1,4 +1,4 @@
-package UI;
+package vista;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;

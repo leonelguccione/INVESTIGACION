@@ -1,11 +1,9 @@
-package UI;
+package vista;
 
-import Excepciones.NoCompletoException;
+import excepciones.NoCompletoException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -22,15 +20,12 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import modelo.Alumno;
 import modelo.Examen;
 import modelo.Modelo;
 
@@ -205,9 +200,11 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
         if (e.getActionCommand().equals(Correccion_Panel_Arbol.MAXIMIZAR))
         {
          
-            this.ventanaModal = new Correccion_Arbol_Modal("", this.panel_derecha.getArbol(), this);
+            this.ventanaModal = new Correccion_Arbol_Modal("Examen: " + this.examen_seleccionado.toString(), this.panel_derecha.getArbol(), this);
             this.ventanaModal.setExamen(this.examen_seleccionado);
+            this.setVisible(false);
             this.ventanaModal.addWindowListener(new WindowAdapter()
+                                                
             {
                 @Override
                 public void windowDeactivated(WindowEvent arg0)
@@ -220,12 +217,13 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
                 @Override
                 public void windowClosing(WindowEvent e)
                 {
-                    // TODO Implement this method
+                
                     Correccion_Ventana.this.panel_derecha.setArbol(Correccion_Ventana.this.ventanaModal.getArbol());
-                    Correccion_Ventana.this.panel_derecha.setVisible(true);
+                   
+                    Correccion_Ventana.this.setVisible(true);
                 }
             });
-            this.panel_derecha.setVisible(false);
+            
 
         }
     }
@@ -243,23 +241,6 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
             this.panel_derecha.setBorder(new TitledBorder("Examen: " + this.examen_seleccionado.toString()));
 
 
-            /*   limpiar_zona_correccion();
-
-            this.jTree_Arbol_Perturbacion.setModel(this.examen_seleccionado
-                                                       .getArbol_podado_particular()
-                                                       .getTreeModel());
-            this.actualiza_jtree();
-            this.jT_Alumno.setText(this.examen_seleccionado
-                                       .getAlumno()
-                                       .toString());
-            this.nodo_seleccionado = null;
-            jT_id_arbol_perturbacion.setText(this.examen_seleccionado
-                                                 .getArbol_podado_particular()
-                                                 .getNombre());
-            jT_descripcion_arbol_perturbacion.setText(this.examen_seleccionado
-                                                          .getArbol_podado_particular()
-                                                          .getDescripcion());
-            this.verifica_modificado(); */
         }
 
 

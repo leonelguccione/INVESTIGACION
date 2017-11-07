@@ -1,5 +1,5 @@
 
-package UI;
+package vista;
 
 import java.sql.Date;
 import java.sql.SQLException;

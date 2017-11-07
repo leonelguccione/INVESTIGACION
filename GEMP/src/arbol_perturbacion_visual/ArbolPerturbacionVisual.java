@@ -30,23 +30,13 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
     private Color colorLineasRelacionalesOrigen = Color.cyan;
     private Color colorLineasRelacionalesDestino = Color.red;
 
-    private synchronized void  borraNodoDestinoEnRelaciones(NodoPerturbacion nodo_actual, NodoPerturbacion nodo_a_borrar)
+    private void  borraNodoDestinoEnRelaciones(NodoPerturbacion nodo_actual, NodoPerturbacion nodo_a_borrar)
     {
-        Iterator<RelacionImpacto> it = nodo_actual.iteratorImpactos();
-        while (it.hasNext())
-        {
-            RelacionImpacto relacionActual=it.next();
-            
-            if (relacionActual.getNodo() == nodo_a_borrar)
-            {
-                nodo_actual.removeImpacto(relacionActual);
-                it=nodo_actual.iteratorImpactos();
-            }
-        }
-
+        
+        RelacionImpacto rel=nodo_actual.getRelacionImpacto(nodo_a_borrar);
+        if(rel!=null) nodo_actual.removeImpacto(rel);
         Enumeration hijos = nodo_actual.children();
-
-        while (hijos.hasMoreElements())
+     while (hijos.hasMoreElements())
         {
             NodoPerturbacion hijo = (NodoPerturbacion) hijos.nextElement();
             this.borraNodoDestinoEnRelaciones(hijo, nodo_a_borrar);
@@ -62,12 +52,8 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
             NodoPerturbacion nodo_a_borrar = (NodoPerturbacion) e.getChildren()[0];
             NodoPerturbacion raiz = (NodoPerturbacion) ArbolPerturbacionVisual.this.getModel().getRoot();
             ArbolPerturbacionVisual.this.borraNodoDestinoEnRelaciones(raiz, nodo_a_borrar);
-
-
             super.treeNodesRemoved(e);
-
         }
-
     };
 
     protected class LienzoRelacional extends Lienzo

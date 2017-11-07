@@ -1,5 +1,5 @@
 
-package UI;
+package vista;
 
 import java.beans.PropertyVetoException;
 
@@ -173,7 +173,7 @@ public class UI_Principal extends javax.swing.JFrame
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Op. √Årboles");
+        jMenu4.setText("Op. √?rboles");
 
         jMenuItem6.setText("Promedio");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener()

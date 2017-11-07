@@ -1,7 +1,7 @@
-package UI;
+package vista;
 
 
-import Excepciones.RaizNulaException;
+import excepciones.RaizNulaException;
 
 import arbol_perturbacion_visual.AEvaluableVisual;
 

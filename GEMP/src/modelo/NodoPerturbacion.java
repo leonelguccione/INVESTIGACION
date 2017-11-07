@@ -24,33 +24,45 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
     private LinkedHashSet<RelacionImpacto> impacta = new LinkedHashSet<RelacionImpacto>();
 
 
-    public void addImpacto(NodoPerturbacion np, double valor)
+    public void addImpacto(RelacionImpacto r)
     {
-
-        this.impacta.add(new RelacionImpacto(np, valor));
-
-    }
-
-    public void addImpacto(NodoPerturbacion np)
-    {
-        this.addImpacto(np, 0.0);
-        
+        this.impacta.add(r);
     }
 
     public void removeImpacto(RelacionImpacto r)
     {
-       this.impacta.remove(r);
-        }
-    
+        this.impacta.remove(r);
+    }
+
 
     public Iterator<RelacionImpacto> iteratorImpactos()
     {
         return this.impacta.iterator();
-        
+
 
     }
-    
 
+    public RelacionImpacto getRelacionImpacto(NodoPerturbacion destino)
+    {
+        RelacionImpacto r = null;
+        Iterator<RelacionImpacto> it = this.impacta.iterator();
+        boolean encontrado = false;
+        while (it.hasNext() && !encontrado)
+        {
+            RelacionImpacto aux = it.next();
+            if (aux.getNodo() == destino)
+            {
+                encontrado = true;
+                r = aux;
+            }
+        }
+        return r;
+    }
+
+    public boolean contieneRelacion(RelacionImpacto rel)
+    {
+        return this.impacta.contains(rel);
+    }
 
     public NodoPerturbacion(Object object, boolean b)
     {
@@ -372,7 +384,16 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
 
     }
 
+    public String detalle()
+    {
+        String cartel;
+        cartel = this.toString() + "\n";
+        Iterator it = this.iteratorImpactos();
+        while (it.hasNext())
+            cartel = cartel + it.next() + "\n";
+        return cartel;
 
+    }
 }
 
 

@@ -1,4 +1,4 @@
-package UI;
+package vista;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -247,7 +247,7 @@ public class PanelCombo2 extends JPanel implements ActionListener
             this.actualizar_combo_cursadas();
       
         
-        this.notificarListener( PanelCombo2.CAMBIOS_PANEL_COMBO2);
+        this.notificarListener(PanelCombo2.CAMBIOS_PANEL_COMBO2);
     }
 
 

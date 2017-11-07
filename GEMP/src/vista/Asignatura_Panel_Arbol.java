@@ -1,4 +1,4 @@
-package UI;
+package vista;
 
 import arbol_perturbacion_visual.ANoEvaluableVisual;
 
@@ -14,16 +14,19 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.tree.DefaultTreeModel;
 
 import modelo.ArbolPerturbacion;
 import modelo.NodoPerturbacion;
+import modelo.RelacionImpacto;
+
+import util.VistaUtil;
 
 public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener
 {
@@ -36,6 +39,8 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     private final JPanel panel_4 = new JPanel();
     private final JPanel panel_5 = new JPanel();
     private final JTextField textFieldOrigen = new JTextField();
+    private final JTextField textValor = new JTextField();
+
     private final JPanel panel_6 = new JPanel();
     private final JTextField textFieldDestino = new JTextField();
     private final JPanel panel_7 = new JPanel();
@@ -50,6 +55,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
 
     private JPanel panel;
     private final JPanel panel_12 = new JPanel();
+    private final JPanel panel_13 = new JPanel();
     private final JLabel label = new JLabel("Nodo:");
     private final JLabel label_1 = new JLabel("Actual:");
     private final JTextField textFieldActual = new JTextField();
@@ -109,10 +115,10 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.panel_6.add(this.textFieldDestino);
 
         this.panel_4.add(this.panel_7);
-        buttonNuevaRelacion.setEnabled(false);
 
-        this.panel_7.add(this.buttonNuevaRelacion);
-
+        this.textValor.setEnabled(false);
+        this.textValor.setColumns(5);
+        this.panel_7.add(this.textValor);
         this.panel_4.add(this.panel_8);
         buttonOrigen.setEnabled(false);
 
@@ -124,6 +130,10 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.panel_9.add(this.buttonDestino);
         buttonAgregar.setEnabled(false);
 
+        this.panel_4.add(this.panel_13);
+        buttonNuevaRelacion.setEnabled(false);
+
+        this.panel_13.add(this.buttonNuevaRelacion);
         this.panel_3.add(this.buttonAgregar);
         buttonEliminar.setEnabled(false);
 
@@ -245,6 +255,10 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.buttonCancelar.setEnabled(valor);
         this.textFieldNodo.setEnabled(valor);
         this.modoEdicion = valor;
+        if (!valor)
+            this.setNodo_Origen(null);
+        if (!valor)
+            this.setNodo_Destino(null);
         this.verificaEnabled();
     }
 
@@ -270,7 +284,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.textFieldNodo.addKeyListener(this);
         this.buttonAceptar.addActionListener(this);
         this.buttonCancelar.addActionListener(this);
-        
+
 
     }
 
@@ -280,7 +294,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         if (e.getSource() == this.jtree_arbol_visual)
         {
             setNodoSeleccionado((NodoPerturbacion) this.jtree_arbol_visual.getNodoSeleccionado());
-
+            
         }
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.ORIGEN))
         {
@@ -304,41 +318,65 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         }
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.ELIMINAR_NODO))
         {
-                
-                DefaultTreeModel dtm = (DefaultTreeModel) this.jtree_arbol_visual.getModel();
-                if (this.nodo_seleccionado != null)
-                {
-                    if (!this.nodo_seleccionado.isRoot())
-                    {
-                        dtm.removeNodeFromParent(this.nodo_seleccionado);
-                    } else
-                    {
-                        this.setArbol(null);
-                    }
-                     this.setNodo_Origen(null);
-                    this.setNodo_Destino(null);
-                }
-            
-            }
-        if (e.getActionCommand().equals(Asignatura_Panel_Arbol.NUEVA_RELACION))
-        
-        {
-                if (this.nodo_origen != null && this.nodo_destino!=null)
-                    this.nodo_origen.addImpacto(this.nodo_destino);
-                this.jtree_arbol_visual.repaint();
 
-            
-            
+
+            if (this.nodo_seleccionado != null)
+            {
+                if (!this.nodo_seleccionado.isRoot())
+                {
+                    this.arbol.borrarPostOrder(this.nodo_seleccionado);
+                } else
+                {
+                    this.setArbol(null);
+                }
+                this.setNodo_Origen(null);
+                this.setNodo_Destino(null);
             }
-        
-        
-        
-        if(e.getActionCommand().equals(Asignatura_Panel_Arbol.ACEPTAR)||e.getActionCommand().equals(Asignatura_Panel_Arbol.CANCELAR))
+
+        }
+        if (e.getActionCommand().equals(Asignatura_Panel_Arbol.NUEVA_RELACION))
+
+        {
+            try
+            {
+                double valor = Double.parseDouble(textValor.getText().trim());
+                if (this.nodo_origen != null && this.nodo_destino != null)
+                {
+                    RelacionImpacto rel = new RelacionImpacto(this.nodo_destino, valor);
+                    if (this.nodo_origen.contieneRelacion(rel))
+                    {
+                        int res =
+                            VistaUtil.dialogoSiNo("Nueva Relación",
+                                                  "Ya existe la relacion: " +
+                                                  this.nodo_origen.getRelacionImpacto(this.nodo_destino) +
+                                                  "\nDesea reemplazarla?");
+                        if (res == JOptionPane.YES_OPTION)
+                        {
+                            this.nodo_origen.removeImpacto(rel);
+                            this.nodo_origen.addImpacto(rel);
+                        }
+
+
+                    } else
+                        this.nodo_origen.addImpacto(rel);
+                    this.jtree_arbol_visual.repaint();
+                }
+            } catch (Exception exception)
+            {
+                JOptionPane.showMessageDialog(this, textValor.getText().trim() + " no es un número real válido");
+            }
+
+
+        }
+
+
+        if (e.getActionCommand().equals(Asignatura_Panel_Arbol.ACEPTAR) ||
+            e.getActionCommand().equals(Asignatura_Panel_Arbol.CANCELAR))
         {
             this.setNodoSeleccionado(null);
             this.textFieldNodo.setText("");
-            
-            }
+
+        }
         this.verificaEnabled();
     }
 
@@ -354,6 +392,13 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.buttonDestino.setEnabled(valor);
         this.buttonNuevaRelacion.setEnabled(this.nodo_origen != null && this.nodo_destino != null &&
                                             this.nodo_origen != this.nodo_destino);
+        this.textValor.setEnabled(this.nodo_origen != null && this.nodo_destino != null &&
+                                  this.nodo_origen != this.nodo_destino);
+        if (this.textValor.isEnabled())
+            this.textValor.setText("0.0");
+        else
+            this.textValor.setText("");
+
     }
 
     private void setNodo_Origen(NodoPerturbacion nodoPerturbacion)
@@ -422,7 +467,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
 
     }
 
-     private void setNodoSeleccionado(NodoPerturbacion nodoPerturbacion)
+    private void setNodoSeleccionado(NodoPerturbacion nodoPerturbacion)
     {
         this.nodo_seleccionado = nodoPerturbacion;
         if (this.nodo_seleccionado != null)
@@ -434,6 +479,11 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     public ArbolPerturbacion getArbol()
     {
         return arbol;
+    }
+
+    public boolean isModoEdicion()
+    {
+        return modoEdicion;
     }
 
 }

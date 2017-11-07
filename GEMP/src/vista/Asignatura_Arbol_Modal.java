@@ -1,30 +1,18 @@
-package UI;
+package vista;
 
 import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 
-import java.awt.event.ActionListener;
-
-import java.awt.event.FocusEvent;
-
-import java.awt.event.WindowAdapter;
-
-import java.awt.event.WindowEvent;
-
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import modelo.ArbolPerturbacion;
 
-public class Parcial_Arbol_Modal extends JFrame
+public class Asignatura_Arbol_Modal extends JFrame
 {
-    private Parcial_Panel_Arbol panelCentro;
+    private Asignatura_Panel_Arbol panelCentro;
 
 
-    public Parcial_Arbol_Modal(String string, ArbolPerturbacion arbol, ActionListener actionlistener) throws HeadlessException
+    public Asignatura_Arbol_Modal(String string, ArbolPerturbacion arbol, Asignatura_Ventana actionlistener) throws HeadlessException
     {
         super(string);
         this.setVisible(true);
@@ -32,8 +20,8 @@ public class Parcial_Arbol_Modal extends JFrame
         setExtendedState(java.awt
                              .Frame
                              .MAXIMIZED_BOTH);
-        this.panelCentro = new Parcial_Panel_Arbol(arbol, actionlistener, false);
-        this.panelCentro.setModoEdicion(true);
+        this.panelCentro = new Asignatura_Panel_Arbol( actionlistener);
+        this.panelCentro.setArbol(arbol);
         this.inicia_visual();
         
     }
@@ -56,4 +44,15 @@ public class Parcial_Arbol_Modal extends JFrame
     {
         return this.panelCentro.getArbol();
         }
+
+
+    void setModoEdicion(boolean b)
+    {
+        this.panelCentro.setModoEdicion(b);
+    }
+
+    boolean isModoEdicion()
+    {
+        return this.panelCentro.isModoEdicion();
+    }
 }

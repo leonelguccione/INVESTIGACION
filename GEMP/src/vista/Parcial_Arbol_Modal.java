@@ -1,21 +1,30 @@
-package UI;
+package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+
 import java.awt.event.ActionListener;
 
+import java.awt.event.FocusEvent;
+
+import java.awt.event.WindowAdapter;
+
+import java.awt.event.WindowEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import modelo.ArbolPerturbacion;
-import modelo.Examen;
 
-public class Correccion_Arbol_Modal extends JFrame
+public class Parcial_Arbol_Modal extends JFrame
 {
-    private Correccion_Panel_Arbol panelCentro;
+    private Parcial_Panel_Arbol panelCentro;
 
 
-    public Correccion_Arbol_Modal(String string, ArbolPerturbacion arbol, ActionListener actionlistener) throws HeadlessException
+    public Parcial_Arbol_Modal(String string, ArbolPerturbacion arbol, ActionListener actionlistener) throws HeadlessException
     {
         super(string);
         this.setVisible(true);
@@ -23,8 +32,8 @@ public class Correccion_Arbol_Modal extends JFrame
         setExtendedState(java.awt
                              .Frame
                              .MAXIMIZED_BOTH);
-        this.panelCentro = new Correccion_Panel_Arbol( arbol,actionlistener, false);
-        
+        this.panelCentro = new Parcial_Panel_Arbol(arbol, actionlistener, false);
+        this.panelCentro.setModoEdicion(true);
         this.inicia_visual();
         
     }
@@ -47,13 +56,4 @@ public class Correccion_Arbol_Modal extends JFrame
     {
         return this.panelCentro.getArbol();
         }
-
-    void setExamen(Examen examen)
-    {this.panelCentro.setExamen(examen);
-    }
-
-    void refresh()
-    {                    this.panelCentro.actualiza_jtree();
-                    this.panelCentro.verifica_modificado();
-    }
 }

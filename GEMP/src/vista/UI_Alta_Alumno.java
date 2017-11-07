@@ -1,5 +1,5 @@
 
-package UI;
+package vista;
 
 import java.sql.SQLException;
 
