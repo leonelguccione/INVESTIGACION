@@ -7,6 +7,9 @@ package modelo;
 
 import base_de_datos.BaseDeDatos;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -54,8 +57,18 @@ public class Modelo
 
     public Modelo() throws SQLException
     {
-      // db = new BaseDeDatos("jdbc:mysql://sql10.freemysqlhosting.net:3306","sql10200286","sql10200286","nRQNHLW1uX");
-        db = new BaseDeDatos("jdbc:mysql://localhost","modelo_del_estudiante","root","");
+        // db = new BaseDeDatos("jdbc:mysql://sql10.freemysqlhosting.net:3306","sql10200286","sql10200286","nRQNHLW1uX");
+        try
+        {
+            db = new BaseDeDatos();
+        } catch (FileNotFoundException e)
+        
+        {
+            System.out.println(e.getMessage());
+        } catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
 
 
         modelo_abm_alumno = new Modelo_ABM_Alumno(db);

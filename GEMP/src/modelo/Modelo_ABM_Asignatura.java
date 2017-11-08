@@ -23,9 +23,9 @@ public class Modelo_ABM_Asignatura
         db.almacenar_asignatura_nueva(asignatura);
     }
 
-    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
+    public void actualizar_Asignatura(Asignatura asignatura_en_uso) throws SerialException, SQLException
     {
-        db.actualizar_arbol_perturbacion(asignatura_en_uso);
+        db.actualizar_Asignatura(asignatura_en_uso);
     }
 
     public Iterator getIterator_listado_asignaturas() throws SQLException

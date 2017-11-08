@@ -71,7 +71,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
     private static final String NUEVA = "NUEVA";
     private static final String MODIFICAR = "MODIFICAR";
     private boolean modificar;
-
+    private Interface_Arbol_Asignatura arbolVisual;
 
     /**
      * Launch the application.
@@ -80,7 +80,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
     public Asignatura_Ventana(Modelo modelo)
     {
         this.panel_derecha = new Asignatura_Panel_Arbol(this);
-
+        this.arbolVisual = this.panel_derecha;
         this.iniciaGeometria();
         this.modelo = modelo;
         this.modelo_abm_asignatura = modelo.getModelo_abm_asignatura();
@@ -88,12 +88,19 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         this.asignatura_en_uso = null;
         listModel_asignaturas.clear();
         this.cargar_jList_asignaturas();
-        this.panel_derecha.setArbol(null);
+        this.arbolVisual.setArbol(null);
         this.asignaListeners();
     }
 
     private void cargar_jList_asignaturas()
     {
+        try
+        {
+            this.modelo.recupera_sistema();
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         this.listModel_asignaturas.clear();
         Iterator iterator_asignaturas = this.modelo
                                             .getAsignaturas()
@@ -289,6 +296,8 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         }
         if (e.getActionCommand().equals(Asignatura_Ventana.MODIFICAR))
             this.modificarAsignatura();
+        if (e.getActionCommand().equals(Asignatura_Ventana.NUEVA))
+            this.nuevaAsignatura();
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.ACEPTAR))
             this.aceptar();
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.CANCELAR))
@@ -305,6 +314,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
             this.ventanaModal = new Asignatura_Arbol_Modal("", this.panel_derecha.getArbol(), this);
             this.ventanaModal.setModoEdicion(this.panel_derecha.isModoEdicion());
             this.setVisible(false);
+            this.arbolVisual = this.ventanaModal;
             this.ventanaModal.addWindowListener(new WindowAdapter()
             {
                 @Override
@@ -324,9 +334,13 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
                 {
                     // TODO Implement this method
                     Asignatura_Ventana.this.panel_derecha.setArbol(Asignatura_Ventana.this.ventanaModal.getArbol());
+                    Asignatura_Ventana.this
+                        .panel_derecha.setModoEdicion(Asignatura_Ventana.this.ventanaModal.isModoEdicion());
+
+                    Asignatura_Ventana.this.arbolVisual = Asignatura_Ventana.this.panel_derecha;
                     Asignatura_Ventana.this.panel_derecha.setVisible(true);
                     Asignatura_Ventana.this.setVisible(true);
-                    
+
                     Asignatura_Ventana.this.ventanaModal = null;
                 }
             });
@@ -398,7 +412,8 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
         this.habilitaModificarEliminar(this.asignatura_en_uso != null);
         if (this.asignatura_en_uso != null)
         {
-            this.panel_derecha.setArbol(this.asignatura_en_uso.getArbol_dominio());
+            this.arbolVisual.setArbol(this.asignatura_en_uso.getArbol_dominio());
+
 
             this.textFieldCodigo.setText(this.asignatura_en_uso.getCodigo());
             this.textFieldNombre.setText(this.asignatura_en_uso.getNombre());
@@ -410,7 +425,7 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
                 this.textFieldDominio.setText("");
         } else
         {
-            this.panel_derecha.setArbol(null);
+            this.arbolVisual.setArbol(null);
             this.textFieldCodigo.setText("");
             this.textFieldNombre.setText("");
             this.textFieldDominio.setText("");
@@ -425,12 +440,12 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
             this.modificar = true;
             this.textFieldDominio.setEnabled(true);
             this.textFieldNombre.setEnabled(true);
-            this.panel_derecha.setModoEdicion(true);
+            this.arbolVisual.setModoEdicion(true);
             if (this.asignatura_en_uso.getArbol_dominio() != null)
             {
-                this.panel_derecha.setArbol(this.asignatura_en_uso
-                                                .getArbol_dominio()
-                                                .clone());
+                this.arbolVisual.setArbol(this.asignatura_en_uso
+                                              .getArbol_dominio()
+                                              .clone());
 
             }
 
@@ -442,16 +457,23 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
 
     private void aceptar()
     {
-        if (this.modificar)
-        {
-            this.asignatura_en_uso.setNombre(this.textFieldNombre.getText());
-            this.panel_derecha
+        if (!this.modificar)
+            this.asignatura_en_uso = new Asignatura();
+
+
+        this.asignatura_en_uso.setNombre(this.textFieldNombre.getText());
+        if (this.arbolVisual.getArbol() != null)
+            this.arbolVisual
                 .getArbol()
                 .setNombre(this.textFieldDominio.getText());
-            this.asignatura_en_uso.setArbol_dominio(this.panel_derecha.getArbol());
+        this.asignatura_en_uso.setArbol_dominio(this.arbolVisual.getArbol());
+
+
+        if (this.modificar)
+        {
             try
             {
-                this.modelo_abm_asignatura.actualizar_arbol_perturbacion(this.asignatura_en_uso);
+                this.modelo_abm_asignatura.actualizar_Asignatura(this.asignatura_en_uso);
                 JOptionPane.showMessageDialog(this, "Asignatura actualizada");
             } catch (SerialException e)
             {
@@ -461,7 +483,26 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
             this.modificar = false;
+        } else
+        {
+            this.asignatura_en_uso.setCodigo(this.textFieldCodigo
+                                                 .getText()
+                                                 .trim());
+            try
+            {
+                this.modelo_abm_asignatura.almacenar_asignatura(this.asignatura_en_uso);
+                JOptionPane.showMessageDialog(this, "Asignatura almacenada");
+            } catch (SerialException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            } catch (SQLException e)
+            {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            
+
         }
+
 
         this.cargar_jList_asignaturas();
         this.modoEdicion(false);
@@ -473,15 +514,35 @@ public class Asignatura_Ventana extends JInternalFrame implements ActionListener
     {
         this.textFieldDominio.setEnabled(b);
         this.textFieldNombre.setEnabled(b);
-        if (this.ventanaModal != null)
-            this.ventanaModal.setModoEdicion(b);
-      
-            this.panel_derecha.setModoEdicion(b);
+
+
+        this.arbolVisual.setModoEdicion(b);
         this.listAsignaturas.setEnabled(!b);
     }
 
     public String getNombreDominio()
     {
         return this.textFieldDominio.getText();
+    }
+
+    private void nuevaAsignatura()
+    {
+        this.modoEdicion(true);
+        this.asignatura_en_uso = null;
+
+        this.modificar = false;
+        this.textFieldDominio.setEnabled(true);
+        this.textFieldNombre.setEnabled(true);
+        this.textFieldCodigo.setEnabled(true);
+        this.arbolVisual.setModoEdicion(true);
+        this.textFieldCodigo.setEnabled(true);
+        this.arbolVisual.setArbol(null);
+        this.textFieldDominio.setText("");
+        this.textFieldNombre.setText("");
+        this.textFieldCodigo.setText("");
+        this.textFieldCodigo.requestFocus();
+
+        this.habilitaModificarEliminar(false);
+        this.btnNueva.setEnabled(false);
     }
 }

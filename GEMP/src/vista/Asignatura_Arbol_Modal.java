@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import modelo.ArbolPerturbacion;
 
-public class Asignatura_Arbol_Modal extends JFrame
+public class Asignatura_Arbol_Modal extends JFrame implements Interface_Arbol_Asignatura
 {
     private Asignatura_Panel_Arbol panelCentro;
 
@@ -45,8 +45,8 @@ public class Asignatura_Arbol_Modal extends JFrame
         return this.panelCentro.getArbol();
         }
 
-
-    void setModoEdicion(boolean b)
+    @Override
+    public void setModoEdicion(boolean b)
     {
         this.panelCentro.setModoEdicion(b);
     }
@@ -55,4 +55,12 @@ public class Asignatura_Arbol_Modal extends JFrame
     {
         return this.panelCentro.isModoEdicion();
     }
+
+    @Override
+    public void setArbol(ArbolPerturbacion arbol)
+    {
+        this.panelCentro.setArbol(arbol);
+    }
+
+  
 }

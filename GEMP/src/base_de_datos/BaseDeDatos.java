@@ -1,5 +1,11 @@
 package base_de_datos;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -32,16 +38,16 @@ public class BaseDeDatos
     private String user;
     private String password;
     private String nombreDB;
+    private static final String MODIFICA = "MODIFICA";
+    private static final String ALTA = "ALTA";
 
 
-    public BaseDeDatos(String url, String nombreDB, String user, String password) throws SQLException
+    public BaseDeDatos() throws SQLException, FileNotFoundException, IOException, FileNotFoundException, IOException
     {
-        super();
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.nombreDB = nombreDB;
-        init();
+        this.leeConfiguracion();
+        this.init();
+
+
     }
 
     private void init() throws SQLException
@@ -131,6 +137,25 @@ public class BaseDeDatos
 
     public void almacenar_asignatura_nueva(Asignatura asignatura) throws SQLException
     {
+        this.operarAsignatura(asignatura, BaseDeDatos.ALTA);
+    }
+
+    //TODO: mejorar esto. Podría traer problemas si cada asignatura tuviera un identificador automático
+
+    /*     public void actualizar_Asignatura(Asignatura asignatura) throws SerialException, SQLException
+    {
+            this.borrar_asignatura(asignatura);
+            this.almacenar_asignatura_nueva(asignatura);
+
+        } */
+    public void actualizar_Asignatura(Asignatura asignatura) throws SerialException, SQLException
+    {
+        this.operarAsignatura(asignatura, BaseDeDatos.MODIFICA);
+
+    }
+
+    private void operarAsignatura(Asignatura asignatura, String modo) throws SQLException
+    {
         this.verificaConexion(5000);
         String codigo_asignatura = asignatura.getCodigo();
         String nombre_asignatura = asignatura.getNombre();
@@ -143,16 +168,31 @@ public class BaseDeDatos
         } else
             blob_arbol_dominio_serializado = null;
 
-        PreparedStatement agregar =
-            conexion.prepareStatement("insert into asignaturas(codigo, nombre, arbol_dominio)values(?,?,?)");
-        agregar.setString(1, codigo_asignatura);
-        agregar.setString(2, nombre_asignatura);
-        agregar.setBlob(3, blob_arbol_dominio_serializado);
-        agregar.executeUpdate();
+        PreparedStatement sentenciaPreparada=null;
+        if (modo.equals(BaseDeDatos.ALTA))
+        {
+            sentenciaPreparada =
+                conexion.prepareStatement("insert into asignaturas(codigo, nombre, arbol_dominio)values(?,?,?)");
+            sentenciaPreparada.setString(1, codigo_asignatura);
+            sentenciaPreparada.setString(2, nombre_asignatura);
+            sentenciaPreparada.setBlob(3, blob_arbol_dominio_serializado);
+        }
+        if (modo.equals(BaseDeDatos.MODIFICA))
+        {
+            sentenciaPreparada =
+                conexion.prepareStatement("update asignaturas set nombre=? , arbol_dominio = ? where codigo = ?");
+            
+            sentenciaPreparada.setString(1, nombre_asignatura);
+            sentenciaPreparada.setBlob(2, blob_arbol_dominio_serializado);
+            sentenciaPreparada.setString(3, codigo_asignatura);
+        }
+        
+        sentenciaPreparada.executeUpdate();
+
+
     }
 
-    //TODO: mejorar esto. Podría traer problemas si cada asignatura tuviera un identificador automático
-    public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
+    /*     public void actualizar_arbol_perturbacion(Asignatura asignatura_en_uso) throws SerialException, SQLException
     {
         this.verificaConexion(5000);
         String codigo_asignatura = asignatura_en_uso.getCodigo();
@@ -169,30 +209,10 @@ public class BaseDeDatos
         agregar.setString(2, nombre_asignatura);
         agregar.setBlob(3, blob_arbol_dominio_serializado);
         agregar.executeUpdate();
-    }
+    } */
 
 
     /////
-
-    public void ACTUALIZAR________(Asignatura asignatura_en_uso, ArbolPerturbacion nuevoArbol) throws SerialException,
-                                                                                                      SQLException
-    {
-        this.verificaConexion(5000);
-        String codigo_asignatura = asignatura_en_uso.getCodigo();
-        String nombre_asignatura = asignatura_en_uso.getNombre();
-
-        byte[] arbol_dominio_serializado = nuevoArbol.serializar();
-        Statement stmt;
-        //borro arbol vacío, que se grabó para verlo en la lista de arboles
-        this.borrar_asignatura(asignatura_en_uso);
-        Blob blob_arbol_dominio_serializado = new javax.sql.rowset.serial.SerialBlob(arbol_dominio_serializado);
-        PreparedStatement agregar =
-            conexion.prepareStatement("INSERT INTO asignaturas(codigo, nombre, arbol_dominio)VALUES(?,?,?)");
-        agregar.setString(1, codigo_asignatura);
-        agregar.setString(2, nombre_asignatura);
-        agregar.setBlob(3, blob_arbol_dominio_serializado);
-        agregar.executeUpdate();
-    }
 
 
     public void borrar_asignatura(Asignatura asignatura) throws SQLException
@@ -358,9 +378,10 @@ public class BaseDeDatos
         int id_autoincrement = 0;
 
         sentencia = conexion.createStatement();
-        String cadenaSQL="SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '"+this.nombreDB+"' AND TABLE_NAME = 'instancias_evaluaciones'";
-        ResultSet resultado =
-            sentencia.executeQuery(cadenaSQL);
+        String cadenaSQL =
+            "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" + this.nombreDB +
+            "' AND TABLE_NAME = 'instancias_evaluaciones'";
+        ResultSet resultado = sentencia.executeQuery(cadenaSQL);
         resultado.next();
         id_autoincrement = resultado.getInt("auto_increment");
 
@@ -380,9 +401,10 @@ public class BaseDeDatos
         int id_autoincrement = 0;
         //Recupero el valor del proximo id autoincremental
         sentencia = conexion.createStatement();
-        String cadenaSQL="SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '"+this.nombreDB+"' AND TABLE_NAME = 'cursadas'";
-        ResultSet resultado =
-            sentencia.executeQuery(cadenaSQL);
+        String cadenaSQL =
+            "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" + this.nombreDB +
+            "' AND TABLE_NAME = 'cursadas'";
+        ResultSet resultado = sentencia.executeQuery(cadenaSQL);
         resultado.next();
         id_autoincrement = resultado.getInt("auto_increment");
 
@@ -634,5 +656,23 @@ public class BaseDeDatos
         borrar.executeUpdate();
 
     }
+
+    private void leeConfiguracion() throws FileNotFoundException, IOException
+    {
+        FileInputStream fstream;
+
+        fstream = new FileInputStream("config.cfg");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+        this.url = br.readLine();
+        this.nombreDB = br.readLine();
+        this.user = br.readLine();
+        this.password = br.readLine();
+
+        br.close();
+
+
+    }
+
 }
 

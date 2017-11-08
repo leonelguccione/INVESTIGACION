@@ -28,7 +28,7 @@ import modelo.RelacionImpacto;
 
 import util.VistaUtil;
 
-public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener
+public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener,Interface_Arbol_Asignatura
 {
     private ANoEvaluableVisual jtree_arbol_visual = new ANoEvaluableVisual();
     private final JPanel panel_1 = new JPanel();
@@ -346,7 +346,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
                     if (this.nodo_origen.contieneRelacion(rel))
                     {
                         int res =
-                            VistaUtil.dialogoSiNo("Nueva Relación",
+                            VistaUtil.dialogoSiNo("Nueva Relaciï¿½n",
                                                   "Ya existe la relacion: " +
                                                   this.nodo_origen.getRelacionImpacto(this.nodo_destino) +
                                                   "\nDesea reemplazarla?");
@@ -363,7 +363,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
                 }
             } catch (Exception exception)
             {
-                JOptionPane.showMessageDialog(this, textValor.getText().trim() + " no es un número real válido");
+                JOptionPane.showMessageDialog(this, textValor.getText().trim() + " no es un nï¿½mero real vï¿½lido");
             }
 
 
