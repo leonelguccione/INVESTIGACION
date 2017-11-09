@@ -218,6 +218,43 @@
             <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
             <value n="profileName" v="Archivo"/>
          </hash>
+         <hash n="GEMP">
+            <hash n="archiveOptions">
+               <list n="additionalManifests">
+                  <url path="../../../../temp/linea.txt"/>
+               </list>
+               <value n="hasManifest" v="true"/>
+               <value n="mainClass" v="vista.UI_Principal"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                              <value n="type" v="0"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/GEMP.jar"/>
+            <value n="profileClass" v="oracle.jdeveloper.deploy.jar.ArchiveProfile"/>
+            <value n="profileName" v="GEMP"/>
+         </hash>
          <hash n="Modelo_Del_Estudiante">
             <hash n="archiveOptions">
                <list n="additionalManifests">
@@ -304,6 +341,7 @@
          <string v="archive1"/>
          <string v="archive2"/>
          <string v="Archivo"/>
+         <string v="GEMP"/>
          <string v="Modelo_Del_Estudiante"/>
       </list>
    </hash>
