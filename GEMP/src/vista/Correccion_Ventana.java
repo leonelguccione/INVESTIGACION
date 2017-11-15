@@ -39,7 +39,6 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
     private JPanel panel_izquierda;
     private Modelo modelo;
     private PanelCombo4 panel_iz_sup;
-    //private Parcial_Panel_Datos panel_iz_inf;
     private JScrollPane scrollPane;
     private JList jList_examenes;
     private Examen examen_seleccionado = null;
@@ -52,6 +51,7 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
         this.modelo = modelo;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.iniciaGeometria();
+        this.actualizaExamenes();
     }
 
 
@@ -67,7 +67,7 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
 
         this.panel_iz_sup = new PanelCombo4(this.modelo, this);
 
-        //this.panel_iz_inf = new Parcial_Panel_Datos(this);
+        
 
         this.scrollPane = new JScrollPane();
         GroupLayout gl_panel_izquierda = new GroupLayout(this.panel_izquierda);
@@ -137,24 +137,7 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         if (e.getSource() == this.panel_iz_sup)
-        {
-            this.listModel_examenes.removeAllElements();
-            if (this.panel_derecha != null)
-            {
-                this.panel_derecha.setExamen(null);
-                this.panel_derecha.setBorder(new TitledBorder("No hay examen seleccionado"));
-            }
-
-            if (this.panel_iz_sup != null && this.panel_iz_sup.getInstancia_seleccionada() != null)
-            {
-
-                ArrayList<Examen> examenes = this.panel_iz_sup
-                                                 .getInstancia_seleccionada()
-                                                 .getExamenes();
-                for (int i = 0; i < examenes.size(); i++)
-                    this.listModel_examenes.addElement(examenes.get(i));
-
-            }
+        {this.actualizaExamenes();
         }
 
         if (e.getActionCommand().equals(Correccion_Panel_Arbol.GUARDAR))
@@ -245,5 +228,27 @@ public class Correccion_Ventana extends JInternalFrame implements ActionListener
 
 
         // TODO Implement this method
+    }
+
+    private void actualizaExamenes()
+    {
+        this.listModel_examenes.removeAllElements();
+        if (this.panel_derecha != null)
+        {
+            this.panel_derecha.setExamen(null);
+            this.panel_derecha.setBorder(new TitledBorder("No hay examen seleccionado"));
+        }
+
+        if (this.panel_iz_sup != null && this.panel_iz_sup.getInstancia_seleccionada() != null)
+        {
+
+            ArrayList<Examen> examenes = this.panel_iz_sup
+                                             .getInstancia_seleccionada()
+                                             .getExamenes();
+            for (int i = 0; i < examenes.size(); i++)
+                this.listModel_examenes.addElement(examenes.get(i));
+
+        }
+        
     }
 }

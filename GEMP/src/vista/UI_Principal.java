@@ -237,8 +237,12 @@ Asignatura_Ventana ventana=new Asignatura_Ventana(this.modelo);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        UI_Promedio ui_comparaciones = new UI_Promedio(modelo);
-        this.agregaVentana(ui_comparaciones);
+        /*
+         * UI_Promedio ui_comparaciones = new UI_Promedio(modelo);
+        this.agregaVentana(ui_comparaciones); */
+        Promedio_Ventana pv= new Promedio_Ventana(modelo);
+        this.agregaVentana(pv); 
+        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
     /**
      * @param args the command line arguments

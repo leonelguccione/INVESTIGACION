@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -246,8 +247,17 @@ public class ArbolVisual extends JScrollPane
         this.setSeparacionVertical(16);
         this.setViewportView(this.lienzo);
         this.lienzo.addMouseListener(this.miMouseListener);
+        
 
 
+    }
+
+    @Override
+    public void setComponentPopupMenu(JPopupMenu popup)
+    {
+        // TODO Implement this method
+        super.setComponentPopupMenu(popup);
+        this.lienzo.setComponentPopupMenu(popup);
     }
 
     protected void dibujaControlNodoVisual(NodoVisual nodoVisual, Graphics g)

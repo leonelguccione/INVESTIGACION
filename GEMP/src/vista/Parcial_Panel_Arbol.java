@@ -11,10 +11,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
+import modelo.NodoPerturbacion;
 
 public class Parcial_Panel_Arbol extends JPanel implements ActionListener
 {
@@ -32,10 +35,10 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
     public static final String OCULTAR = "OCULTAR";
     public static final String VEROCULTOS = "VEROCULTOS";
     public static final String MAXIMIZAR = "MAXIMIZAR";
+    
     private ArbolPerturbacion arbol;
     private ActionListener actionListener;
-
-
+    
     public Parcial_Panel_Arbol(ArbolPerturbacion arbol, ActionListener actionListener, boolean valor)
     {
         super();
@@ -134,6 +137,10 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+if(e.getSource()==this.jtree_arbol_visual && this.jtree_arbol_visual.getNodoSeleccionado()!=null)        
+        
+        
+        
         if (e.getActionCommand().equals(Parcial_Panel_Arbol.VEROCULTOS))
             this.jtree_arbol_visual.setMuestraNodosOcultos(this.jchVerOcultos.isSelected());
         if (e.getActionCommand().equals(Parcial_Panel_Arbol.OCULTAR) &&
@@ -144,6 +151,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
             this.jtree_arbol_visual.setOculto(this.jtree_arbol_visual.getNodoSeleccionado(), !nv.isOculto());
 
         }
+        
     }
 
 
@@ -155,4 +163,5 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
         this.panelSur.add(jbMaximizar);
         this.jbMaximizar.setEnabled(false);
     }
+    
 }
