@@ -46,7 +46,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
     private Color colorLineasRelacionalesOrigen = Color.cyan;
     private Color colorLineasRelacionalesDestino = Color.red;
 
-
+    private int tamFlecha=20;
     private DialogoNodo dialogoNodo = DialogoNodo.getInstance();
     private JPopupMenu mipop = new JPopupMenu();
     private JMenuItem menuItemDetalle = new JMenuItem("Detalle del Nodo");
@@ -54,6 +54,17 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
     private ActionListener actionlistener;
     private static final String CAPTURA="CAPTURA";
     private static final String DETALLE="DETALLE";
+
+
+    public void setTamFlecha(int tamFlecha)
+    {
+        this.tamFlecha = tamFlecha;
+    }
+
+    public int getTamFlecha()
+    {
+        return tamFlecha;
+    }
 
     private void borraNodoDestinoEnRelaciones(NodoPerturbacion nodo_actual, NodoPerturbacion nodo_a_borrar)
     {
@@ -127,7 +138,8 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
                                 else
                                     colorDestino = ArbolPerturbacionVisual.this.colorLineasRelacionalesDestino;
 
-                                UtilGraphics.lineaDegrade(g,
+                              
+                                   UtilGraphics.flecha(g,
                                                           origen.getX() +
                                                           ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
                                                           origen.getY() +
@@ -136,7 +148,8 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
                                                           ArbolPerturbacionVisual.this.getAnchoNodo() / 2,
                                                           destino.getY() +
                                                           ArbolPerturbacionVisual.this.getAltoNodo() / 2, colorOrigen,
-                                                          colorDestino, 100);
+                                                          colorDestino, ArbolPerturbacionVisual.this.getAnchoNodo(),ArbolPerturbacionVisual.this.getAltoNodo(),tamFlecha,100); 
+                                
                             }
                         }
                     }
@@ -155,7 +168,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-        this.setColorFondo(Color.lightGray);
+      //  this.setColorFondo(Color.lightGray);
     }
 
     public ArbolPerturbacionVisual(DefaultTreeModel defaultTreeModel)
@@ -164,7 +177,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-        this.setColorFondo(Color.lightGray);
+      //  this.setColorFondo(Color.lightGray);
     }
 
     public ArbolPerturbacionVisual()
@@ -173,7 +186,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-        this.setColorFondo(new Color(230,230,230));
+       // this.setColorFondo(new Color(230,230,230));
     }
 
     @Override
