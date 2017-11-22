@@ -92,6 +92,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     {
         this.jtree_arbol_visual.setLineasRectas(true);
         this.jtree_arbol_visual.setBorder(new LineBorder(new Color(0, 0, 0)));
+        this.jtree_arbol_visual.setColorFondo(Color.lightGray);
    
         
         this.panel_10.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

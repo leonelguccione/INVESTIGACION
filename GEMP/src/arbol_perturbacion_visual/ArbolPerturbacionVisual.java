@@ -45,7 +45,7 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
 
     private Color colorLineasRelacionalesOrigen = Color.cyan;
     private Color colorLineasRelacionalesDestino = Color.red;
-
+    private Color colorFondoCapa2;
     private int tamFlecha=20;
     private DialogoNodo dialogoNodo = DialogoNodo.getInstance();
     private JPopupMenu mipop = new JPopupMenu();
@@ -102,6 +102,15 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
             // TODO Implement this method
 
             Iterator<NodoVisual> nodosVisuales = ArbolPerturbacionVisual.this.iteratorNodosVisuales();
+            
+            if (ArbolPerturbacionVisual.this.colorFondoCapa2 != null)
+            {
+                g.setColor(ArbolPerturbacionVisual.this.colorFondoCapa2);
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+            }
+            
+            
+            
             while (nodosVisuales.hasNext())
             {
                 NodoVisual origen = nodosVisuales.next();
@@ -168,7 +177,8 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-      //  this.setColorFondo(Color.lightGray);
+        this.colorFondoCapa2=super.getColorFondo();
+        super.setColorFondo(null);
     }
 
     public ArbolPerturbacionVisual(DefaultTreeModel defaultTreeModel)
@@ -177,7 +187,8 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-      //  this.setColorFondo(Color.lightGray);
+        this.colorFondoCapa2=super.getColorFondo();
+        super.setColorFondo(null);
     }
 
     public ArbolPerturbacionVisual()
@@ -186,8 +197,9 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         this.setLienzo(new LienzoRelacional());
         this.arbolListener = new ArbolPerturbacionListener();
         this.configuraPopUp();
-       // this.setColorFondo(new Color(230,230,230));
-    }
+        this.colorFondoCapa2=super.getColorFondo();
+               super.setColorFondo(null);
+           }
 
     @Override
     protected void dibujaNodoVisual(NodoVisual nodoVisual, Graphics g)
@@ -340,4 +352,16 @@ public abstract class ArbolPerturbacionVisual extends ArbolVisual
         return image;
     }
 
+    @Override
+    public void setColorFondo(Color colorFondo)
+    {
+        this.colorFondoCapa2=colorFondo;
+    }
+
+    @Override
+    public Color getColorFondo()
+    {
+        // TODO Implement this method
+        return this.colorFondoCapa2;
+    }
 }
