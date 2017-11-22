@@ -6,6 +6,7 @@ import excepciones.RaizNulaException;
 import arbol_perturbacion_visual.AEvaluableVisual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -231,6 +232,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
         setLayout(groupLayout);
         this.jtree_arbol_visual.setLineasRectas(true);
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
+        this.jtree_arbol_visual.setColorFondo(new Color(230,230,230));
         this.chckbxVerNodosOcultos.setSelected(true);
         
 

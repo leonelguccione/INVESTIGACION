@@ -6,6 +6,7 @@ import arbolvisual.NodoVisual;
 
 import java.awt.BorderLayout;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -49,6 +50,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
         this.setActionCommands();
         this.iniciaGeometria();
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
+        this.jtree_arbol_visual.setColorFondo(new Color(230,230,230));
         this.jchVerOcultos.addActionListener(this);
         this.jbOcultar.addActionListener(this);
         this.addActionListener(this.actionListener);

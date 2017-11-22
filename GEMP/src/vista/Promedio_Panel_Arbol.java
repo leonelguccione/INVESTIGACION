@@ -4,6 +4,7 @@ import arbol_perturbacion_visual.AEvaluableVisual;
 
 import java.awt.BorderLayout;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,6 +41,7 @@ public class Promedio_Panel_Arbol extends JPanel implements ActionListener,Inter
         this.chckbxVerNodosOcultos.addActionListener(this);
         this.chckbxVerNodosOcultos.setActionCommand(Promedio_Panel_Arbol.OCULTOS);
         this.jTree_Arbol_Perturbacion.setLineasRectas(true);
+        this.jTree_Arbol_Perturbacion.setColorFondo(new Color(230,230,230));
     }
 
     @Override
