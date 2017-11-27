@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -29,6 +30,8 @@ import javax.swing.event.ListSelectionListener;
 import modelo.ArbolPerturbacion;
 import modelo.Examen;
 import modelo.Modelo;
+import modelo.NodoPerturbacion;
+import modelo.ResultadoAnalisisArbol;
 
 
 public class Promedio_Ventana extends JInternalFrame implements ActionListener, ListSelectionListener
@@ -55,6 +58,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     private static final String PROMEDIAR = "PROMEDIAR";
     private ArbolPerturbacion arbol_promedio = null;
     private Interface_Arbol_Promedio interface_Arbol;
+    ResultadoAnalisisArbol resultadoAnalisis=null;
 
 
     public Promedio_Ventana(Modelo modelo)
@@ -286,11 +290,12 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         if (arboles.size() > 0)
             try
             {
-                arbol_promedio = ArbolPerturbacion.promedio(arboles);
+                this.resultadoAnalisis=ArbolPerturbacion.promedio(arboles);
+                arbol_promedio = resultadoAnalisis.getArbol();
                 this.arbol_promedio.setNombre(titulo);
                
                 this.interface_Arbol.setArbol(arbol_promedio);
-            
+            this.actualizaVisualmenteResultado();
 
             } catch (ArithmeticException e)
             {
@@ -314,6 +319,24 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
             for (int i = 0; i < examenes.size(); i++)
                 this.listModel_examenes.addElement(examenes.get(i));
         }
+    }
+
+    private void actualizaVisualmenteResultado()
+    {if(this.resultadoAnalisis!=null)
+     {
+         Iterator <NodoPerturbacion> it=this.resultadoAnalisis.getErrores().keySet().iterator();
+         while (it.hasNext())
+         {
+             NodoPerturbacion n=it.next();
+             Integer i=this.resultadoAnalisis.getErrores().get(n);
+             System.out.println("Nodo: "+n+" Errores: "+i);
+             
+             }
+         
+         
+         
+         }
+     
     }
 }
 

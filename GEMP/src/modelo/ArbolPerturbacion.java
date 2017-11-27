@@ -83,7 +83,6 @@ public class ArbolPerturbacion implements Serializable, Cloneable
 
     }
 
-   
 
     public boolean isVacio()
     {
@@ -230,41 +229,37 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         // TODO Implement this method
         return ArbolPerturbacion.deserializar(this.serializar());
     }
-    
-    
+
+
     public ArbolPerturbacion toEvaluable()
-    {ArbolPerturbacion nuevo=new ArbolPerturbacion(this.getNombre(),this.getDescripcion());
-     HashMap<NodoPerturbacion, NodoPerturbacionEvaluable> hashmap = new HashMap<NodoPerturbacion, NodoPerturbacionEvaluable> ();
-     NodoPerturbacionEvaluable raizEvaluada=new NodoPerturbacionEvaluable(this.getRaiz(),hashmap);
-     nuevo.setRaiz(raizEvaluada);
-     Iterator <NodoPerturbacion> iterator_nodos=hashmap.keySet().iterator();
-     
-     
-     
-     
-     while(iterator_nodos.hasNext())
-     {
-      NodoPerturbacion n=iterator_nodos.next();
-     Iterator<RelacionImpacto>it_relaciones=n.iteratorImpactos();
-         while(it_relaciones.hasNext()) 
-         {
-             RelacionImpacto rel=it_relaciones.next();
-             hashmap.get(n).addImpacto(new RelacionImpacto(hashmap.get(rel.getNodo()), rel.getValor()));
-             
-             }
-        
-               
-         
-         }
-     
-     
-     
-     
-     
-     return nuevo;
-        
-        
+    {
+        ArbolPerturbacion nuevo = new ArbolPerturbacion(this.getNombre(), this.getDescripcion());
+        HashMap<NodoPerturbacion, NodoPerturbacionEvaluable> hashmap =
+            new HashMap<NodoPerturbacion, NodoPerturbacionEvaluable>();
+        NodoPerturbacionEvaluable raizEvaluada = new NodoPerturbacionEvaluable(this.getRaiz(), hashmap);
+        nuevo.setRaiz(raizEvaluada);
+        Iterator<NodoPerturbacion> iterator_nodos = hashmap.keySet().iterator();
+
+
+        while (iterator_nodos.hasNext())
+        {
+            NodoPerturbacion n = iterator_nodos.next();
+            Iterator<RelacionImpacto> it_relaciones = n.iteratorImpactos();
+            while (it_relaciones.hasNext())
+            {
+                RelacionImpacto rel = it_relaciones.next();
+                hashmap.get(n).addImpacto(new RelacionImpacto(hashmap.get(rel.getNodo()), rel.getValor()));
+
+            }
+
+
         }
+
+
+        return nuevo;
+
+
+    }
 
     public void suma(ArbolPerturbacion sumando) throws NotSemejanteException
     {
@@ -296,19 +291,28 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         this.getRaiz().dividir(divisor);
     }
 
-    public static ArbolPerturbacion promedio(ArrayList<ArbolPerturbacion> lista) throws ArithmeticException,
-                                                                                          NotSemejanteException
+    public static ResultadoAnalisisArbol promedio(ArrayList<ArbolPerturbacion> lista) throws ArithmeticException,
+                                                                                        NotSemejanteException
     {
-        ArbolPerturbacion resultado = null;
+        ResultadoAnalisisArbol resultado = null ;
+        ArbolPerturbacion arbolPromediado = null;
         if (lista != null && lista.size() != 0)
         {
-            resultado = lista.get(0).clone();
+            resultado=new ResultadoAnalisisArbol();
+            arbolPromediado = lista.get(0).clone();
+            resultado.setArbol(arbolPromediado);
             for (int i = 1; i < lista.size(); i++)
-                resultado.suma(lista.get(i));
-            resultado.dividir(lista.size());
+            {
+                arbolPromediado.suma(lista.get(i));
+                arbolPromediado.getRaiz().analizaCorrecciones(lista.get(i).getRaiz(), resultado);
+            }
+            arbolPromediado.dividir(lista.size());
         }
+
+
         return resultado;
     }
+
 
     public boolean isCorregido()
     {
@@ -331,28 +335,29 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         String cadena = "";
         for (int i = 0; i < nodo.getLevel(); i++)
             cadena = cadena + "|";
-        cadena = cadena + "-"+nodo.toString();
-        if(!nodo.esHoja())
-            for (int i = 0; i < nodo.getChildCount(); i++) 
-                cadena=cadena+"\n"+this.detalle((NodoPerturbacion) nodo.getChildAt(i));
-        
+        cadena = cadena + "-" + nodo.toString();
+        if (!nodo.esHoja())
+            for (int i = 0; i < nodo.getChildCount(); i++)
+                cadena = cadena + "\n" + this.detalle((NodoPerturbacion) nodo.getChildAt(i));
+
         return cadena;
 
 
     }
+
     public String detalleCompleto()
     {
         return detalle(this.getRaiz());
-        }
+    }
 
     public void borrarPostOrder(NodoPerturbacion nodo)
     {
-        
-        while(nodo.getChildCount()>0)
+
+        while (nodo.getChildCount() > 0)
         {
             this.borrarPostOrder((NodoPerturbacion) nodo.getChildAt(0));
-            }
-        this.getTreeModel().removeNodeFromParent(nodo);
-        
         }
+        this.getTreeModel().removeNodeFromParent(nodo);
+
+    }
 }

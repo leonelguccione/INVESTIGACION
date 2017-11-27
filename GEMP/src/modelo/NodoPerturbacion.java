@@ -215,8 +215,30 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
             }
         }
     }
+    
+    
+    public void analizaCorrecciones (NodoPerturbacion nodoAnalizable, ResultadoAnalisisArbol resultado)
+    {
 
+            double sumaErrores=nodoAnalizable.getDesconocido()+nodoAnalizable.getParcialmenteConocido();
+            if(sumaErrores==1) resultado.sumaError(this);
+            
 
+            if (!this.esHoja())
+            {
+                Enumeration hijos_propios = this.children();
+                Enumeration hijos_analizable = nodoAnalizable.children();
+                NodoPerturbacion proximo_analizable;
+                NodoPerturbacion proximo_propios;
+                while (hijos_propios.hasMoreElements() && hijos_analizable.hasMoreElements())
+                {
+                    proximo_analizable = (NodoPerturbacion) hijos_analizable.nextElement();
+                    proximo_propios = (NodoPerturbacion) hijos_propios.nextElement();
+                    proximo_propios.analizaCorrecciones(proximo_analizable,resultado);
+                }
+            }
+        
+        }
     public void resta(NodoPerturbacion sustraendo)
     {
         this.getEtiqueta().resta(sustraendo.getEtiqueta());
