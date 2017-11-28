@@ -1,6 +1,8 @@
 package modelo;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 public class ResultadoAnalisisArbol
 {
@@ -38,4 +40,19 @@ public class ResultadoAnalisisArbol
     {
         return arbol;
     }
+    public TreeSet<NodoConError> getNodosCOnError()
+    {TreeSet<NodoConError> result=new TreeSet<NodoConError>();
+     
+            Iterator <NodoPerturbacion> it=this.getErrores().keySet().iterator();
+            while (it.hasNext())
+            {
+                NodoPerturbacion n=it.next();
+                Integer i=this.getErrores().get(n);
+                result.add(new NodoConError(n,i));
+                
+                
+                }
+     return result;
+        
+        }
 }

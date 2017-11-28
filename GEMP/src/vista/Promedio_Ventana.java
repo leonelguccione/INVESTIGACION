@@ -3,6 +3,7 @@ package vista;
 import excepciones.NotSemejanteException;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -22,15 +24,21 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import javax.swing.table.DefaultTableModel;
+
 import modelo.ArbolPerturbacion;
 import modelo.Examen;
 import modelo.Modelo;
+import modelo.NodoConError;
 import modelo.NodoPerturbacion;
+import modelo.RelacionImpacto;
 import modelo.ResultadoAnalisisArbol;
 
 
@@ -45,12 +53,13 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     private Modelo modelo;
     private PanelCombo4 panel_iz_sup;
 
-    private JScrollPane scrollPane;
+    private JScrollPane scrollPaneExamenesEvaluados;
     private JList<Examen> jList_examenes;
     private JList<Examen> jList_promediados;
-    
+
     private Promedio_Arbol_No_Modal ventanaModal = null;
-    private JScrollPane scrollPane_1;
+    private JScrollPane scrollPaneExamenesPromediados;
+    private JPanel panelDerechaSuperior;
     private JButton btnMaximizar;
     private JButton btnPromediar;
 
@@ -58,7 +67,9 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     private static final String PROMEDIAR = "PROMEDIAR";
     private ArbolPerturbacion arbol_promedio = null;
     private Interface_Arbol_Promedio interface_Arbol;
-    ResultadoAnalisisArbol resultadoAnalisis=null;
+    ResultadoAnalisisArbol resultadoAnalisis = null;
+    private JTable table;
+    private JScrollPane scrollPaneTable;
 
 
     public Promedio_Ventana(Modelo modelo)
@@ -67,7 +78,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.iniciaGeometria();
         this.actualizaExamenes();
-        
+
     }
 
 
@@ -83,9 +94,9 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
 
         this.panel_iz_sup = new PanelCombo4(this.modelo, this);
 
+        this.panelDerechaSuperior = new JPanel();
 
-
-        this.scrollPane = new JScrollPane();
+        this.scrollPaneExamenesEvaluados = new JScrollPane();
         GroupLayout gl_panel_izquierda = new GroupLayout(this.panel_izquierda);
         gl_panel_izquierda.setHorizontalGroup(gl_panel_izquierda.createParallelGroup(Alignment.TRAILING)
                                               .addGroup(gl_panel_izquierda.createSequentialGroup()
@@ -93,7 +104,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
                                                                                                                                     .addGroup(gl_panel_izquierda.createParallelGroup(Alignment.TRAILING)
                                                                                                                                                                 .
 
-                                                                                                                                                                addComponent(this.scrollPane,
+                                                                                                                                                                addComponent(this.scrollPaneExamenesEvaluados,
                                                                                                                                                                              Alignment.LEADING,
                                                                                                                                                                              GroupLayout.DEFAULT_SIZE,
                                                                                                                                                                              248,
@@ -110,7 +121,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
                                                                                                                                                GroupLayout.PREFERRED_SIZE,
                                                                                                                                                151, GroupLayout.PREFERRED_SIZE)
                                                                         .addGap(5)
-                                                                        .addComponent(this.scrollPane,
+                                                                        .addComponent(this.scrollPaneExamenesEvaluados,
                                                                                       GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                                                                         .addGap(5)));
         this.panel_izquierda.setLayout(gl_panel_izquierda);
@@ -150,11 +161,32 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
                                                                               .addContainerGap()));
         panel_derecha.setLayout(new BorderLayout(0, 0));
 
-        scrollPane_1 = new JScrollPane();
-        panel_derecha.add(scrollPane_1, BorderLayout.CENTER);
+        scrollPaneExamenesPromediados = new JScrollPane();
+        this.panelDerechaSuperior.setLayout(new GridLayout(2, 1));
+        this.panelDerechaSuperior.add(scrollPaneExamenesPromediados);
+        JPanel panelTable = new JPanel();
+        panelTable.setBorder(javax.swing
+                                  .BorderFactory
+                                  .createTitledBorder("Nodos con errores:"));
+
+        this.panelDerechaSuperior.add(panelTable);
+
+        this.table = new JTable();
+        this.scrollPaneTable = new JScrollPane();
+        this.scrollPaneTable.setViewportView(this.table);
+        this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.table.setBorder(null);
+        this.table.setModel(new DefaultTableModel(new Object[][] {
+
+
+                } , new String[] { "Nodo", "Cant. Errores" }));
+        panelTable.setLayout(new BorderLayout());
+        panelTable.add(this.scrollPaneTable);
+
+        panel_derecha.add(this.panelDerechaSuperior, BorderLayout.CENTER);
         this.jList_promediados = new JList<Examen>();
 
-        scrollPane_1.setViewportView(this.jList_promediados);
+        scrollPaneExamenesPromediados.setViewportView(this.jList_promediados);
 
         JPanel panel = new JPanel();
         panel_derecha.add(panel, BorderLayout.SOUTH);
@@ -166,7 +198,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         this.btnMaximizar = new JButton("Maximizar");
         panel.add(btnMaximizar);
         jList_examenes = new javax.swing.JList<Examen>();
-        this.scrollPane.setViewportView(jList_examenes);
+        this.scrollPaneExamenesEvaluados.setViewportView(jList_examenes);
         jList_examenes.setBorder(javax.swing
                                       .BorderFactory
                                       .createTitledBorder("Alumnos Evaluados:"));
@@ -184,6 +216,9 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         this.btnMaximizar.addActionListener(this);
         this.btnPromediar.addActionListener(this);
         this.jList_examenes.addListSelectionListener(this);
+
+        ListSelectionModel lsm = this.table.getSelectionModel();
+        lsm.addListSelectionListener(this);
     }
 
     @Override
@@ -191,7 +226,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     {
         if (e.getSource() == this.panel_iz_sup)
         {
-          this.actualizaExamenes();
+            this.actualizaExamenes();
         }
         if (e.getActionCommand().equals(Promedio_Ventana.PROMEDIAR))
             this.promediar();
@@ -202,14 +237,14 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
 
             this.ventanaModal = Promedio_Arbol_No_Modal.getInstance();
             this.ventanaModal.setVisible(true);
-            
-            
+
+
             this.interface_Arbol = this.ventanaModal;
             this.interface_Arbol.setArbol(arbol_promedio);
             this.panelArbol.setVisible(false);
             this.ventanaModal.addWindowListener(new WindowAdapter()
             {
-                
+
 
                 @Override
                 public void windowClosing(WindowEvent e)
@@ -217,9 +252,9 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
 
 
                     Promedio_Ventana.this.setVisible(true);
-                    Promedio_Ventana.this.interface_Arbol=Promedio_Ventana.this.panelArbol;
+                    Promedio_Ventana.this.interface_Arbol = Promedio_Ventana.this.panelArbol;
                     Promedio_Ventana.this.interface_Arbol.setArbol(arbol_promedio);
-                   Promedio_Ventana.this.panelArbol.setVisible(true);
+                    Promedio_Ventana.this.panelArbol.setVisible(true);
                 }
             });
 
@@ -255,7 +290,21 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
+
         this.verificar_enabled();
+        if (e.getSource() == this.table.getSelectionModel())
+        {
+            int j = this.table.getSelectedRow();
+            if (j != -1)
+            {
+                NodoPerturbacion nodosel = (NodoPerturbacion) this.table
+                                                                  .getModel()
+                                                                  .getValueAt(j, 0);
+
+                this.panelArbol.setNodoSeleccionado(nodosel);
+            }
+
+        }
     }
 
 
@@ -290,12 +339,12 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         if (arboles.size() > 0)
             try
             {
-                this.resultadoAnalisis=ArbolPerturbacion.promedio(arboles);
+                this.resultadoAnalisis = ArbolPerturbacion.promedio(arboles);
                 arbol_promedio = resultadoAnalisis.getArbol();
                 this.arbol_promedio.setNombre(titulo);
-               
+
                 this.interface_Arbol.setArbol(arbol_promedio);
-            this.actualizaVisualmenteResultado();
+                this.actualizaVisualmenteResultado();
 
             } catch (ArithmeticException e)
             {
@@ -322,21 +371,27 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     }
 
     private void actualizaVisualmenteResultado()
-    {if(this.resultadoAnalisis!=null)
-     {
-         Iterator <NodoPerturbacion> it=this.resultadoAnalisis.getErrores().keySet().iterator();
-         while (it.hasNext())
-         {
-             NodoPerturbacion n=it.next();
-             Integer i=this.resultadoAnalisis.getErrores().get(n);
-             System.out.println("Nodo: "+n+" Errores: "+i);
-             
-             }
-         
-         
-         
-         }
-     
+    {
+        if (this.resultadoAnalisis != null)
+        {
+            Iterator<NodoConError> it = this.resultadoAnalisis
+                                            .getNodosCOnError()
+                                            .descendingIterator();
+            DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+            model.setRowCount(0);
+
+            while (it.hasNext())
+            {
+                NodoConError ne = it.next();
+
+                Object[] array =
+                {
+                    ne.getNodo(), ne.getCantidad()
+                };
+
+                model.addRow(array);
+            }
+        }
     }
 }
 

@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.tree.TreeModel;
 
 import modelo.ArbolPerturbacion;
+import modelo.NodoPerturbacion;
 
 public class Promedio_Panel_Arbol extends JPanel implements ActionListener,Interface_Arbol_Promedio
 {
@@ -78,4 +79,7 @@ public class Promedio_Panel_Arbol extends JPanel implements ActionListener,Inter
     }
 
 
+    void setNodoSeleccionado(NodoPerturbacion nodosel)
+    {this.jTree_Arbol_Perturbacion.setNodoSeleccionado(nodosel);
+    }
 }
