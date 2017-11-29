@@ -300,14 +300,16 @@ public class ArbolPerturbacion implements Serializable, Cloneable
         {
             resultado=new ResultadoAnalisisArbol();
             arbolPromediado = lista.get(0).clone();
-            resultado.setArbol(arbolPromediado);
+            
             for (int i = 1; i < lista.size(); i++)
             {
                 arbolPromediado.suma(lista.get(i));
-                arbolPromediado.getRaiz().analizaCorrecciones(lista.get(i).getRaiz(), resultado);
+               
             }
             arbolPromediado.dividir(lista.size());
         }
+        resultado.setArbol(arbolPromediado);
+        resultado.analizaCorrecciones(lista);
 
 
         return resultado;
