@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,8 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,7 +31,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableModel;
 
 import modelo.ArbolPerturbacion;
@@ -38,7 +38,6 @@ import modelo.Examen;
 import modelo.Modelo;
 import modelo.NodoConError;
 import modelo.NodoPerturbacion;
-import modelo.RelacionImpacto;
 import modelo.ResultadoAnalisisArbol;
 
 
@@ -63,13 +62,22 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     private JButton btnMaximizar;
     private JButton btnPromediar;
 
-    private static final String MAXIMIZAR = "MAXIMIZAR";
+    private static final String MAXIMIZAR_ARBOL = "MAXIMIZAR_ARBOL";
+    private static final String MAXIMIZAR_TABLA = "MAXIMIZAR_TABLA";
+
     private static final String PROMEDIAR = "PROMEDIAR";
+
+
     private ArbolPerturbacion arbol_promedio = null;
     private Interface_Arbol_Promedio interface_Arbol;
     ResultadoAnalisisArbol resultadoAnalisis = null;
     private JTable table;
     private JScrollPane scrollPaneTable;
+    private JPopupMenu popupTable = new JPopupMenu();
+    private JMenuItem menuItemMaximizaTabla = new JMenuItem("Maximizar Tabla");
+    private JPanel panelTable;
+    private DefaultTableModel miTableModel;
+    private Promedio_Tabla_No_Modal ptnm = null;
 
 
     public Promedio_Ventana(Modelo modelo)
@@ -164,7 +172,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         scrollPaneExamenesPromediados = new JScrollPane();
         this.panelDerechaSuperior.setLayout(new GridLayout(2, 1));
         this.panelDerechaSuperior.add(scrollPaneExamenesPromediados);
-        JPanel panelTable = new JPanel();
+        this.panelTable = new JPanel();
         panelTable.setBorder(javax.swing
                                   .BorderFactory
                                   .createTitledBorder("Nodos con errores:"));
@@ -176,10 +184,19 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
         this.scrollPaneTable.setViewportView(this.table);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.table.setBorder(null);
-        this.table.setModel(new DefaultTableModel(new Object[][] {
+        this.miTableModel = new DefaultTableModel(new Object[][] { }, new String[] { "Nodo", "Cant. Errores" }){
 
-
-                } , new String[] { "Nodo", "Cant. Errores" }));
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            };
+        };
+        
+        
+        
+        
+        this.table.setModel(this.miTableModel);
         panelTable.setLayout(new BorderLayout());
         panelTable.add(this.scrollPaneTable);
 
@@ -211,7 +228,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
                                               .BorderFactory
                                               .createTitledBorder("Examenes Promediados:"));
 
-        this.btnMaximizar.setActionCommand(Promedio_Ventana.MAXIMIZAR);
+        this.btnMaximizar.setActionCommand(Promedio_Ventana.MAXIMIZAR_ARBOL);
         this.btnPromediar.setActionCommand(Promedio_Ventana.PROMEDIAR);
         this.btnMaximizar.addActionListener(this);
         this.btnPromediar.addActionListener(this);
@@ -219,6 +236,8 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
 
         ListSelectionModel lsm = this.table.getSelectionModel();
         lsm.addListSelectionListener(this);
+        
+        this.configuraPopUp();
     }
 
     @Override
@@ -232,7 +251,7 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
             this.promediar();
 
 
-        if (e.getActionCommand().equals(Promedio_Ventana.MAXIMIZAR))
+        if (e.getActionCommand().equals(Promedio_Ventana.MAXIMIZAR_ARBOL))
         {
 
             this.ventanaModal = Promedio_Arbol_No_Modal.getInstance();
@@ -260,22 +279,12 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
 
 
         }
-    }
-    /*
-    @Override
-    public void valueChanged(ListSelectionEvent e)
-    {
-
-        this.examen_seleccionado = (Examen) this.jList_examenes.getSelectedValue();
-        if (this.examen_seleccionado != null)
+        if (e.getActionCommand().equals(Promedio_Ventana.MAXIMIZAR_TABLA))
         {
-            this.panel_centro.limpiarZona();
-            this.panel_centro.setExamen(this.examen_seleccionado);
-
-            this.panel_centro.setBorder(new TitledBorder("Examen: " + this.examen_seleccionado.toString()));
+            this.ptnm = new Promedio_Tabla_No_Modal(this.miTableModel, this);
         }
-        // TODO Implement this method
-    }*/
+    }
+
     private void verificar_enabled()
     {
         boolean habilitado;
@@ -292,16 +301,26 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
     {
 
         this.verificar_enabled();
-        if (e.getSource() == this.table.getSelectionModel())
+        if (e.getSource() == this.table.getSelectionModel() ||
+            (this.ptnm != null && e.getSource() == this.ptnm.getSlectionModel()))
+
         {
-            int j = this.table.getSelectedRow();
+
+            JTable latabletocada;
+            if (e.getSource() == this.table.getSelectionModel())
+                latabletocada = this.table;
+            else
+                latabletocada = this.ptnm.getTable();
+
+            int j = latabletocada.getSelectedRow();
             if (j != -1)
             {
-                NodoPerturbacion nodosel = (NodoPerturbacion) this.table
-                                                                  .getModel()
-                                                                  .getValueAt(j, 0);
+                    Object o = this.miTableModel.getValueAt(j, 0);
+                
+                    NodoPerturbacion nodosel = (NodoPerturbacion) o;
 
-                this.panelArbol.setNodoSeleccionado(nodosel);
+                    this.panelArbol.setNodoSeleccionado(nodosel);
+                
             }
 
         }
@@ -377,8 +396,8 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
             Iterator<NodoConError> it = this.resultadoAnalisis
                                             .getNodosCOnError()
                                             .descendingIterator();
-            DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-            model.setRowCount(0);
+
+            this.miTableModel.setRowCount(0);
 
             while (it.hasNext())
             {
@@ -389,9 +408,20 @@ public class Promedio_Ventana extends JInternalFrame implements ActionListener, 
                     ne.getNodo(), ne.getCantidad()
                 };
 
-                model.addRow(array);
+                this.miTableModel.addRow(array);
             }
         }
     }
+
+    private void configuraPopUp()
+    {
+        this.popupTable.add(this.menuItemMaximizaTabla);
+        this.table.setComponentPopupMenu(this.popupTable);
+        this.menuItemMaximizaTabla.setActionCommand(this.MAXIMIZAR_TABLA);
+        this.menuItemMaximizaTabla.addActionListener(this);
+
+    }
+
+
 }
 
