@@ -6,15 +6,19 @@ import arbolvisual.NodoVisual;
 
 import java.awt.BorderLayout;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import modelo.ArbolPerturbacion;
+import modelo.NodoPerturbacion;
 
 public class Parcial_Panel_Arbol extends JPanel implements ActionListener
 {
@@ -32,9 +36,9 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
     public static final String OCULTAR = "OCULTAR";
     public static final String VEROCULTOS = "VEROCULTOS";
     public static final String MAXIMIZAR = "MAXIMIZAR";
+
     private ArbolPerturbacion arbol;
     private ActionListener actionListener;
-
 
     public Parcial_Panel_Arbol(ArbolPerturbacion arbol, ActionListener actionListener, boolean valor)
     {
@@ -46,6 +50,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
         this.setActionCommands();
         this.iniciaGeometria();
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
+        this.jtree_arbol_visual.setColorFondo(new Color(230, 230, 230));
         this.jchVerOcultos.addActionListener(this);
         this.jbOcultar.addActionListener(this);
         this.addActionListener(this.actionListener);
@@ -117,7 +122,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
                                                                    .BevelBorder
                                                                    .RAISED));
         this.setModoEdicion(false);
-      
+
 
     }
 
@@ -134,8 +139,14 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        //if (e.getSource() == this.jtree_arbol_visual && this.jtree_arbol_visual.getNodoSeleccionado() != null)
+
+
         if (e.getActionCommand().equals(Parcial_Panel_Arbol.VEROCULTOS))
+
             this.jtree_arbol_visual.setMuestraNodosOcultos(this.jchVerOcultos.isSelected());
+
+
         if (e.getActionCommand().equals(Parcial_Panel_Arbol.OCULTAR) &&
             this.jtree_arbol_visual.getNodoSeleccionado() != null)
         {
@@ -144,6 +155,7 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
             this.jtree_arbol_visual.setOculto(this.jtree_arbol_visual.getNodoSeleccionado(), !nv.isOculto());
 
         }
+
     }
 
 
@@ -155,4 +167,5 @@ public class Parcial_Panel_Arbol extends JPanel implements ActionListener
         this.panelSur.add(jbMaximizar);
         this.jbMaximizar.setEnabled(false);
     }
+
 }

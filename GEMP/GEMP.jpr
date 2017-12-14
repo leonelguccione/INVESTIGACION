@@ -221,7 +221,7 @@
          <hash n="GEMP">
             <hash n="archiveOptions">
                <list n="additionalManifests">
-                  <url path="../../../../temp/linea.txt"/>
+                  <url path="../ANEXOS/linea.txt"/>
                </list>
                <value n="hasManifest" v="true"/>
                <value n="mainClass" v="vista.UI_Principal"/>

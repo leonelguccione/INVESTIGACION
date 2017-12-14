@@ -36,6 +36,7 @@ public class PanelCombo4 extends PanelCombo3
 
     public Instancia_Evaluacion getInstancia_seleccionada()
     {
+        
         return (Instancia_Evaluacion) this.comboBoxModelInstancia.getSelectedItem();
     }
 

@@ -6,6 +6,7 @@ import excepciones.RaizNulaException;
 import arbol_perturbacion_visual.AEvaluableVisual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +18,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
@@ -59,6 +62,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
     public static final String MAXIMIZAR = "MAXIMIZAR";
     public static final String ACEPTAR = "ACEPTAR";
     public static final String OCULTAR = "OCULTAR";
+   
     private final JCheckBox chckbxModificado = new JCheckBox("Modificado");
     private final JLabel lblPorcentajeCorregido = new JLabel("Porcentaje Corregido:");
     private final JPanel panel_7 = new JPanel();
@@ -67,6 +71,8 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
     private final JProgressBar progressBar = new JProgressBar();
     private ActionListener listener;
     private NodoPerturbacionEvaluable nodo_seleccionado = null;
+   
+
 
     /**
      * @return the examen
@@ -98,10 +104,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
 
     private void habilitaDesahabilita(boolean b)
     {
-        /*  this.btnAceptar.setEnabled(b);
-        this.btnGuardar.setEnabled(b);
-        this.btnMaximizar.setEnabled(b);
-        this.chckbxVerNodosOcultos.setEnabled(b); */
+     
         this.textFieldDesconocido.setEnabled(b);
         this.textFieldParcialmente.setEnabled(b);
         this.textFieldConocido.setEnabled(b);
@@ -229,8 +232,9 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
         setLayout(groupLayout);
         this.jtree_arbol_visual.setLineasRectas(true);
         this.jtree_arbol_visual.setMuestraNodosOcultos(true);
+        this.jtree_arbol_visual.setColorFondo(new Color(230,230,230));
         this.chckbxVerNodosOcultos.setSelected(true);
-
+        
 
     }
 
@@ -266,9 +270,9 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
             nodo_seleccionado = (NodoPerturbacionEvaluable) this.jtree_arbol_visual.getNodoSeleccionado();
             this.btnAceptar.setEnabled(this.nodo_seleccionado != null && this.valoresValidos());
             this.habilitaDesahabilita(false);
+            
             if (nodo_seleccionado != null && this.jtree_arbol_visual.isEnabled())
             {
-
                 if ((!nodo_seleccionado.tieneHijoEvaluable() && nodo_seleccionado.isEvaluado()))
                 {
                     this.habilitaDesahabilita(true);
@@ -296,7 +300,7 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
             }
             this.btnAceptar.setEnabled(this.nodo_seleccionado != null && this.valoresValidos());
         }
-
+        
         if (arg0.getActionCommand().equals(Correccion_Panel_Arbol.ACEPTAR))
             this.actualizaEtiqueta();
         if (arg0.getActionCommand().equals(Correccion_Panel_Arbol.OCULTAR))
@@ -443,6 +447,5 @@ public class Correccion_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.verifica_modificado();
 
     }
-
-
+    
 }

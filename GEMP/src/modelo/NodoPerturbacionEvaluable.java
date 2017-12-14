@@ -161,6 +161,8 @@ public class NodoPerturbacionEvaluable extends NodoPerturbacion
         }
         return aux;
     }
-
-
+    
+    
+   
+    
 }

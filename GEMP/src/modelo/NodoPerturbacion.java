@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author leonel
  */
-public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjuntoDifuso
+public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjuntoDifuso//, Comparable
 {
     @SuppressWarnings("compatibility:-6181443248382898133")
     private static final long serialVersionUID = -945102238251152449L;
@@ -215,8 +215,9 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
             }
         }
     }
-
-
+    
+    
+   
     public void resta(NodoPerturbacion sustraendo)
     {
         this.getEtiqueta().resta(sustraendo.getEtiqueta());
@@ -394,6 +395,24 @@ public class NodoPerturbacion extends DefaultMutableTreeNode implements IConjunt
         return cartel;
 
     }
+
+    /*  @Override
+    public int compareTo(Object o)
+    {
+        NodoPerturbacion nodo = (NodoPerturbacion) o;
+        int respuesta;
+        double diferencia = this.getNota() - nodo.getNota();
+        // no se retorna la diferencia pues si el número resultante es muy pequeño sería redondeado a cero
+        if (diferencia < 0)
+            respuesta = -1;
+        else if ((diferencia > 0))
+            respuesta = 1;
+        else
+            respuesta = 0;
+        return respuesta;
+        // TODO Implement this method
+
+    } */
 }
 
 

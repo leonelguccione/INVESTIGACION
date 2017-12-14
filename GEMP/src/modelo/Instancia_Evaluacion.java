@@ -46,14 +46,14 @@ public class Instancia_Evaluacion
     }
 
     public Instancia_Evaluacion(ArbolPerturbacion arbol_perturbacion, Date fecha, String descripcion,
-                      ArrayList<Alumno> alumnos_evaluados)
+                                ArrayList<Alumno> alumnos_evaluados)
     {
         super();
         this.examenes = new ArrayList<Examen>();
         Examen examen_auxiliar;
         this.fecha = fecha;
         this.descripcion = descripcion;
-       
+
         for (int i = 0; i < alumnos_evaluados.size(); i++)
         {
             examen_auxiliar = new Examen(alumnos_evaluados.get(i), arbol_perturbacion);
@@ -70,8 +70,7 @@ public class Instancia_Evaluacion
      * @param descripcion
      * @param id_evaluacion
      */
-    public Instancia_Evaluacion(ArrayList<Examen> examenes_tomados, 
-                      Date fecha, String descripcion, int id_evaluacion)
+    public Instancia_Evaluacion(ArrayList<Examen> examenes_tomados, Date fecha, String descripcion, int id_evaluacion)
     {
         this.examenes = examenes_tomados;
         this.fecha = fecha;
@@ -89,14 +88,15 @@ public class Instancia_Evaluacion
         return descripcion;
     }
 
-    
 
     public ArrayList<Alumno> getAlumnos_evaluados()
     {
         ArrayList<Alumno> alumnos_evaluados = new ArrayList<Alumno>();
         for (int i = 0; i < this.getExamenes().size(); i++)
         {
-            alumnos_evaluados.add(this.getExamenes().get(i).getAlumno());
+            alumnos_evaluados.add(this.getExamenes()
+                                      .get(i)
+                                      .getAlumno());
         }
         return alumnos_evaluados;
     }
@@ -122,5 +122,20 @@ public class Instancia_Evaluacion
     public void setExamenes(ArrayList<Examen> examenes)
     {
         this.examenes = examenes;
+    }
+
+    public Examen getExamen(Alumno alumno)
+    {
+        Examen retorno = null;
+        int i = 0;
+        while (i < this.examenes.size() && !examenes.get(i)
+                                                    .getAlumno()
+                                                    .equals(alumno))
+            i++;
+        if (examenes.get(i)
+                    .getAlumno()
+                    .equals(alumno))
+            retorno = examenes.get(i);
+        return retorno;
     }
 }

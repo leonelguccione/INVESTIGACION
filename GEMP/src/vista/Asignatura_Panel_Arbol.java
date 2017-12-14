@@ -5,6 +5,7 @@ import arbol_perturbacion_visual.ANoEvaluableVisual;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,8 +15,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
@@ -28,7 +31,7 @@ import modelo.RelacionImpacto;
 
 import util.VistaUtil;
 
-public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener,Interface_Arbol_Asignatura
+public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, KeyListener, Interface_Arbol_Asignatura
 {
     private ANoEvaluableVisual jtree_arbol_visual = new ANoEvaluableVisual();
     private final JPanel panel_1 = new JPanel();
@@ -40,7 +43,6 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     private final JPanel panel_5 = new JPanel();
     private final JTextField textFieldOrigen = new JTextField();
     private final JTextField textValor = new JTextField();
-
     private final JPanel panel_6 = new JPanel();
     private final JTextField textFieldDestino = new JTextField();
     private final JPanel panel_7 = new JPanel();
@@ -69,13 +71,13 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     private static final String ORIGEN = "ORIGEN";
     private static final String DESTINO = "DESTINO";
     private static final String NUEVA_RELACION = "NUEVA_RELACION";
+    
     private ArbolPerturbacion arbol = null;
 
     private NodoPerturbacion nodo_seleccionado = null;
     private NodoPerturbacion nodo_origen = null;
     private NodoPerturbacion nodo_destino = null;
-
-
+    
     /**
      * Create the panel.
      */
@@ -90,6 +92,9 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
     {
         this.jtree_arbol_visual.setLineasRectas(true);
         this.jtree_arbol_visual.setBorder(new LineBorder(new Color(0, 0, 0)));
+        this.jtree_arbol_visual.setColorFondo(new Color(230,230,230));
+   
+        
         this.panel_10.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         buttonCancelar.setEnabled(false);
 
@@ -235,6 +240,8 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
                                                     .addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 81,
                                                                   GroupLayout.PREFERRED_SIZE)));
         this.setLayout(gl_panel);
+        
+       
 
     }
 
@@ -271,9 +278,7 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         this.buttonNuevaRelacion.setActionCommand(Asignatura_Panel_Arbol.NUEVA_RELACION);
         this.buttonAceptar.setActionCommand(Asignatura_Panel_Arbol.ACEPTAR);
         this.buttonCancelar.setActionCommand(Asignatura_Panel_Arbol.CANCELAR);
-
-
-        this.buttonAgregar.addActionListener(this);
+       this.buttonAgregar.addActionListener(this);
         this.buttonEliminar.addActionListener(this);
         this.buttonOrigen.addActionListener(this);
         this.buttonDestino.addActionListener(this);
@@ -294,7 +299,6 @@ public class Asignatura_Panel_Arbol extends JPanel implements ActionListener, Ke
         if (e.getSource() == this.jtree_arbol_visual)
         {
             setNodoSeleccionado((NodoPerturbacion) this.jtree_arbol_visual.getNodoSeleccionado());
-            
         }
         if (e.getActionCommand().equals(Asignatura_Panel_Arbol.ORIGEN))
         {
