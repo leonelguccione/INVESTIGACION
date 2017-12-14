@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -45,30 +46,30 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
     private JPanel contentPane;
     private Promedio_Panel_Arbol panelArbol;
     private DefaultListModel<Alumno> listModel_alumnos = new DefaultListModel<Alumno>();
-    private DefaultListModel<Examen> listModel_promediados = new DefaultListModel<Examen>();
+   // private DefaultListModel<Examen> listModel_promediados = new DefaultListModel<Examen>();
     private DefaultListModel<Instancia_Evaluacion> listModel_instancias = new DefaultListModel<Instancia_Evaluacion>();
     private JPanel panel_izquierda;
     private Modelo modelo;
     private PanelCombo3 panel_iz_sup;
     private JScrollPane scrollPaneExamenesEvaluados;
     private JList<Alumno> jList_alumnos;
-    private JList<Examen> jList_promediados;
+   // private JList<Examen> jList_promediados;
     private JList<Instancia_Evaluacion> jList_instancias;
     private Promedio_Arbol_No_Modal ventanaModal = null;
-    private JScrollPane scrollPaneExamenesPromediados;
+    //private JScrollPane scrollPaneExamenesPromediados;
     private JScrollPane scrollPaneInstancias;
     private JButton btnMaximizar;
-    private JButton btnPromediar;
+    //private JButton btnPromediar;
     private static final String MAXIMIZAR_ARBOL = "MAXIMIZAR_ARBOL";
-    private static final String MAXIMIZAR_TABLA = "MAXIMIZAR_TABLA";
-    private static final String PROMEDIAR = "PROMEDIAR";
+   // private static final String MAXIMIZAR_TABLA = "MAXIMIZAR_TABLA";
+   // private static final String PROMEDIAR = "PROMEDIAR";
     private ArbolPerturbacion arbol_resultante = null;
     private Interface_Arbol_Promedio interface_Arbol;
-    private JTable table;
-    private JScrollPane scrollPaneTable;
-    private JPanel panelTable;
-    private DefaultTableModel miTableModel;
-    private Promedio_Tabla_No_Modal ptnm = null;
+    //private JTable table;
+   // private JScrollPane scrollPaneTable;
+   // private JPanel panelTable;
+    //private DefaultTableModel miTableModel;
+    //private Promedio_Tabla_No_Modal ptnm = null;
     private JPanel panelDerechaSuperior;
     private Instancia_Evaluacion primeraInstancia = null;
     private Instancia_Evaluacion segundaInstancia = null;
@@ -175,10 +176,10 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
                                                                               .addContainerGap()));
         panel_derecha.setLayout(new BorderLayout(0, 0));
 
-        scrollPaneExamenesPromediados = new JScrollPane();
+        //scrollPaneExamenesPromediados = new JScrollPane();
         this.panelDerechaSuperior.setLayout(new GridLayout(2, 1));
-        this.panelDerechaSuperior.add(scrollPaneExamenesPromediados);
-        this.panelTable = new JPanel();
+        //this.panelDerechaSuperior.add(scrollPaneExamenesPromediados);
+            /*     this.panelTable = new JPanel();
         panelTable.setBorder(javax.swing
                                   .BorderFactory
                                   .createTitledBorder("Nodos con errores:"));
@@ -209,14 +210,14 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
         panel_derecha.add(this.panelDerechaSuperior, BorderLayout.CENTER);
         this.jList_promediados = new JList<Examen>();
 
-        scrollPaneExamenesPromediados.setViewportView(this.jList_promediados);
+        scrollPaneExamenesPromediados.setViewportView(this.jList_promediados); */
 
         JPanel panel = new JPanel();
         panel_derecha.add(panel, BorderLayout.SOUTH);
 
-        this.btnPromediar = new JButton("Promediar");
+        /*   this.btnPromediar = new JButton("Promediar");
         this.btnPromediar.setEnabled(false);
-        panel.add(btnPromediar);
+        panel.add(btnPromediar);  */
 
         this.btnMaximizar = new JButton("Maximizar");
         panel.add(btnMaximizar);
@@ -235,22 +236,22 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
                                              .createTitledBorder("Instancias de Evaluación:"));
         this.jList_instancias.setModel(this.listModel_instancias);
 
-        this.jList_promediados.setModel(this.listModel_promediados);
+       // this.jList_promediados.setModel(this.listModel_promediados);
         this.contentPane.setLayout(gl_contentPane);
         this.interface_Arbol = this.panelArbol;
         this.interface_Arbol.setArbol(null);
-        this.jList_promediados.setBorder(javax.swing
+        /*  this.jList_promediados.setBorder(javax.swing
                                               .BorderFactory
-                                              .createTitledBorder("Examenes Promediados:"));
+                                              .createTitledBorder("Examenes Promediados:")); */
 
         this.btnMaximizar.setActionCommand(Progreso_Ventana.MAXIMIZAR_ARBOL);
-        this.btnPromediar.setActionCommand(Progreso_Ventana.PROMEDIAR);
+     //   this.btnPromediar.setActionCommand(Progreso_Ventana.PROMEDIAR);
         this.btnMaximizar.addActionListener(this);
-        this.btnPromediar.addActionListener(this);
+       // this.btnPromediar.addActionListener(this);
         this.jList_alumnos.addListSelectionListener(this);
         this.jList_instancias.addListSelectionListener(this);
-        ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(this);
+      //  ListSelectionModel lsm = this.table.getSelectionModel();
+      //  lsm.addListSelectionListener(this);
 
 
     }
@@ -292,10 +293,10 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
 
 
         }
-        if (e.getActionCommand().equals(Progreso_Ventana.MAXIMIZAR_TABLA))
+        /*  if (e.getActionCommand().equals(Progreso_Ventana.MAXIMIZAR_TABLA))
         {
             this.ptnm = new Promedio_Tabla_No_Modal(this.miTableModel, this);
-        }
+        } */
     }
 
     private void obtiene_alumnos_en_comun()
@@ -342,7 +343,7 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
             this.obtiene_alumnos_en_comun();
         if (e.getSource() == this.jList_alumnos)
             this.muestra_arbol_resultante();
-        if (e.getSource() == this.table.getSelectionModel() ||
+        /*        if (e.getSource() == this.table.getSelectionModel() ||
             (this.ptnm != null && e.getSource() == this.ptnm.getSlectionModel()))
 
         {
@@ -364,7 +365,7 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
 
             }
 
-        }
+        } */
     }
 
 
@@ -403,7 +404,8 @@ public class Progreso_Ventana extends JInternalFrame implements ActionListener, 
                 {
                     JOptionPane.showMessageDialog(this, e.getMessage());
                 }
-
+String titulo="Asignatura: "+this.panel_iz_sup.getAsignatura_seleccionada().getNombre()+" Cursada: "+this.panel_iz_sup.getCursada_seleccionada()+" Parcial: "+this.panel_iz_sup.getParcial_seleccionado()+" Alumno: "+alumnoElegido.toString()+" Progreso desde la instancia : "+this.primeraInstancia+" hacia : "+this.segundaInstancia ;
+this.arbol_resultante.setNombre(titulo);
                 this.interface_Arbol.setArbol(this.arbol_resultante);
             } else
             {
